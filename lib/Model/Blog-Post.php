@@ -1,0 +1,30 @@
+<?php
+
+/**
+* description: ATK Model
+* 
+* @author : Gowrav Vishwakarma
+* @email : gowravvishwakarma@gmail.com, info@xavoc.com
+* @website : http://xepan.org
+* 
+*/
+
+namespace xepan\blog;
+
+class Model_Blog-Post extends xepan\base\Model_Table{
+	public $table='blog_post';
+
+	function init(){
+		parent::init();
+
+		$this->addField('name');
+		$this->addField('description');
+		$this->addField('tag')->type('text');
+		$this->addField('user_id');
+		$this->addField('meta_title');
+		$this->addField('meta_description');
+		$this->addField('created_at');
+
+	}
+	
+}
