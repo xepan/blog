@@ -17,7 +17,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	function init(){
 		parent::init();
 
-		$this->hasOne('xepan\hr\Employee');
+		$this->hasOne('xepan\hr\Employee','employee_id');
 		$this->addField('title');
 		$this->addField('description');
 		$this->addField('tag')->type('text');

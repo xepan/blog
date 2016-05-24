@@ -8,12 +8,13 @@ class page_blogpost extends \xepan\base\Page {
 	function init(){
 		parent::init();
 
-		$blog_model = $this->add('xepan\blog\Model_BlogPost');
+		// $blog_model = $this->add('xepan\blog\Model_BlogPost');
+		$blog_model = $this->add('xepan\blog\Model_BlogPostCategory');
+		// $blog_model = $this->add('xepan\blog\Model_Comment');
+		// $blog_model = $this->add('xepan\blog\Model_Association_PostCategory');
 
-		// $crud = $this->add('xepan\hr\CRUD',null,
-		// 					null,
-		// 					['view/blogpost/grid']
-		// 				);
+		$crud = $this->add('CRUD'
+						)->setModel($blog_model);
 
 		// $crud->setModel($blog_model)->setOrder('created_at','desc');
 		// $crud->grid->addPaginator(50);
