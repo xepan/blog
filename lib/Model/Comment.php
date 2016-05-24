@@ -3,7 +3,7 @@
 namespace xepan\blog;
 
 class Model_Comment extends \xepan\base\Model_Table{
-	public $table='comment';
+	public $table='blog_comment';
 	function init(){
 		parent::init();
 
