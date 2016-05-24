@@ -1,24 +1,17 @@
 
 <div id="{$_name}" style="{$style}" class="{$class} row">{rows}{row}
-  <ul data-xsnb-item-id="{$id}" onclick="javascript:void(0);" class="xshop-item col-lg-3 col-md-3">
-    <li><a href="{$item_detail_page_url_via_image}" class="xshop-item-image-anchor"><img src="{$first_image}" class="xshop-item-img full-width"/></a></li>{description_wrapper}
-    <li onclick="javascript:void(0)" class="xshop-item-short-description">{$description}</li>{/}
-    {name_wrapper}
-    <li> <a href="{item_detail_page_url_via_image}{/}" class="xepan-commerce-item-name">{$name}</a></li>{/}
-    {$Content}
-    {sale_price_wrapper}
-    <li class="xepan-commerce-tool-item-sale-price">{$sale_price}</li>{/}
-    {original_price_wrapper}
-    <li class="xepan-commerce-tool-item-original-price">{$original_price}</li>{/}
-    {personalizedbtn_wrapper}
-    <li>
-      <div data-xsnbitemid="{$id}">{$personalizedbtn}</div>
-    </li>{/}
-    {addtocart_wrapper}
-    <li>
-      <div data-xsnbitemid="{$id}" data-name="{$name}" class="xshop-item-addtocart">{$Addtocart}</div>
-    </li>{/}
-  </ul>{/}{/}
+  <div class="row">
+    <div class="col-md-2"><span>
+        Published At:
+        {$created_at}</span>
+      <div>Writer:<a href="#">{$employee_id}</a></div>
+      <div>Comments:<a href="#">{$comments}		</a></div>
+    </div>
+    <div class="col-md-9"><a href="{$url}"><img src="" width="100%" height="100%" alt="Image Not Found" class="img-responsive"/></a>
+      <h2><a href="{$url}">{$title}</a></h2>
+      <h3>{$description}</h3><a href="{$url}" class="btn btn-primary readmore blog-post-detail">Read More <i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>{/}{/}
   {not_found}
   <div role="alert" class="full-width alert alert-warning"><strong class="glyphicon glyphicon-warning-sign">&nbsp;Warning!<span>&nbsp;{$not_found_message}</span></strong></div>{/}
   {paginator_wrapper}
