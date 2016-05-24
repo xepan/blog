@@ -1,22 +1,26 @@
 
 <section id="blog" class="container">
   <div class="center">
-    <h2>Blogs</h2>
-    <p class="lead">Pellentesque habitant morbi tristique senectus et netus et malesuada</p>
+    <h2>Blogs </h2>
+    <p class="lead">Blog related information with it's comments.</p>
   </div>
   <div class="blog">
     <div class="row">
       <div class="col-md-8">
-        <div class="blog-item"><img src="images/blog/blog1.jpg" width="100%" alt="image here" class="img-responsive img-blog"/>
+        <div class="blog-item"><img src="{$image}" width="100%" alt="image here" class="img-responsive img-blog"/>
           <div class="row">
             <div class="col-xs-12 col-sm-2 text-center">
-              <div class="entry-meta"><span id="publish_date">07  NOV</span><span><i class="fa fa-user"></i><a href="#"> John Doe</a></span><span><i class="fa fa-comment"></i><a href="blog-item.html#comments">2 Comments</a></span><span><i class="fa fa-heart"></i><a href="#">56 Likes</a></span></div>
+              <div class="entry-meta"><span id="publish_date">{created_at} 07  NOV {/}</span><span><i class="fa fa-user"></i><a href="#">{created_by} John Doe {/}</a></span><span><i class="fa fa-comment"></i><a href="blog-item.html#comments">{comment_count} 2 Comments {/}</a></span></div>
             </div>
-            <div class="col-xs-12 col-sm-10 blog-content">
-              <h2>Consequat bibendum quam</h2>
-              <p>Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper. Nullam sapien elit, lacinia eu tristique non.posuere at mi. Morbi at turpis id urna ullamcorper ullamcorper.</p>
-              <p>Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper.</p>
-              <div class="post-tags"><strong>Tag:</strong><a href="#">Cool</a> / <a href="#">Creative</a> / <a href="#">Dubttstep</a></div>
+            <div class="col-xs-12 col-sm-10 blog-content">{title_wrapper}
+              <h2>{title} Consequat bibendum quam {/}</h2>{/}
+              {desription_wrapper}
+              <p>
+                {description}
+                Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper. Nullam sapien elit, lacinia eu tristique non.posuere at mi. Morbi at turpis id urna ullamcorper ullamcorper.
+                {/}
+              </p>{/}
+              <div class="post-tags"><strong>Tag : </strong><a href="#">{tag} Cool {/}</a></div>
             </div>
           </div>
         </div>
@@ -35,65 +39,16 @@
             <p><strong>Web:</strong><a href="http://www.shapebootstrap.net">www.shapebootstrap.net</a></p>
           </div>
         </div>
-        <h1 id="comments_title">5 Comments</h1>
-        <div class="media comment_section">
-          <div class="pull-left post_comments"><a href="#"><img src="images/blog/girl.png" alt="image here" class="img-circle"/></a></div>
-          <div class="media-body post_reply_comments">
-            <h3>Marsh</h3>
-            <h4>NOVEMBER 9, 2013 AT 9:15 PM</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p><a href="#">Reply</a>
-          </div>
-        </div>
-        <div class="media comment_section">
-          <div class="pull-left post_comments"><a href="#"><img src="images/blog/boy2.png" alt="image here" class="img-circle"/></a></div>
-          <div class="media-body post_reply_comments">
-            <h3>Marsh</h3>
-            <h4>NOVEMBER 9, 2013 AT 9:15 PM</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p><a href="#">Reply</a>
-          </div>
-        </div>
-        <div class="media comment_section">
-          <div class="pull-left post_comments"><a href="#"><img src="images/blog/boy3.png" alt="image here" class="img-circle"/></a></div>
-          <div class="media-body post_reply_comments">
-            <h3>Marsh</h3>
-            <h4>NOVEMBER 9, 2013 AT 9:15 PM</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p><a href="#">Reply</a>
-          </div>
-        </div>
-        <div id="contact-page clearfix">
-          <div style="display: none" class="status alert alert-success"></div>
-          <div class="message_heading">
-            <h4>Leave a Replay</h4>
-            <p>Make sure you enter the(*)required information where indicate.HTML code is not allowed</p>
-          </div>
-          <form id="main-contact-form" name="contact-form" method="post" action="sendemail.php" role="form" class="contact-form">
-            <div class="row">
-              <div class="col-sm-5">
-                <div class="form-group">
-                  <label>Name *</label>
-                  <input type="text" required="required" class="form-control"/>
-                </div>
-                <div class="form-group">
-                  <label>Email *</label>
-                  <input type="email" required="required" class="form-control"/>
-                </div>
-                <div class="form-group">
-                  <label>URL</label>
-                  <input type="url" class="form-control"/>
-                </div>
-              </div>
-              <div class="col-sm-7">
-                <div class="form-group">
-                  <label>Message *</label>
-                  <textarea id="message" name="message" required="required" rows="8" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                  <button type="submit" required="required" class="btn btn-primary btn-lg">Submit Message</button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+        <h1 id="comments_title">{comment_count} 5 {/} Comments</h1>{$comment}
+        {comment_lister}
+        {rows}
+        {row}
+        <div class="row">{$comment_list}</div>{/}{/}
+        {/}
+        <div class="message_heading">
+          <h4>Leave a Reply</h4>
+          <p>Make sure filled information should to correct. HTML code is not allowed</p>
+        </div>{$leave_reply}
         <!-- /#contact-page-->
       </div>
       <!-- /.col-md-8-->

@@ -35,8 +35,14 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->add('xepan\filestore\Field_Image','image_id');
 
 		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_id');
+		$this->hasMany('xepan\blog\Comment','blog_post_id',null,'Comments');
 
 		$this->addCondition('type','BlogPost');
+
+		$this->addExpression('comment_count')->set(function($m,$q){
+			$counts = $m->refSQL('Comments');
+			return $counts->count();
+		});
 	}
 
 	//publish Blog Post

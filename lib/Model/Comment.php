@@ -15,12 +15,11 @@ class Model_Comment extends \xepan\base\Model_Table{
 		parent::init();
 
 		$this->hasOne('xepan\commerce\Customer','created_by_id');
+		$this->hasOne('xepan\blog\BlogPost','blog_post_id');
 		
 		$this->addField('comment')->type('text');
 		$this->addField('status');
 		$this->addField('type');
 		$this->addCondition('type','BlogComment');
-
-		
 	}
 }

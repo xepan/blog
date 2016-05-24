@@ -1,38 +1,35 @@
 section#blog.container
   .center
-    h2 Blogs
-    p.lead Pellentesque habitant morbi tristique senectus et netus et malesuada
+    h2 Blogs 
+    p.lead Blog related information with it's comments.
   .blog
     .row
       .col-md-8
         .blog-item
-          img.img-responsive.img-blog(src='images/blog/blog1.jpg', width='100%', alt='image here')
+          img.img-responsive.img-blog(src='{$image}', width='100%', alt='image here')
           .row
             .col-xs-12.col-sm-2.text-center
               .entry-meta
-                span#publish_date 07  NOV
+                span#publish_date {created_at} 07  NOV {/}
                 span
                   i.fa.fa-user
-                  a(href='#')  John Doe
+                  a(href='#') {created_by} John Doe {/}
                 span
                   i.fa.fa-comment
-                  a(href='blog-item.html#comments') 2 Comments
-                span
-                  i.fa.fa-heart
-                  a(href='#') 56 Likes
+                  a(href='blog-item.html#comments') {comment_count} 2 Comments {/}
             .col-xs-12.col-sm-10.blog-content
-              h2 Consequat bibendum quam
+              {title_wrapper}
+              h2 {title} Consequat bibendum quam {/}
+              {/}
+              {desription_wrapper}
               p
+                {description}
                 | Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper. Nullam sapien elit, lacinia eu tristique non.posuere at mi. Morbi at turpis id urna ullamcorper ullamcorper.
-              p
-                | Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper.
+                {/}
+              {/}
               .post-tags
-                strong Tag:
-                a(href='#') Cool
-                |  / 
-                a(href='#') Creative
-                |  / 
-                a(href='#') Dubttstep
+                strong Tag : 
+                a(href='#') {tag} Cool {/}
         // /.blog-item
         .media.reply_section
           .pull-left.post_reply.text-center
@@ -55,61 +52,20 @@ section#blog.container
             p
               strong Web:
               a(href='http://www.shapebootstrap.net') www.shapebootstrap.net
-        h1#comments_title 5 Comments
-        .media.comment_section
-          .pull-left.post_comments
-            a(href='#')
-              img.img-circle(src='images/blog/girl.png', alt='image here')
-          .media-body.post_reply_comments
-            h3 Marsh
-            h4 NOVEMBER 9, 2013 AT 9:15 PM
-            p
-              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            a(href='#') Reply
-        .media.comment_section
-          .pull-left.post_comments
-            a(href='#')
-              img.img-circle(src='images/blog/boy2.png', alt='image here')
-          .media-body.post_reply_comments
-            h3 Marsh
-            h4 NOVEMBER 9, 2013 AT 9:15 PM
-            p
-              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            a(href='#') Reply
-        .media.comment_section
-          .pull-left.post_comments
-            a(href='#')
-              img.img-circle(src='images/blog/boy3.png', alt='image here')
-          .media-body.post_reply_comments
-            h3 Marsh
-            h4 NOVEMBER 9, 2013 AT 9:15 PM
-            p
-              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            a(href='#') Reply
-        div(id='contact-page clearfix')
-          .status.alert.alert-success(style='display: none')
-          .message_heading
-            h4 Leave a Replay
-            p
-              | Make sure you enter the(*)required information where indicate.HTML code is not allowed
-          form#main-contact-form.contact-form(name='contact-form', method='post', action='sendemail.php', role='form')
-            .row
-              .col-sm-5
-                .form-group
-                  label Name *
-                  input.form-control(type='text', required='required')
-                .form-group
-                  label Email *
-                  input.form-control(type='email', required='required')
-                .form-group
-                  label URL
-                  input.form-control(type='url')
-              .col-sm-7
-                .form-group
-                  label Message *
-                  textarea#message.form-control(name='message', required='required', rows='8')
-                .form-group
-                  button.btn.btn-primary.btn-lg(type='submit', required='required') Submit Message
+        h1#comments_title {comment_count} 5 {/} Comments
+        {$comment}
+        {comment_lister}
+        {rows}
+        {row}
+        .row
+            {$comment_list}
+        {/}{/}
+        {/}
+        .message_heading
+          h4 Leave a Reply
+          p
+            | Make sure filled information should to correct. HTML code is not allowed
+        {$leave_reply}
         // /#contact-page
       // /.col-md-8
       aside.col-md-4
