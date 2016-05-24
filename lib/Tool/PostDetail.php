@@ -3,11 +3,7 @@
 namespace xepan\blog;
 
 class Tool_PostDetail extends \xepan\cms\View_Tool{
-	public $options = [
-				
-				
-					 
-				];
+	public $options = [ ];
 	public $post;
 	function init(){
 		parent::init();
@@ -25,7 +21,10 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 	function setModel($model){
 		//tryset html for description 
+		$this->template->trySetHtml('post_title', $model['title']);
 		$this->template->trySetHtml('post_description', $model['description']);
+
+
 
 		parent::setModel($model);
 	}
