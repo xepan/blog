@@ -7,7 +7,7 @@ class Model_Association_PostCategory extends \xepan\base\Model_Table{
 	function init(){
 		parent::init();
 
-		$this->hasOne('xepan\blog\BlogPostCategory');
-		$this->hasOne('xepan\blog\BlogPost');
+		$this->hasOne('xepan\blog\BlogPostCategory','blog_post_category_id');
+		$this->hasOne('xepan\blog\BlogPost','blog_post_id');
 	}
 }
