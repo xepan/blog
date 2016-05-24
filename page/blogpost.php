@@ -9,7 +9,7 @@ class page_blogpost extends \xepan\base\Page {
 		parent::init();
 
 		$blog_model = $this->add('xepan\blog\Model_BlogPost');
-		$blog_model->add('xepan\commerce\Controller_SideBarStatusFilter');
+		$blog_model->add('xepan\blog\Controller_SideBarStatusFilter');
 
 		$crud = $this->add('xepan\hr\CRUD',null,null,['view/post/grid']
 						);
