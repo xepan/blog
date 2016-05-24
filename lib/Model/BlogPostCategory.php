@@ -14,7 +14,7 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 		$this->addCondition('type','PostCategory');
 		$this->addCondition('status','-');
 
-		$this->hasMany('xepan\blog\Associaton_PostCategory');
+		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_category_association');
 		
 	}
 }
