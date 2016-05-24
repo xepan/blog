@@ -24,6 +24,6 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	}
 
 	function defaultTemplate(){
-		return ['view/tool/detail'];
+		return ['view/tool/post/detail'];
 	}
 }

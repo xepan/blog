@@ -14,7 +14,6 @@ class page_test extends \xepan\base\Page{
 		// $crud = $this->add('CRUD'
 		// 				)->setModel($blog_model);
 		
-		$blog_tool = $this->add('xepan\blog\Tool_PostDetail');
-		$this->add('View')->setModel($blog_tool);
+		$this->add('xepan\blog\Tool_PostDetail');
 	}
 }
