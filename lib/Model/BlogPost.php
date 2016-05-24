@@ -32,7 +32,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addField('meta_description');
 		$this->addField('created_at')->defaultValue($this->app->now)->sortable(true)->system(true);
 		$this->addField('type');
-		$this->add('xepan\filestore\Field_Image','image_id');
+		$this->add('filestore\Field_Image','image_id');
 
 		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_id');
 
