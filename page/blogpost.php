@@ -8,7 +8,7 @@ class page_blogpost extends \xepan\base\Page {
 	function init(){
 		parent::init();
 
-		$blog_model = $this->add('xepan\blog\Model_Blog-Post');
+		$blog_model = $this->add('xepan\blog\Model_BlogPost');
 
 		// $crud = $this->add('xepan\hr\CRUD',null,
 		// 					null,

@@ -11,7 +11,7 @@
 
 namespace xepan\blog;
 
-class Model_BlogPost extends xepan\base\Model_Table{
+class Model_BlogPost extends \xepan\base\Model_Table{
 	public $table='blog_post';
 
 	function init(){

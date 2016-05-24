@@ -31,7 +31,7 @@ class Initiator extends \Controller_Addon {
         if(!isset($this->app->new_epan)) $this->app->new_epan = $this->app->epan;
         
 		$this->app->epan=$this->app->old_epan;
-        $truncate_models = ['Blog-Post-Category','Blog-Post'];
+        $truncate_models = ['BlogPostCategory','BlogPost'];
         foreach ($truncate_models as $t) {
             $m=$this->add('xepan\blog\Model_'.$t);
             foreach ($m as $mt) {
