@@ -2,7 +2,7 @@
 
 namespace xepan\blog;
 
-class Model_BlogPostCategory extends xepan\base\Model_Table{
+class Model_BlogPostCategory extends \xepan\base\Model_Table{
 	public $table='blog_post_category';
 	function init(){
 		parent::init();

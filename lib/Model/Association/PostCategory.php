@@ -2,7 +2,7 @@
 
 namespace xepan\blog;
 
-class Model_Association_PostCategory extends xepan\base\Model_Table{
+class Model_Association_PostCategory extends \xepan\base\Model_Table{
 	public $table='post_category_association';
 	function init(){
 		parent::init();
