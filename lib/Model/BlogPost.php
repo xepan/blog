@@ -23,7 +23,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addField('tag')->type('text');
 		$this->addField('meta_title');
 		$this->addField('meta_description');
-		$this->addField('created_at');
+		$this->addField('created_at')->defaultValue($this->app->now)->sortable(true)->system(true);
 		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_id');
 	}
 	
