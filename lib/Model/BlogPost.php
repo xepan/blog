@@ -24,7 +24,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addField('meta_title');
 		$this->addField('meta_description');
 		$this->addField('created_at');
-		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_category_association');
+		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_id');
 	}
 	
 }
