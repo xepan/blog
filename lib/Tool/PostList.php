@@ -37,7 +37,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 	function addToolCondition_row_show_description($value, $l){
 		if(!$value){
-			$l->current_row_html['description_'] = "";
+			$l->current_row_html['description_wrapper'] = "";
 			return;
 		}
 
