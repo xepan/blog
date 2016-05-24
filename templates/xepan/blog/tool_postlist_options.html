@@ -1,0 +1,63 @@
+
+<div id="{$_name}" style="display:none" for-xepan-component="xepan/blog/Tool_PostList" class="xepan-tool-options">
+  <h3>Post List Options</h3>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Show Title</div>
+    <div class="xepan-tool-option-value"> 
+      <select id="show_title" data-attr="show_title">
+        <option>true																					</option>
+        <option>false</option>
+      </select>
+    </div>
+  </div>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Show Description</div>
+    <div class="xepan-tool-option-value"> 
+      <select id="show_description" data-attr="show_description">
+        <option>true																					</option>
+        <option>false</option>
+      </select>
+    </div>
+  </div>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Show Paginator</div>
+    <div class="xepan-tool-option-value"> 
+      <select id="show_paginator" data-attr="show_paginator">
+        <option>true																					</option>
+        <option>false</option>
+      </select>
+    </div>
+  </div>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Show Image</div>
+    <div class="xepan-tool-option-value"> 
+      <select id="show_image" data-attr="show_image">
+        <option>true																					</option>
+        <option>false			</option>
+      </select>
+    </div>
+  </div>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Description Page URL</div>
+    <div class="xepan-tool-option-value"> 
+      <input id="description_page_url" data-attr="description_page_url"/>
+    </div>
+  </div>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Paginator Rows Per Page</div>
+    <div class="xepan-tool-option-value"> 
+      <input id="paginator_set_rows_per_page" data-attr="paginator_set_rows_per_page"/>
+    </div>
+  </div>
+  <script>
+    $('#{$_name} [data-attr]').on('change',function(){
+    	$(current_selected_component).attr($(this).data('attr'),$(this).val());
+    });
+    
+    $('#{$_name}').on('show',function(event){
+    	$('#{$_name} [data-attr]').each(function(index,value){
+    		$(this).val($(current_selected_component).attr($(this).data('attr')));				
+    	});
+    })
+  </script>
+</div>

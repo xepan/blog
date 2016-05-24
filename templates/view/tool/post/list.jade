@@ -1,33 +1,26 @@
 div(id='{$_name}' class="{$class} row" style="{$style}")
 	{rows}{row}
-	ul.xshop-item.col-lg-3.col-md-3(data-xsnb-item-id='{$id}', onclick='javascript:void(0);')
-		li
-			a.xshop-item-image-anchor(href='{$item_detail_page_url_via_image}')
-				img.xshop-item-img.full-width(src='{$first_image}')
-		{description_wrapper}
-		li.xshop-item-short-description(onclick='javascript:void(0)')
-			{$description}
-		{/}
-		{name_wrapper}
-		li 
-			a.xepan-commerce-item-name(href='{item_detail_page_url_via_image}{/}'){$name}
-		{/}
-		{$Content}
-		{sale_price_wrapper}
-		li.xepan-commerce-tool-item-sale-price {$sale_price}
-		{/}
-		{original_price_wrapper}
-		li.xepan-commerce-tool-item-original-price {$original_price}
-		{/}
-		{personalizedbtn_wrapper}
-		li
-			div(data-xsnbitemid="{$id}")
-				{$personalizedbtn}
-		{/}
-		{addtocart_wrapper}
-		li
-			.xshop-item-addtocart(data-xsnbitemid="{$id}" data-name="{$name}"){$Addtocart}
-		{/}
+	.row
+		.col-md-2
+			span
+				| Published At:
+				{$created_at}
+			div
+				|Writer:
+				a(href='#') {$employee_id}
+			div
+				|Comments:
+				a(href='#') {$comments}		
+		.col-md-9
+			a(href="{$url}")
+				img.img-responsive(src="" width="100%" height="100%" alt="Image Not Found")
+			h2
+				a(href="{$url}") {$title}
+			h3
+				{$description}
+			a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
+				| Read More 
+				i.fa.fa-angle-right
 	{/}{/}
 	{not_found}
 	div.full-width.alert.alert-warning(role="alert")

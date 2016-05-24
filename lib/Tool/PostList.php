@@ -5,13 +5,11 @@ namespace xepan\blog;
 class Tool_PostList extends \xepan\cms\View_Tool{
 	public $options = [
 					'show_description'=>true,
-					'show_created_at'=>true,
-					'show_tag'=>true,
-					'show_tag'=>true,
-					'show_paginator'=>true,
 					'show_paginator'=>true,
 					'paginator_set_rows_per_page'=>4,
-					'description_page_url'=>'',
+					'description_page_url'=>'abc',
+					'show_image'=>false,
+					'show_title'=>true
 				];
 
 	function init(){
@@ -33,6 +31,10 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			$paginator = $cl->add('Paginator',['ipp'=>$this->options['paginator_set_rows_per_page']]);
 			$paginator->setRowsPerPage($this->options['paginator_set_rows_per_page']);
 		}
+
+		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$post]);
+
+		
 	}
 
 	function addToolCondition_row_show_description($value, $l){
@@ -44,4 +46,25 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		if(!$l->model['description'])
 			$l->current_row['description'] = $l->model['desription'];
 	}
+
+	function addToolCondition_row_show_image($value, $l){
+		if(!$value){
+			$l->current_row_html['image_wrapper'] = "";
+			return;
+		}
+			}
+
+	function addToolCondition_row_show_title($value, $l){		
+		if(!$value){
+			$l->current_row_html['title_wrapper'] = "";
+			return;
+		}
+
+		if(!$l->model['title'])
+			$l->current_row['title'] = $l->model['title'];
+
+		
+		$l->current_row['url'] = $this->app->url($this->options['description_page_url'],['post_id'=>$l->model->id]);
+	}
+
 }
