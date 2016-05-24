@@ -9,5 +9,6 @@ class Model_Comment extends \xepan\base\Model_Table{
 
 		$this->hasOne('xepan\commerce\Customer');
 		$this->addField('comment')->type('text');
+		
 	}
 }
