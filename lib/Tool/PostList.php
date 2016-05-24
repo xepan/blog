@@ -41,8 +41,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			return;
 		}
 
-		if(!$l->model['first_image'])
-			$l->current_row['first_image'] = "vendor/xepan/commerce/templates/view/tool/item/images/xepan_item_list_no_image.jpg";
-		
+		if(!$l->model['description'])
+			$l->current_row['description'] = $l->model['desription'];
 	}
 }
