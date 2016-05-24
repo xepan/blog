@@ -16,6 +16,7 @@ class page_blogpostcategory extends \xepan\base\Page {
 
 		$crud->setModel($blog_category_model);
 		$crud->grid->addPaginator(50);
+		
 
 
 	}

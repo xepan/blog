@@ -16,7 +16,7 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\hr\Employee','created_by_id')->defaultValue($this->app->employee->id);
 		$this->addField('name');
 		$this->addField('type');
-		$this->addField('status')->enum(['Published','UnPublished']);
+		$this->addField('status')->enum(['Active','InActive']);
 		$this->addCondition('type','PostCategory');
 
 		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_category_id');
