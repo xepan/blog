@@ -17,10 +17,10 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	function init(){
 		parent::init();
 
-		$this->addField('name');
+		$this->hasOne('xepan\hr\Employee');
+		$this->addField('title');
 		$this->addField('description');
 		$this->addField('tag')->type('text');
-		$this->addField('user_id');
 		$this->addField('meta_title');
 		$this->addField('meta_description');
 		$this->addField('created_at');
