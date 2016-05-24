@@ -7,9 +7,8 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'show_description'=>true,
 					'show_paginator'=>true,
 					'paginator_set_rows_per_page'=>4,
-					'description_page_url'=>'abc',
+					'description_page_url'=>'blog-item',
 					'show_image'=>false,
-					'show_title'=>true
 				];
 
 	function init(){
@@ -31,13 +30,11 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			$paginator = $cl->add('Paginator',['ipp'=>$this->options['paginator_set_rows_per_page']]);
 			$paginator->setRowsPerPage($this->options['paginator_set_rows_per_page']);
 		}
-
 		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$post]);
-
-		
 	}
 
 	function addToolCondition_row_show_description($value, $l){
+		
 		if(!$value){
 			$l->current_row_html['description_wrapper'] = "";
 			return;
@@ -52,18 +49,9 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			$l->current_row_html['image_wrapper'] = "";
 			return;
 		}
-			}
+	}
 
-	function addToolCondition_row_show_title($value, $l){		
-		if(!$value){
-			$l->current_row_html['title_wrapper'] = "";
-			return;
-		}
-
-		if(!$l->model['title'])
-			$l->current_row['title'] = $l->model['title'];
-
-		
+	function addToolCondition_row_description_page_url($value, $l){			
 		$l->current_row['url'] = $this->app->url($this->options['description_page_url'],['post_id'=>$l->model->id]);
 	}
 

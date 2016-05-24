@@ -7,9 +7,9 @@
       <div>Writer:<a href="#">{$employee_id}</a></div>
       <div>Comments:<a href="#">{$comments}		</a></div>
     </div>
-    <div class="col-md-9"><a href="{$url}"><img src="" width="100%" height="100%" alt="Image Not Found" class="img-responsive"/></a>
-      <h2><a href="{$url}">{$title}</a></h2>
-      <h3>{$description}</h3><a href="{$url}" class="btn btn-primary readmore blog-post-detail">Read More <i class="fa fa-angle-right"></i></a>
+    <div class="col-md-9">{image_wrapper}<a href="{$url}"><img src="" width="100%" height="100%" alt="Image Not Found" class="img-responsive"/></a>{/}
+      <h2><a href="{$url}">{$title}	</a></h2>{description_wrapper}
+      <h3>{$description}</h3>{/}	<a href="{$url}" class="btn btn-primary readmore blog-post-detail">Read More <i class="fa fa-angle-right"></i></a>
     </div>
   </div>{/}{/}
   {not_found}
