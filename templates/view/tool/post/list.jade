@@ -14,12 +14,12 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 		.col-md-9
 			{image_wrapper}
 			a(href="{$url}")
-				{$file}
+				img(src="{$image}")
 			{/}
 			h2
 				a(href="{$url}") {$title}	
 			{description_wrapper}
-			h3
+			div(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ")
 				{$description}
 			{/}	
 			a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
