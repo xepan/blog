@@ -7,14 +7,14 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 				{$created_at}
 			div
 				|Writer:
-				a(href='#') {$employee_id}
+				a(href='#') {$employee}
 			div
 				|Comments:
 				a(href='#') {$comments}		
 		.col-md-9
 			{image_wrapper}
 			a(href="{$url}")
-				img.img-responsive(src="" width="100%" height="100%" alt="Image Not Found")
+				{$file}
 			{/}
 			h2
 				a(href="{$url}") {$title}	
