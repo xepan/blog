@@ -21,7 +21,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		$post = $this->add('xepan\blog\Model_BlogPost');
 		$post->setOrder('created_at','desc');
 
-		// $cl = $this->add('CompleteLister',null,null,['view/tool/item/'.$this->options['layout']]);
+		// $cl = $this->add('CompleteLister',null,null,['view/tool/post/'.$this->options['layout']]);
 		// if(!$item->count()->getOne())
 		// 	$cl->template->set('not_found_message','No Record Found');
 		// else
