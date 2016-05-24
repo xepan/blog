@@ -11,7 +11,7 @@
 
 namespace xepan\blog;
 
-class Model_Blog-Post extends xepan\base\Model_Table{
+class Model_BlogPost extends xepan\base\Model_Table{
 	public $table='blog_post';
 
 	function init(){
@@ -24,7 +24,7 @@ class Model_Blog-Post extends xepan\base\Model_Table{
 		$this->addField('meta_title');
 		$this->addField('meta_description');
 		$this->addField('created_at');
-
+		$this->hasMany('xepan\blog\Associaton_PostCategory');
 	}
 	
 }
