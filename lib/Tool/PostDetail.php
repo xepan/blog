@@ -16,11 +16,18 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 		$this->post = $this->add('xepan\blog\Model_BlogPost')->tryLoad($post_id?:-1);
 		if(!$this->post->loaded()){
-			$this->add('View')->set('Post must be given to load Id');
+			$this->add('View')->set('Post must be load by Id');
 			return;
 		}	
 		$this->setModel($this->post);
 
+	}
+
+	function setModel($model){
+		//tryset html for description 
+		$this->template->trySetHtml('post_description', $model['description']);
+
+		parent::setModel($model);
 	}
 
 	function defaultTemplate(){
