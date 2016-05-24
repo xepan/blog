@@ -8,7 +8,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'show_paginator'=>true,
 					'paginator_set_rows_per_page'=>4,
 					'description_page_url'=>'blog-item',
-					'show_image'=>false,
+					'show_image'=>true,
 				];
 
 	function init(){
@@ -47,7 +47,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	function addToolCondition_row_show_image($value, $l){
 		if(!$value){
 			$l->current_row_html['image_wrapper'] = "";
-			return;
+			return;	
 		}
 	}
 
