@@ -19,6 +19,8 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 		$this->addField('status')->enum(['Active','InActive']);
 		$this->addCondition('type','PostCategory');
 
+		$this->getElement('status')->defaultValue('Active');
+
 		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_category_id');
 		
 	}

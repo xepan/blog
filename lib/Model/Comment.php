@@ -17,9 +17,30 @@ class Model_Comment extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\commerce\Customer','created_by_id');
 		$this->hasOne('xepan\blog\BlogPost','blog_post_id');
 		
+		$this->addField('comment_date')->defaultValue($this->app->now)->sortable(true)->system(true);
 		$this->addField('comment')->type('text');
 		$this->addField('status')->enum(['Approved','Pending','Rejected']);
 		$this->addField('type');
 		$this->addCondition('type','BlogComment');
+
+		$this->getElement('status')->defaultValue('Pending');
+	}
+
+	//Approve Post Comment
+	function approve(){
+		$this['status']='Approved';
+		$this->app->employee
+            ->addActivity("This '".$this['comment']."' comment approved to show on web", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->notifyWhoCan('reject','Approved',$this);
+		$this->save();
+	}
+
+	//Reject Comment
+	function reject(){
+		$this['status']='Rejected';
+		$this->app->employee
+            ->addActivity("This '".$this['comment']."' comment rejected", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->notifyWhoCan(' ','Rejected',$this);
+		$this->save();
 	}
 }

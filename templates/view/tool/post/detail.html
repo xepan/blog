@@ -12,117 +12,23 @@
               <div class="entry-meta"><span id="publish_date">{$created_at}</span><span><i class="fa fa-user"></i><a href="#">{$created_by}</a></span><span><i class="fa fa-comment"></i><a href="blog-item.html#comments">{$comment_count}</a></span></div>
             </div>
             <div class="col-xs-12 col-sm-10 blog-content">{image_wrapper}<img src="{$image}"/>{/}
-              {title_wrapper}
-              <h2>{$title}</h2>{/}
-              {desription_wrapper}
-              <p>{$post_description}</p>{/}
-              {tag_wrapper}
+              <h2>{$title}</h2>
+              <p>{$post_description}</p>{tag_wrapper}
               <div class="post-tags"><strong>Tag : </strong><a href="#">{$tag}</a></div>{/}
             </div>
           </div>
         </div>
-        <h1 id="comments_title">{comment_count} 5 {/} Comments</h1>{$comment}
-        {comment_lister}
-        {rows}
-        {row}
-        <div class="row">{$comment_list}</div>{/}{/}
+        <h1 id="comments_title">{comment_count} 5 {/} Comments</h1>{comment_wrapper}
+        {$comment_list}
+        {/}
+        <h2>Anonymous Comment</h2>{anonymous_comment_list_wrapper}
+        {$anonymous_comment_list}
         {/}
         <div class="message_heading">
           <h4>Leave a Reply</h4>
           <p>Make sure filled information should to correct. HTML code is not allowed</p>
         </div>{$leave_reply}
-        <!-- /#contact-page-->
       </div>
-      <!-- /.col-md-8-->
-      <aside class="col-md-4">
-        <div class="widget search">
-          <form role="form">
-            <input type="text" autocomplete="off" placeholder="Search Here" class="form-control search_box"/>
-          </form>
-        </div>
-        <!-- /.search-->
-        <div class="widget categories">
-          <h3>Recent Comments</h3>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="single_comments"><img src="images/blog/avatar3.png" alt="image here"/>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do </p>
-                <div class="entry-meta small muted"><span>By <a href="#">Alex</a></span>On <a href="#">Creative</a></div>
-              </div>
-              <div class="single_comments"><img src="images/blog/avatar3.png" alt="image here"/>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do </p>
-                <div class="entry-meta small muted"><span>By <a href="#">Alex</a></span>On <a href="#">Creative</a></div>
-              </div>
-              <div class="single_comments"><img src="images/blog/avatar3.png" alt="image here"/>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do </p>
-                <div class="entry-meta small muted"><span>By <a href="#">Alex</a></span>On <a href="#">Creative</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /.recent comments-->
-        <div class="widget categories">
-          <h3>Categories</h3>
-          <div class="row">
-            <div class="col-sm-6">
-              <ul class="blog_category">
-                <li><a href="#">Computers <span class="badge">04</span></a></li>
-                <li><a href="#">Smartphone <span class="badge">10</span></a></li>
-                <li><a href="#">Gedgets <span class="badge">06</span></a></li>
-                <li><a href="#">Technology <span class="badge">25</span></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- /.categories-->
-        <div class="widget archieve">
-          <h3>Archieve</h3>
-          <div class="row">
-            <div class="col-sm-12">
-              <ul class="blog_archieve">
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> December 2013 <span class="pull-right">(97)</span></a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> November 2013 <span class="pull-right">(32)</span></a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> October 2013 <span class="pull-right">(19)</span></a></li>
-                <li><a href="#"><i class="fa fa-angle-double-right"></i> September 2013 <span class="pull-right">(08)</span></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- /.archieve-->
-        <div class="widget tags">
-          <h3>Tag Cloud</h3>
-          <ul class="tag-cloud">
-            <li><a href="#" class="btn btn-xs btn-primary">Apple</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">Barcelona</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">Office</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">Ipod</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">Stock</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">Race</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">London</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">Football</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">Porche</a></li>
-            <li><a href="#" class="btn btn-xs btn-primary">Gadgets</a></li>
-          </ul>
-        </div>
-        <!-- /.tags-->
-        <div class="widget blog_gallery">
-          <h3>Our Gallery</h3>
-          <ul class="sidebar-gallery">
-            <li><a href="#"><img src="images/blog/gallery1.png" alt="image here"/></a></li>
-            <li><a href="#"><img src="images/blog/gallery2.png" alt="image here"/></a></li>
-            <li><a href="#"><img src="images/blog/gallery3.png" alt="image here"/></a></li>
-            <li><a href="#"><img src="images/blog/gallery4.png" alt="image here"/></a></li>
-            <li><a href="#"><img src="images/blog/gallery5.png" alt="image here"/></a></li>
-            <li><a href="#"><img src="images/blog/gallery6.png" alt="image here"/></a></li>
-          </ul>
-        </div>
-        <!-- /.blog_gallery-->
-      </aside>
     </div>
-    <!-- /.row-->
   </div>
-  <!-- /.blog-->
-</section>
-<!-- /#blog-->{$post_title}
-{$post_description}
-{$Content}
+</section>{$Content}

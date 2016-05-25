@@ -38,6 +38,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->hasMany('xepan\blog\Comment','blog_post_id',null,'Comments');
 
 		$this->addCondition('type','BlogPost');
+		$this->getElement('status')->defaultValue('Published');
 
 		$this->addExpression('comment_count')->set(function($m,$q){
 			return $m->refSQL('Comments')
