@@ -25,6 +25,14 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 		$this->setModel($this->post);
 
+		$sub_form = $this->add('Form',null,'leave_comment');
+		$sub_form->addField('text','Post Comment');
+		$sub_form->addSubmit('Submit')->addClass('btn btn-primary btn-lg');
+
+		if($sub_form->isSubmitted()){
+
+		}
+
 	}
 
 	function setModel($model){
@@ -39,6 +47,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		//anonymous comments
 		$an_cl = $this->add('CompleteLister',null,'anonymous_comment_list',['view/tool/post/extra-detail/anonymous-comment-list']);
 		$an_cl->setModel('xepan\blog\Comment')->addCondition('blog_post_id',$this->post->id);
+
 
 		parent::setModel($model);
 	}
