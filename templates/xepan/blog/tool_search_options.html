@@ -1,0 +1,21 @@
+
+<div id="{$_name}" style="display:none" for-xepan-component="xepan/blog/Tool_Search" class="xepan-tool-options">
+  <h3>Search Options</h3>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Search Result URL</div>
+    <div class="xepan-tool-option-value"> 
+      <input id="search_reasult_url" data-attr="search_reasult_url"/>
+    </div>
+  </div>
+  <script>
+    $('#{$_name} [data-attr]').on('change',function(){
+    	$(current_selected_component).attr($(this).data('attr'),$(this).val());
+    });
+    
+    $('#{$_name}').on('show',function(event){
+    	$('#{$_name} [data-attr]').each(function(index,value){
+    		$(this).val($(current_selected_component).attr($(this).data('attr')));				
+    	});
+    })	
+  </script>
+</div>

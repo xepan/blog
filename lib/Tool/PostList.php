@@ -25,6 +25,12 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			$post->_dsql()->group('blog_post_id');
 		}
 
+		if($search_string = $this->app->stickyGET('search')){
+			$post->addExpression('Relevance')->set('MATCH(title, description, tag, meta_title, meta_description) AGAINST ("'.$search_string.'" IN NATURAL LANGUAGE MODE)');
+			$post->addCondition('Relevance','>',0);
+	 		$post->setOrder('Relevance','Desc');
+		}
+
 		$cl = $this->add('CompleteLister',null,null,['view/tool/post/list']);
 		if(!$post->count()->getOne())
 			$cl->template->set('not_found_message','No Record Found');
