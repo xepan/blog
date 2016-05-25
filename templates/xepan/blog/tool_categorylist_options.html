@@ -1,0 +1,30 @@
+
+<div id="{$_name}" style="display:none" for-xepan-component="xepan/blog/Tool_CategoryList" class="xepan-tool-options">
+  <h3>Blog Category Options</h3>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Show Post Count</div>
+    <div class="xepan-tool-option-value"> 
+      <select id="show_post_count" data-attr="show_post_count">
+        <option>true																					</option>
+        <option>false</option>
+      </select>
+    </div>
+  </div>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Category Count</div>
+    <div class="xepan-tool-option-value"> 
+      <input id="category_count" data-attr="category_count"/>
+    </div>
+  </div>
+  <script>
+    $('#{$_name} [data-attr]').on('change',function(){
+    	$(current_selected_component).attr($(this).data('attr'),$(this).val());
+    });
+    
+    $('#{$_name}').on('show',function(event){
+    	$('#{$_name} [data-attr]').each(function(index,value){
+    		$(this).val($(current_selected_component).attr($(this).data('attr')));				
+    	});
+    })
+  </script>
+</div>

@@ -1,0 +1,21 @@
+div(id='{$_name}' class="{$class} row" style="{$style}")
+  .widget.categories
+    h3 Categories
+    {rows}{row}
+    .row
+      .col-sm-6
+        ul.blog_category
+          li
+            a(href='#')
+              | {$name} 
+              span.badge {$post_count}
+    {/}{/}
+    {not_found}
+    div.full-width.alert.alert-warning(role="alert")
+      strong.glyphicon.glyphicon-warning-sign &nbsp;Warning!
+        span &nbsp;{$not_found_message}
+    {/}
+    {paginator_wrapper}
+    .xshop-item-paginator(style='float:none; clear:both')
+      {$Paginator}
+    {/}            
