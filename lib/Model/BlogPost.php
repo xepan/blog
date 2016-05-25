@@ -40,8 +40,9 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addCondition('type','BlogPost');
 
 		$this->addExpression('comment_count')->set(function($m,$q){
-			$counts = $m->refSQL('Comments');
-			return $counts->count();
+			return $m->refSQL('Comments')
+					 ->addCondition('status','Approved')
+					 ->count();
 		});
 	}
 

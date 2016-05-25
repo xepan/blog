@@ -40,8 +40,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			return;
 		}
 
-		if(!$l->model['description'])
-			$l->current_row['description'] = $l->model['desription'];
+		$l->current_row_html['description'] =$l->model['description'];
 	}
 
 	function addToolCondition_row_show_image($value, $l){

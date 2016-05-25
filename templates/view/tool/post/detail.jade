@@ -1,7 +1,6 @@
 section#blog.container
   .center
     h2 Blogs 
-    p.lead Blog related information with it's comments.
   .blog
     .row
       .col-md-8
@@ -10,48 +9,32 @@ section#blog.container
           .row
             .col-xs-12.col-sm-2.text-center
               .entry-meta
-                span#publish_date {created_at} 07  NOV {/}
+                span#publish_date {$created_at}
                 span
                   i.fa.fa-user
-                  a(href='#') {created_by} John Doe {/}
+                  a(href='#') {$created_by}
                 span
                   i.fa.fa-comment
-                  a(href='blog-item.html#comments') {comment_count} 2 Comments {/}
+                  a(href='blog-item.html#comments') {$comment_count}
             .col-xs-12.col-sm-10.blog-content
+              {image_wrapper}
+              a(href="{$url}")
+                img(src="{$image}")
+              {/}
               {title_wrapper}
-              h2 {title} Consequat bibendum quam {/}
+              h2 {$title}
               {/}
               {desription_wrapper}
               p
-                {description}
-                | Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper. Nullam sapien elit, lacinia eu tristique non.posuere at mi. Morbi at turpis id urna ullamcorper ullamcorper.
-                {/}
+                {$description}
               {/}
+              
+              {tag_wrapper}
               .post-tags
                 strong Tag : 
-                a(href='#') {tag} Cool {/}
-        // /.blog-item
-        .media.reply_section
-          .pull-left.post_reply.text-center
-            a(href='#')
-              img.img-circle(src='images/blog/boy.png', alt='image here')
-            ul
-              li
-                a(href='#')
-                  i.fa.fa-facebook
-              li
-                a(href='#')
-                  i.fa.fa-twitter
-              li
-                a(href='#')
-                  i.fa.fa-google-plus
-          .media-body.post_reply_content
-            h3 Antone L. Huges
-            p.lead
-              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariaturp
-            p
-              strong Web:
-              a(href='http://www.shapebootstrap.net') www.shapebootstrap.net
+                a(href='#') {$tag}
+              {/}
+                
         h1#comments_title {comment_count} 5 {/} Comments
         {$comment}
         {comment_lister}

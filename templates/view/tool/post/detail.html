@@ -2,7 +2,6 @@
 <section id="blog" class="container">
   <div class="center">
     <h2>Blogs </h2>
-    <p class="lead">Blog related information with it's comments.</p>
   </div>
   <div class="blog">
     <div class="row">
@@ -10,33 +9,16 @@
         <div class="blog-item"><img src="{$image}" width="100%" alt="image here" class="img-responsive img-blog"/>
           <div class="row">
             <div class="col-xs-12 col-sm-2 text-center">
-              <div class="entry-meta"><span id="publish_date">{created_at} 07  NOV {/}</span><span><i class="fa fa-user"></i><a href="#">{created_by} John Doe {/}</a></span><span><i class="fa fa-comment"></i><a href="blog-item.html#comments">{comment_count} 2 Comments {/}</a></span></div>
+              <div class="entry-meta"><span id="publish_date">{$created_at}</span><span><i class="fa fa-user"></i><a href="#">{$created_by}</a></span><span><i class="fa fa-comment"></i><a href="blog-item.html#comments">{$comment_count}</a></span></div>
             </div>
-            <div class="col-xs-12 col-sm-10 blog-content">{title_wrapper}
-              <h2>{title} Consequat bibendum quam {/}</h2>{/}
+            <div class="col-xs-12 col-sm-10 blog-content">{image_wrapper}<a href="{$url}"><img src="{$image}"/></a>{/}
+              {title_wrapper}
+              <h2>{$title}</h2>{/}
               {desription_wrapper}
-              <p>
-                {description}
-                Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper. Nullam sapien elit, lacinia eu tristique non.posuere at mi. Morbi at turpis id urna ullamcorper ullamcorper.
-                {/}
-              </p>{/}
-              <div class="post-tags"><strong>Tag : </strong><a href="#">{tag} Cool {/}</a></div>
+              <p>{$description}</p>{/}
+              {tag_wrapper}
+              <div class="post-tags"><strong>Tag : </strong><a href="#">{$tag}</a></div>{/}
             </div>
-          </div>
-        </div>
-        <!-- /.blog-item-->
-        <div class="media reply_section">
-          <div class="pull-left post_reply text-center"><a href="#"><img src="images/blog/boy.png" alt="image here" class="img-circle"/></a>
-            <ul>
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-            </ul>
-          </div>
-          <div class="media-body post_reply_content">
-            <h3>Antone L. Huges</h3>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariaturp</p>
-            <p><strong>Web:</strong><a href="http://www.shapebootstrap.net">www.shapebootstrap.net</a></p>
           </div>
         </div>
         <h1 id="comments_title">{comment_count} 5 {/} Comments</h1>{$comment}

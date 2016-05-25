@@ -18,7 +18,7 @@ class Model_Comment extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\blog\BlogPost','blog_post_id');
 		
 		$this->addField('comment')->type('text');
-		$this->addField('status');
+		$this->addField('status')->enum(['Approved','Pending','Rejected']);
 		$this->addField('type');
 		$this->addCondition('type','BlogComment');
 	}
