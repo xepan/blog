@@ -18,8 +18,6 @@ class page_blogpost extends \xepan\base\Page {
 
 		$crud->setModel($blog_model)->setOrder('created_at','desc');
 		$crud->grid->addPaginator(50);
-
-
 	}
 }
 

@@ -45,6 +45,23 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 					 ->addCondition('status','Approved')
 					 ->count();
 		});
+
+		$this->addExpression('year')->set(function($m,$q){
+			return $q->expr("( EXTRACT(year from [0] ) )",[$m->getElement('created_at')]);
+		});
+
+		$this->addExpression('year_post_count')->set(function($m,$q){
+			return $q->expr("count([0])",[$m->getElement('id')]);
+		});
+
+
+		$this->addExpression('month')->set(function($m,$q){
+			return $q->expr("EXTRACT(YEAR_MONTH from [0])",[$m->getElement('created_at')]);
+		});
+
+		$this->addExpression('month_post_count')->set(function($m,$q){
+			return $q->expr("( COUNT([0]) )",[$m->getElement('id')]);
+		});
 	}
 
 	//publish Blog Post
