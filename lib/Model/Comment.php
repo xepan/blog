@@ -24,6 +24,8 @@ class Model_Comment extends \xepan\base\Model_Table{
 		$this->addCondition('type','BlogComment');
 
 		$this->getElement('status')->defaultValue('Pending');
+
+		$this->addExpression('');
 	}
 
 	//Approve Post Comment
