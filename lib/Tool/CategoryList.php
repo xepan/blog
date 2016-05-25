@@ -5,7 +5,8 @@ namespace xepan\blog;
 class Tool_CategoryList extends \xepan\cms\View_Tool{
 	public $options = [
 						'category_count'=> 5,
-						'show_post_count'=>true
+						'show_post_count'=>true,
+						'redirect_page_url'=>'blog'
 				];
 
 	function init(){
@@ -35,5 +36,9 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 
 		$count = $l->add('xepan\blog\Model_Association_PostCategory')->addCondition('blog_post_category_id',$l->model->id)->count();
 		$l->current_row_html['post_count'] =$count;
+	}
+
+	function addToolCondition_row_redirect_page_url($value, $l){					
+		$l->current_row['url'] = $this->app->url($this->options['redirect_page_url'],['category_id'=>$l->model->id]);
 	}
 }

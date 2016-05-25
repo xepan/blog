@@ -27,6 +27,7 @@ class Initiator extends \Controller_Addon {
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_PostList','blog');
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_PostDetail','blog');
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_CategoryList','blog');
+		 $this->app->exportFrontEndTool('xepan\blog\Tool_Search','blog');
 		
 		return $this;
 	}
