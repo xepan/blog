@@ -24,6 +24,10 @@ class Model_Comment extends \xepan\base\Model_Table{
 		$this->addCondition('type','BlogComment');
 
 		$this->getElement('status')->defaultValue('Pending');
+
+		$this->addExpression('commented_by')->set(function($m,$q){
+			return $q->expr('(IFNULL([0],"Anonymous Person"))',[$m->refSQL('created_by_id')->fieldQuery('name')]);			
+		});
 	}
 
 	//Approve Post Comment
