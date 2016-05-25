@@ -7,7 +7,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 						'show_tag'=>true,
 						'show_image'=>true,
 						'show_comment_list'=>true,
-						'show_anonymous_comment_list'=>true
+						'allow_anonymous_comment'=>true
 
 						];
 	public $post;
@@ -26,11 +26,27 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		$this->setModel($this->post);
 
 		$sub_form = $this->add('Form',null,'leave_comment');
-		$sub_form->addField('text','Post Comment');
+		$sub_form->addField('text','Comment');
 		$sub_form->addSubmit('Submit')->addClass('btn btn-primary btn-lg');
 
 		if($sub_form->isSubmitted()){
 
+			$comment_mdl = $this->add('xepan\blog\Model_Comment');
+			$comment_mdl['comment'] = $sub_form['Comment'];
+			$comment_mdl['blog_post_id'] = $post_id;	
+			
+			$contact = $this->add('xepan\base\Model_Contact');
+      		if($contact->loadLoggedIn()){
+				$comment_mdl['created_by_id'] = $contact->id;
+				$comment_mdl->saveAndUnload();
+      		}else{
+      			if($this->options['allow_anonymous_comment']){
+					$comment_mdl->saveAndUnload();
+      			}
+      			else{
+      				return;
+      			}
+      		}
 		}
 
 	}
@@ -38,17 +54,12 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	function setModel($model){
 		$this->template->trySetHtml('comment_count', $model['comment_count']);
 		$this->template->trySetHtml('post_description', $model['description']);
-
+    
 		//comments
 		$comnt_mdl = $this->add('xepan\blog\Model_Comment');
 		$cl = $this->add('CompleteLister',null,'comment_list',['view/tool/post/extra-detail/comment-list']);
 		$cl->setModel($comnt_mdl)->addCondition('blog_post_id',$this->post->id)->addCondition('status','Approved');
-
-		//anonymous comments
-		$an_cl = $this->add('CompleteLister',null,'anonymous_comment_list',['view/tool/post/extra-detail/anonymous-comment-list']);
-		$an_cl->setModel('xepan\blog\Comment')->addCondition('blog_post_id',$this->post->id);
-
-
+		
 		parent::setModel($model);
 	}
 	function defaultTemplate(){
@@ -63,7 +74,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 			return;
 		}
 
-		$l->current_row_html['tag'] =$l->model['tag'];
+		$l->current_row_html['tag'] = $l->model['tag'];
 	}
 
 	function addToolCondition_row_show_comment_list($value, $l){
@@ -80,6 +91,9 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 			$l->current_row_html['anonymous_comment_list_wrapper'] = "";
 			return;
 		}
+
+		$l->current_row['commented_by'] = "Anonymous Person";
+		
 	}
 
 	function addToolCondition_row_show_image($value, $l){
