@@ -30,10 +30,9 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 	function setModel($model){
 		$this->template->trySetHtml('comment_count', $model['comment_count']);
-
+		$this->template->trySetHtml('post_description', $model['description']);
 		parent::setModel($model);
 	}
-
 	function defaultTemplate(){
 		return ['view/tool/post/detail'];
 	}
