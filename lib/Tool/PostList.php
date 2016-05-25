@@ -14,8 +14,16 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
+
 		$post = $this->add('xepan\blog\Model_BlogPost');
 		$post->setOrder('created_at','desc');
+
+		if($category_id = $this->app->stickyGET('category_id')){
+			$assoc_j = $post->join('blog_post_category_association.blog_post_id');
+			$assoc_j->addField('blog_post_category_id');
+			$post->addCondition('blog_post_category_id',$category_id);
+			$post->_dsql()->group('blog_post_id');
+		}
 
 		$cl = $this->add('CompleteLister',null,null,['view/tool/post/list']);
 		if(!$post->count()->getOne())
