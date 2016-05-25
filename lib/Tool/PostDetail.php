@@ -14,6 +14,8 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
+
+
 		$post_id = $this->api->stickyGET('post_id');
 
 		$this->post = $this->add('xepan\blog\Model_BlogPost')->tryLoad($post_id?:-1);
@@ -24,32 +26,38 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		}
 
 		$this->setModel($this->post);
+		$this->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$this->post]);
 
 		$sub_form = $this->add('Form',null,'leave_comment');
-		$sub_form->addField('text','Comment');
+		$sub_form->addField('text','Comment')->validate('required');
 		$sub_form->addSubmit('Submit')->addClass('btn btn-primary btn-lg');
 
 		if($sub_form->isSubmitted()){
+			
+      		if( $this->options['allow_anonymous_comment'] == "false"){
+                $contact = $this->add('xepan\base\Model_Contact');
+      			if($contact->loadLoggedIn()){
+					$this->app->redirect($this->api->url('blog-item'));
 
-			$comment_mdl = $this->add('xepan\blog\Model_Comment');
-			$comment_mdl['comment'] = $sub_form['Comment'];
-			$comment_mdl['blog_post_id'] = $post_id;	
+      			}else{
+      				$this->api->memorize('next_url',array('page'=>$_GET['page'],'post_id'=>$_GET['post_id']));
+                	$this->app->redirect($this->api->url('login'));
+      			}
+                
+          	}
+			
+			$comment_model = $this->add('xepan\blog\Model_Comment');
+			$comment_model['comment'] = $sub_form['Comment'];
+			$comment_model['blog_post_id'] = $post_id;	
 			
 			$contact = $this->add('xepan\base\Model_Contact');
       		if($contact->loadLoggedIn()){
-				$comment_mdl['created_by_id'] = $contact->id;
-				$comment_mdl->saveAndUnload();
-      		}else{
-      			if($this->options['allow_anonymous_comment']){
-					$comment_mdl->saveAndUnload();
-      			}
-      			else{
-      				return;
-      			}
-      		}
-      	$sub_form->js(null,$sub_form->js()->reload())->univ()->successMessage('You have successfully commented on this post')->execute();
-		}
-
+				$comment_model['created_by_id'] = $contact->id;
+			}
+			
+			$comment_model->save();
+      		$sub_form->js(null,$sub_form->js()->reload())->univ()->successMessage('You have successfully commented on this post')->execute();
+      	}
 	}
 
 	function setModel($model){
