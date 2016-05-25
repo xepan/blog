@@ -25,7 +25,16 @@ class Model_Comment extends \xepan\base\Model_Table{
 
 		$this->getElement('status')->defaultValue('Pending');
 
-		$this->addExpression('');
+		$this->addExpression('commented_by')->set(function($m,$q){
+			$comnt = $m->refSQL('created_by_id');
+			if(!$m->getElement('created_by_id') == Null){
+				return $comnt->fieldQuery('name');
+			}else{
+				$this->addHook('formatRow',function($g){
+					if(!$g->model['created_by_id']) $g->current_row['commented_by']="Anonymous";
+				});
+			}
+		});
 	}
 
 	//Approve Post Comment

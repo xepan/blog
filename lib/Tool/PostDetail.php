@@ -47,6 +47,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
       				return;
       			}
       		}
+      	$sub_form->js(null,$sub_form->js()->reload())->univ()->successMessage('You have successfully commented on this post')->execute();
 		}
 
 	}
@@ -83,17 +84,6 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 			$l->current_row_html['comment_list_wrapper'] = "";
 			return;
 		}
-	}
-
-	function addToolCondition_row_show_anonymous_comment_list($value, $l){
-		
-		if(!$value){
-			$l->current_row_html['anonymous_comment_list_wrapper'] = "";
-			return;
-		}
-
-		$l->current_row['commented_by'] = "Anonymous Person";
-		
 	}
 
 	function addToolCondition_row_show_image($value, $l){
