@@ -4,7 +4,6 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 		.row
 			.col-md-8
 				.blog-item
-					img.img-responsive.img-blog(src='{$image}', width='100%', alt='image here')
 					.row
 						.col-xs-12.col-sm-2.text-center
 							.entry-meta
@@ -18,13 +17,13 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 						.col-xs-12.col-sm-10.blog-content
 							{image_wrapper}
 							a(href="{$url}")
-								img(src="{$image}")
+								img(style = "height:300px;" src="{$image}")
 							{/}
 							{title_wrapper}
 							h2 {$title}
 							{/}
 							{desription_wrapper}
-							p(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ") {$description}
+							div(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ") {$description}
 							{/}
 							a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
 								| Read More 
