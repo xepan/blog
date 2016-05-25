@@ -1,30 +1,35 @@
 div(id='{$_name}' class="{$class} row" style="{$style}")
 	{rows}{row}
-	.row
-		.col-md-2
-			span {$created_at}
-			span
-				i.fa.fa-user
-				a(href='#')  {$created_by}
-			span
-				i.fa.fa-comment
-				a(href='') {$comments}	
-		.col-md-9
-			{image_wrapper}
-			a(href="{$url}")
-				img(src="{$image}")
-			{/}
-			h2
-				a(href="{$url}") {$title}	
-			{description_wrapper}
-			div(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ")
-				{$description}
-			{/}	
-			a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
-				| Read More 
-				i.fa.fa-angle-right
-	div(style="padding-bottom:25px;")				
-					
+	.blog
+		.row
+			.col-md-8
+				.blog-item
+					img.img-responsive.img-blog(src='{$image}', width='100%', alt='image here')
+					.row
+						.col-xs-12.col-sm-2.text-center
+							.entry-meta
+								span#publish_date {$created_at}
+								span
+									i.fa.fa-user
+									a(href='#') {$created_by}
+								span
+									i.fa.fa-comment
+									a(href='blog-item.html#comments') {$comment_count}
+						.col-xs-12.col-sm-10.blog-content
+							{image_wrapper}
+							a(href="{$url}")
+								img(src="{$image}")
+							{/}
+							{title_wrapper}
+							h2 {$title}
+							{/}
+							{desription_wrapper}
+							p(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ") {$description}
+							{/}
+							a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
+								| Read More 
+								i.fa.fa-angle-right
+	div(style="padding-bottom:25px;")
 	{/}{/}
 	{not_found}
 	div.full-width.alert.alert-warning(role="alert")

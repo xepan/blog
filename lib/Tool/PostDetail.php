@@ -10,7 +10,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 		$post_id = $this->api->stickyGET('post_id');
 
-		$this->post = $this->add('xepan\blog\Model_BlogPost')->load($post_id);
+		$this->post = $this->add('xepan\blog\Model_BlogPost')->tryLoad($post_id?:-1);
 		
 		if(!$this->post->loaded()){
 			$this->add('View')->set('Err while loading');
