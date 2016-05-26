@@ -34,7 +34,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addField('type');
 		$this->add('xepan\filestore\Field_Image','image_id');
 
-		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_id');
+		$this->hasMany('xepan\blog\Association_PostCategory','blog_post_id',null,'PostCategoryAssociation');
 		$this->hasMany('xepan\blog\Comment','blog_post_id',null,'Comments');
 
 		$this->addCondition('type','BlogPost');
@@ -50,17 +50,8 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 			return $q->expr("( EXTRACT(year from [0] ) )",[$m->getElement('created_at')]);
 		});
 
-		$this->addExpression('year_post_count')->set(function($m,$q){
-			return $q->expr("count([0])",[$m->getElement('id')]);
-		});
-
-
 		$this->addExpression('month')->set(function($m,$q){
 			return $q->expr("EXTRACT(YEAR_MONTH from [0])",[$m->getElement('created_at')]);
-		});
-
-		$this->addExpression('month_post_count')->set(function($m,$q){
-			return $q->expr("( COUNT([0]) )",[$m->getElement('id')]);
 		});
 	}
 
@@ -91,6 +82,51 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$crud->grid->addPaginator(50);
 	}
 
-	function page_category($page){		
+	function page_category($page){
+
+		$form = $page->add('Form');
+		$cat_ass_field = $form->addField('hidden','ass_cat')->set(json_encode($this->getAssociatedCategories()));
+		$form->addButton('Update');
+
+		$category_assoc_grid = $page->add('xepan/base/Grid',null,null,['view\post\association']);
+		$model_assoc_category = $page->add('xepan/blog/Model_BlogPostCategory');
+
+		$category_assoc_grid->setModel($model_assoc_category);
+		$category_assoc_grid->addSelectable($cat_ass_field);
+
+
+		if($form->isSubmitted()){
+			$this->removeAssociateCategory();
+
+			$selected_categories = array();
+			$selected_categories = json_decode($form['ass_cat'],true);
+			
+			foreach ($selected_categories as $cat) {
+				$this->associateCategory($cat);
+			}
+
+		 	return $page->js()->univ()->successMessage('Category Association Updated');
+		}
+	}
+
+	function getAssociatedCategories(){
+		$associated_categories = $this->ref('PostCategoryAssociation')
+								->_dsql()->del('fields')->field('blog_post_category_id')->getAll();
+		return iterator_to_array(new \RecursiveIteratorIterator(new \RecursiveArrayIterator($associated_categories)),false);
+	}
+
+	function removeAssociateCategory(){
+
+		$this->add('xepan\blog\Model_Association_PostCategory')
+			 ->addCondition('blog_post_id',$this->id)
+			 ->deleteAll();
 	}	
+
+	function associateCategory($category){
+		return $this->add('xepan\blog\Model_Association_PostCategory')
+						->addCondition('blog_post_id',$this->id)
+		     			->addCondition('blog_post_category_id',$category)
+			 			->tryLoadAny()	
+			 			->save();
+	}
 }

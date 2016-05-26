@@ -14,6 +14,14 @@ class Tool_Archieve extends \xepan\cms\View_Tool{
 
 		$post = $this->add('xepan\blog\Model_BlogPost');
 		$post->_dsql()->group($post->_dsql()->expr("[0]",[$post->getElement('year')]));		
+
+		$post->addExpression('year_post_count')->set(function($m,$q){
+			return $q->expr("count([0])",[$m->getElement('id')]);
+		});
+
+		$post->addExpression('month_post_count')->set(function($m,$q){
+			return $q->expr("( COUNT([0]) )",[$m->getElement('id')]);
+		});
 		
 		$cl = $this->add('CompleteLister',null,null,['view/tool/post/archieve']);
 		if(!$post->count()->getOne())
