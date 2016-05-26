@@ -11,14 +11,10 @@ class page_blogpostcategory extends \xepan\base\Page {
 		$blog_category_model = $this->add('xepan\blog\Model_BlogPostCategory');
 		$blog_category_model->add('xepan\blog\Controller_SideBarStatusFilter');
 
-		$crud = $this->add('xepan\hr\CRUD',null,null,['view/post/category']
-						);
-
+		$crud = $this->add('xepan\hr\CRUD',null,null,['view/post/category']);
 		$crud->setModel($blog_category_model);
-		$crud->grid->addPaginator(50);
-		
-
-
+		$crud->grid->addQuickSearch(['name']);
+		$crud->grid->addPaginator(10);
 	}
 }
 

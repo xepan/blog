@@ -13,8 +13,12 @@
             thead.xepan-hover-hand
                 {cols}{col}
                 th(id="{$name_sortid}")
-                    span Name 
+                    span Title 
                     span(style= "cursor:pointer; cursor: hand; max-width:600px;"){$name_sort}
+                th(data-hide="phone")
+                    span Created At
+                th
+                    span Categories
                 th 
                 {/}{/}
             {/}
@@ -25,7 +29,18 @@
                 tr(class="{$odd_even}" data-id="{$id}")
                     {cols}
                     td
-                      {name}Name{/}
+                        p(style="width: 200px;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;"){$title}
+                    td
+                        {$created_at}    
+                    td
+                        {$category}
+                        {category_lister}
+                        {rows}
+                        {row}
+                        .row
+                            {$post_category}
+                        {/}{/}
+                        {/}
                     td
                         {$action}
                     td(style="width: 15%;")

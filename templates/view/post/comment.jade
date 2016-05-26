@@ -13,8 +13,10 @@
             thead.xepan-hover-hand
                 {cols}{col}
                 th(id="{$name_sortid}")
-                    span Name 
+                    span Comment 
                     span(style= "cursor:pointer; cursor: hand; max-width:600px;"){$name_sort}
+                th(data-hide="phone")
+                    span Time
                 th 
                 {/}{/}
             {/}
@@ -25,7 +27,9 @@
                 tr(class="{$odd_even}" data-id="{$id}")
                     {cols}
                     td
-                      {name}Name{/}
+                        {$comment}
+                    td
+                        {$comment_date}
                     td
                         {$action}
                     td(style="width: 15%;")
