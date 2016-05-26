@@ -15,8 +15,8 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	public $table='blog_post';
 	public $status = ['Published','UnPublished'];
 	public $actions = [
-					'Published'=>['view','edit','delete','unpublish','comments','category' ],
-					'UnPublished'=>['view','edit','delete','publish','comments','category']
+					'Published'=>['view','edit','delete','unpublish','category' ],
+					'UnPublished'=>['view','edit','delete','publish','category']
 					];
 
 	function init(){
@@ -71,15 +71,6 @@ class Model_BlogPost extends \xepan\base\Model_Table{
             ->addActivity("Blog Post '". $this['title'] ."' not available for show on web", null /*Related Document ID*/, $this->id /*Related Contact ID*/)
             ->notifyWhoCan('publish','UnPublished',$this);
 		return $this->save();
-	}
-
-	function page_comments($page){		
-		$comment = $this->add('xepan\blog\Model_Comment');
-		$comment->addCondition('blog_post_id',$this->id);
-		$crud = $page->add('xepan\hr\CRUD',null,null,['view\post\comment']);
-		$crud->setModel($comment)->setOrder('comment_date','desc');
-		$crud->grid->addQuickSearch(['name']);
-		$crud->grid->addPaginator(50);
 	}
 
 	function page_category($page){
