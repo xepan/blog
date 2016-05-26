@@ -9,13 +9,15 @@
   <div class="main-box-body clearfix table-responsive">
     <table style="width:100%" class="table user-list table-hover footable toggle-circle-filled">{header}
       <thead class="xepan-hover-hand">{cols}{col}
-        <th id="{$name_sortid}"><span>Name </span><span style="cursor:pointer; cursor: hand; max-width:600px;">{$name_sort}</span></th>
+        <th id="{$name_sortid}"><span>Comment </span><span style="cursor:pointer; cursor: hand; max-width:600px;">{$name_sort}</span></th>
+        <th data-hide="phone"><span>Time</span></th>
         <th> </th>{/}{/}
       </thead>{/}
       {$subheader}
       <tbody>{rows}{row}
         <tr data-id="{$id}" class="{$odd_even}">{cols}
-          <td>{name}Name{/}</td>
+          <td>{$comment}</td>
+          <td>{$comment_date}</td>
           <td>{$action}</td>
           <td style="width: 15%;">
             {$edit}
