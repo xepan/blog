@@ -1,11 +1,15 @@
 div(id='{$_name}' class="{$class} row" style="{$style}")
 	{rows}{row}
 	.blog
-		.row
-			.col-md-8
+		.row(style='margin-left:45px;')
+			.col-md-12
 				.blog-item
+					{image_wrapper}
+					a(href="{$url}")
+						img(style = "height:300px;" , width='80%', src="{$image}")
+					{/}
 					.row
-						.col-xs-12.col-sm-2.text-center
+						.col-xs-12.col-sm-3.text-center
 							.entry-meta
 								span#publish_date {$created_at}
 								span
@@ -14,11 +18,7 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 								span
 									i.fa.fa-comment
 									a(href='blog-item.html#comments') {$comment_count}
-						.col-xs-12.col-sm-10.blog-content
-							{image_wrapper}
-							a(href="{$url}")
-								img(style = "height:300px;" src="{$image}")
-							{/}
+						.col-xs-12.col-sm-9.blog-content
 							{title_wrapper}
 							h2 {$title}
 							{/}

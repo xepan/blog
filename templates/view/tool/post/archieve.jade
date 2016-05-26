@@ -5,9 +5,10 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
       {rows}{row}
       div.panel.panel-default
         div.panel-heading
-          h3.panel-title
+          h3.panel-title(style= 'word-spacing: 40px;' )
             a(href="\#{$id}" data-parent="\#{$id}" data-toggle="collapse" class="accordion-toggle")
-              | {$year}  {$year_post_count}
+              | {$year} 
+              span ({$year_post_count})
               i.fa.fa-angle-right.pull-right
         div.panel-collapse.collapse(id="{$id}" style="height: auto;")
           div.panel-body

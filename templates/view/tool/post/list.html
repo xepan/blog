@@ -1,15 +1,14 @@
 
 <div id="{$_name}" style="{$style}" class="{$class} row">{rows}{row}
   <div class="blog">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="blog-item">
+    <div style="margin-left:45px;" class="row">
+      <div class="col-md-12">
+        <div class="blog-item">{image_wrapper}<a href="{$url}"><img style="height:300px;" width="80%" src="{$image}"/></a>{/}
           <div class="row">
-            <div class="col-xs-12 col-sm-2 text-center">
+            <div class="col-xs-12 col-sm-3 text-center">
               <div class="entry-meta"><span id="publish_date">{$created_at}</span><span><i class="fa fa-user"></i><a href="#">{$created_by}</a></span><span><i class="fa fa-comment"></i><a href="blog-item.html#comments">{$comment_count}</a></span></div>
             </div>
-            <div class="col-xs-12 col-sm-10 blog-content">{image_wrapper}<a href="{$url}"><img style="height:300px;" src="{$image}"/></a>{/}
-              {title_wrapper}
+            <div class="col-xs-12 col-sm-9 blog-content">{title_wrapper}
               <h2>{$title}</h2>{/}
               {desription_wrapper}
               <div style="height:50px; overflow: hidden; text-overflow: ellipsis; ">{$description}</div>{/}<a href="{$url}" class="btn btn-primary readmore blog-post-detail">Read More <i class="fa fa-angle-right"></i></a>

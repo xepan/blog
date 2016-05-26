@@ -20,10 +20,15 @@
             <h1 id="comments_title">{comment_count} 5 {/} Comments</h1>{comment_wrapper}
             {$comment_list}
             {/}
-            <div class="message_heading"></div>{$leave_comment}
+            <div class="textform">{$leave_comment}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>{$Content}
+<style>
+  .textform textarea{
+    width:740px;
+  }
+</style>

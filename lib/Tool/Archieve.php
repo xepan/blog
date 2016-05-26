@@ -34,12 +34,19 @@ class Tool_Archieve extends \xepan\cms\View_Tool{
 
 		$post = $l->add('xepan\blog\Model_BlogPost');
 		$post->addCondition('year',$l->model['year']);
-		$post->_dsql()->group($post->_dsql()->expr("[0]",[$post->getElement('month')]));		
+		$post->_dsql()->group($post->_dsql()->expr("[0]",[$post->getElement('month')]));
+
 
 		$month_l = $l->add('CompleteLister',null,"month_lister",['view/tool/post/archieve_month']);		
 		$month_l->setModel($post);
 
+		$month_l->addHook('formatRow',function($ml){
+			$ml->current_row_html["month"] = date('M \'y',strtotime($ml->model['created_at']));
+		
+		});
+
 		$l->current_row_html['month_lister'] = $month_l->getHtml();
+		
 
 	}
 }
