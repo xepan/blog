@@ -31,6 +31,10 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	 		$post->setOrder('Relevance','Desc');
 		}
 
+		if($month = $this->app->stickyGET('month')){
+			$post->addCondition('month',$month);
+		}
+
 		$cl = $this->add('CompleteLister',null,null,['view/tool/post/list']);
 		if(!$post->count()->getOne())
 			$cl->template->set('not_found_message','No Record Found');
