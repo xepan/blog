@@ -48,10 +48,10 @@ class Tool_Archieve extends \xepan\cms\View_Tool{
 		$month_l = $l->add('CompleteLister',null,"month_lister",['view/tool/post/archieve_month']);		
 		$month_l->setModel($post);
 
-		$month_l->addHook('formatRow',function($ml){
-			$ml->current_row_html["month"] = date('M \'y',strtotime($ml->model['created_at']));
+		// $month_l->addHook('formatRow',function($ml){
+		// 	$ml->current_row_html["month"] = date_format($ml->model['created_at'],"Y-m");
 		
-		});
+		// });
 
 		$l->current_row_html['month_lister'] = $month_l->getHtml();
 		
