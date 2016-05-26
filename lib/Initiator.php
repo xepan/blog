@@ -14,7 +14,6 @@ class Initiator extends \Controller_Addon {
 		$m = $this->app->top_menu->addMenu('Blog');
 		$m->addItem(['Category','icon'=>'fa fa-sitemap'],'xepan_blog_blogpostcategory');
 		$m->addItem(['Posts','icon'=>'fa fa-file-text-o'],'xepan_blog_blogpost');
-		$m->addItem(['Comments','icon'=>'fa fa-comment'],$this->app->url('xepan_blog_blogcomment'));
 		return $this;
 
 	}
