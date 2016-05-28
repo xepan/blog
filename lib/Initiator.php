@@ -11,9 +11,13 @@ class Initiator extends \Controller_Addon {
 		$this->routePages('xepan_blog');
 		$this->addLocation(array('template'=>'templates','js'=>'templates/js'))
 		->setBaseURL('../vendor/xepan/blog/');
-		$m = $this->app->top_menu->addMenu('Blog');
-		$m->addItem(['Category','icon'=>'fa fa-sitemap'],'xepan_blog_blogpostcategory');
-		$m->addItem(['Posts','icon'=>'fa fa-file-text-o'],'xepan_blog_blogpost');
+		// $m = $this->app->top_menu->addMenu('Blog');
+		// $m->addItem(['Category','icon'=>'fa fa-sitemap'],'xepan_blog_blogpostcategory');
+		// $m->addItem(['Posts','icon'=>'fa fa-file-text-o'],'xepan_blog_blogpost');
+		// return $this;
+
+		$this->app->side_menu->addItem(['Blog Category','icon'=>' fa fa-sitemap'],'xepan_blog_blogpostcategory')->setAttr(['title'=>'Blogs']);
+		$this->app->side_menu->addItem(['Blog Post','icon'=>' fa fa-file-text-o'],'xepan_blog_blogpost')->setAttr(['title'=>'Blogs']);
 		return $this;
 
 	}
