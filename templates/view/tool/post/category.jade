@@ -4,11 +4,11 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
     {rows}{row}
     .row
       .col-sm-6
-        ul.blog_category
-          li
+        ul.list-group
+          li.list-group-item
             a(href='{$url}')
               | {$name} 
-              span.badge {$post_count}
+              span.pull-right.badge {$post_count}
     {/}{/}
     {not_found}
     div.full-width.alert.alert-warning(role="alert")

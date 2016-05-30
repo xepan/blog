@@ -2,17 +2,19 @@
 <div id="{$_name}" style="{$style}" class="{$class} row">{rows}{row}
   <div class="blog">
     <div style="margin-left:45px;" class="row">
-      <div class="col-md-12">
-        <div class="blog-item">{image_wrapper}<a href="{$url}"><img style="height:auto; max-width='100%;" src="{$image}"/></a>{/}
-          <div class="row">
-            <div class="col-xs-12 col-sm-3 text-center">
-              <div class="entry-meta"><span id="publish_date">{$created_at}</span><span><i class="fa fa-user"></i><a href="#">{$created_by}</a></span><span><i class="fa fa-comment"></i><a href="blog-item.html#comments">{$comment_count}</a></span></div>
-            </div>
-            <div class="col-xs-12 col-sm-9 blog-content">{title_wrapper}
-              <h2>{$title}</h2>{/}
-              {desription_wrapper}
-              <div style="height:50px; overflow: hidden; text-overflow: ellipsis; ">{$description}</div>{/}<a href="{$url}" class="btn btn-primary readmore blog-post-detail">Read More <i class="fa fa-angle-right"></i></a>
-            </div>
+      <div class="col-md-12">{image_wrapper}<a href="{$url}"><img style="height:auto; max-width='100%;" src="{$image}"/></a>{/}
+        <div class="row">
+          <div class="col-xs-12 col-sm-3 text-center">
+            <ul class="list-group">
+              <li class="list-group-item">{$created_at}<span class="pull-right"><i class="fa fa-calendar"></i></span></li>
+              <li class="list-group-item">{$created_by}																		<span class="pull-right"><i class="fa fa-user"></i></span></li>
+              <li class="list-group-item"><a href="blog-item.html#comments">{$comment_count}</a><span class="pull-right"><i class="fa fa-comment"></i></span></li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-9">{title_wrapper}
+            <h2>{$title}</h2>{/}
+            {desription_wrapper}
+            <div style="height:50px; overflow: hidden; text-overflow: ellipsis; ">{$description}</div>{/}<a href="{$url}" class="btn btn-primary readmore blog-post-detail">Read More <i class="fa fa-angle-right"></i></a>
           </div>
         </div>
       </div>

@@ -4,20 +4,22 @@
     <div class="row">
       <div class="col-md-12">
         <div class="row">
-          <div class="col-md-8">
-            <div class="blog-item">{image_wrapper}<img src="{$image}" width="100%" alt="" class="img-responsive img-blog"/>{/}
-              <div class="row">
-                <div class="col-xs-12 col-sm-2 text-center">
-                  <div class="entry-meta"><span id="publish_date">{$created_at}</span><span><i class="fa fa-user"></i><a href="#">{$created_by}</a></span><span><i class="fa fa-comment"></i><a href="blog-item.html#comments">{$comment_count}</a></span></div>
-                </div>
-                <div class="col-xs-12 col-sm-10 blog-content">
-                  <h2>{$title}</h2>
-                  <p>{$post_description}</p>{tag_wrapper}
-                  <div class="post-tags"><strong>Tag : </strong><a href="#">{$tag}</a></div>{/}
-                </div>
+          <div class="col-md-8">{image_wrapper}<img src="{$image}" width="100%" alt="" class="img-responsive img-blog"/>{/}
+            <div class="row">
+              <div class="col-xs-12 col-sm-3 text-center">
+                <ul class="list-group">
+                  <li class="list-group-item">{$created_at}<span class="pull-right"><i class="fa fa-calendar"></i></span></li>
+                  <li class="list-group-item">{$created_by}<span class="pull-right"> <i class="fa fa-user"></i></span></li>
+                  <li class="list-group-item"><a href="blog-item.html#comments">{$comment_count}</a><span class="pull-right"><i class="fa fa-comment"></i></span></li>
+                </ul>
+              </div>
+              <div class="col-xs-12 col-sm-9">
+                <h2>{$title}</h2>
+                <p>{$post_description}</p>{tag_wrapper}
+                <div class="post-tags"><strong>Tag : </strong><a href="#">{$tag}</a></div>{/}
               </div>
             </div>
-            <h1 id="comments_title">{comment_count} 5 {/} Comments</h1>{comment_wrapper}
+            <h2 id="comments_title">{comment_count} 5 {/} Comments</h2>{comment_wrapper}
             {$comment_list}
             {/}
             <div class="textform">{$leave_comment}</div>

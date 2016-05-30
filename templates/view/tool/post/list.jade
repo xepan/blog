@@ -3,31 +3,35 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 	.blog
 		.row(style='margin-left:45px;')
 			.col-md-12
-				.blog-item
-					{image_wrapper}
-					a(href="{$url}")
-						img(style = "height:auto; max-width='100%;" src="{$image}")
-					{/}
-					.row
-						.col-xs-12.col-sm-3.text-center
-							.entry-meta
-								span#publish_date {$created_at}
-								span
+				{image_wrapper}
+				a(href="{$url}")
+					img(style = "height:auto; max-width='100%;" src="{$image}")
+				{/}
+				.row
+					.col-xs-12.col-sm-3.text-center
+						ul.list-group
+							li.list-group-item
+								{$created_at}
+								span.pull-right
+									i.fa.fa-calendar
+							li.list-group-item
+								{$created_by}																		
+								span.pull-right
 									i.fa.fa-user
-									a(href='#') {$created_by}
-								span
+							li.list-group-item
+								a(href='blog-item.html#comments') {$comment_count}
+								span.pull-right
 									i.fa.fa-comment
-									a(href='blog-item.html#comments') {$comment_count}
-						.col-xs-12.col-sm-9.blog-content
-							{title_wrapper}
-							h2 {$title}
-							{/}
-							{desription_wrapper}
-							div(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ") {$description}
-							{/}
-							a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
-								| Read More 
-								i.fa.fa-angle-right
+					.col-xs-12.col-sm-9
+						{title_wrapper}
+						h2 {$title}
+						{/}
+						{desription_wrapper}
+						div(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ") {$description}
+						{/}
+						a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
+							| Read More 
+							i.fa.fa-angle-right
 	div(style="padding-bottom:25px;")
 	{/}{/}
 	{not_found}

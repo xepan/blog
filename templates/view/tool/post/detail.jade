@@ -4,31 +4,36 @@ section#blog.container
       .col-md-12
         .row
           .col-md-8
-            .blog-item
-              {image_wrapper}
-              img.img-responsive.img-blog(src="{$image}", width='100%', alt='')
-              {/}
-              .row
-                .col-xs-12.col-sm-2.text-center
-                  .entry-meta
-                    span#publish_date {$created_at}
-                    span
+            {image_wrapper}
+            img.img-responsive.img-blog(src="{$image}", width='100%', alt='')
+            {/}
+            .row
+              .col-xs-12.col-sm-3.text-center
+                ul.list-group
+                  li.list-group-item
+                    {$created_at}
+                    span.pull-right
+                      i.fa.fa-calendar
+                  li.list-group-item
+                    {$created_by}
+                    span.pull-right 
                       i.fa.fa-user
-                      a(href='#') {$created_by}
-                    span
+                  li.list-group-item
+                    a(href='blog-item.html#comments') {$comment_count}
+                    span.pull-right
                       i.fa.fa-comment
-                      a(href='blog-item.html#comments') {$comment_count}
-                .col-xs-12.col-sm-10.blog-content
-                  h2 {$title}
-                  p
-                    {$post_description}
-                  {tag_wrapper}
-                  .post-tags
-                    strong Tag : 
-                    a(href='#') {$tag}
-                  {/}
                     
-            h1#comments_title {comment_count} 5 {/} Comments
+              .col-xs-12.col-sm-9
+                h2 {$title}
+                p
+                  {$post_description}
+                {tag_wrapper}
+                .post-tags
+                  strong Tag : 
+                  a(href='#') {$tag}
+                {/}
+                    
+            h2#comments_title {comment_count} 5 {/} Comments
             {comment_wrapper}
             {$comment_list}
             {/}
