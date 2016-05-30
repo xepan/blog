@@ -16,6 +16,12 @@
       <input id="category_count" data-attr="category_count"/>
     </div>
   </div>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Category List Url</div>
+    <div class="xepan-tool-option-value"> 
+      <input id="redirect_page_url" data-attr="redirect_page_url"/>
+    </div>
+  </div>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());

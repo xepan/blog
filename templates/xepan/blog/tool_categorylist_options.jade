@@ -9,7 +9,11 @@
 	.xepan-tool-option
 		.xepan-tool-option-title Category Count
 		.xepan-tool-option-value 
-			input#category_count(data-attr='category_count')			
+			input#category_count(data-attr='category_count')
+	.xepan-tool-option
+		.xepan-tool-option-title Category List Url
+		.xepan-tool-option-value 
+			input#redirect_page_url(data-attr='redirect_page_url')			
 																																																
 	script.
 		$('\#{$_name} [data-attr]').on('change',function(){

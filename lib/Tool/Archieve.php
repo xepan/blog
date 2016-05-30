@@ -5,7 +5,8 @@ namespace xepan\blog;
 class Tool_Archieve extends \xepan\cms\View_Tool{
 	public $options = [
 
-					'show_month'=>true
+					'show_month'=>true,
+					'redirect_page_url'=>'blog'
 				];
 
 	function init(){
@@ -47,6 +48,13 @@ class Tool_Archieve extends \xepan\cms\View_Tool{
 
 		$month_l = $l->add('CompleteLister',null,"month_lister",['view/tool/post/archieve_month']);		
 		$month_l->setModel($post);
+
+		$month_l->addHook('formatRow',function($ml){
+			$ml->current_row_html["url"] = $this->app->url($this->options['redirect_page_url'],['month'=>$ml->model['month']]);
+			// $ml->current_row_html["url"] = '123';
+		
+		});
+		// $l->current_row['url'] = $this->app->url($this->options['redirect_page_url'],['category_id'=>$l->model->id]);
 
 		// $month_l->addHook('formatRow',function($ml){
 		// 	$ml->current_row_html["month"] = date_format($ml->model['created_at'],"Y-m");
