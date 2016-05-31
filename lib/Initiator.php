@@ -27,11 +27,11 @@ class Initiator extends \Controller_Addon {
 		$this->addLocation(array('template'=>'templates','js'=>'templates/js'))
 		->setBaseURL('./vendor/xepan/blog/');
 
-		 $this->app->exportFrontEndTool('xepan\blog\Tool_PostList','blog');
-		 $this->app->exportFrontEndTool('xepan\blog\Tool_PostDetail','blog');
-		 $this->app->exportFrontEndTool('xepan\blog\Tool_CategoryList','blog');
-		 $this->app->exportFrontEndTool('xepan\blog\Tool_Search','blog');
-		 $this->app->exportFrontEndTool('xepan\blog\Tool_Archieve','blog');
+		 $this->app->exportFrontEndTool('xepan\blog\Tool_PostList','Blog');
+		 $this->app->exportFrontEndTool('xepan\blog\Tool_PostDetail','Blog');
+		 $this->app->exportFrontEndTool('xepan\blog\Tool_CategoryList','Blog');
+		 $this->app->exportFrontEndTool('xepan\blog\Tool_Search','Blog');
+		 $this->app->exportFrontEndTool('xepan\blog\Tool_Archieve','Blog');
 		
 		return $this;
 	}
