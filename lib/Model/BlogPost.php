@@ -32,6 +32,9 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addField('meta_description');
 		$this->addField('created_at')->defaultValue($this->app->now)->sortable(true)->system(true);
 		$this->addField('type');
+		$this->addField('anonymous_comment_config')->enum(['none','moderate','permit'])->defaultValue('permit');
+		$this->addField('registered_comment_config')->enum(['moderate','permit'])->defaultValue('permit');
+		$this->addField('show_comments')->enum(['show','hide'])->defaultValue('show');
 		$this->add('xepan\filestore\Field_Image','image_id');
 
 		$this->hasMany('xepan\blog\Association_PostCategory','blog_post_id',null,'PostCategoryAssociation');
@@ -53,6 +56,8 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addExpression('month')->set(function($m,$q){
 			return $q->expr("EXTRACT(YEAR_MONTH from [0])",[$m->getElement('created_at')]);
 		});
+
+		$this->addExpression('created_at_date')->set('DATE(created_at)');
 	}
 
 	//publish Blog Post

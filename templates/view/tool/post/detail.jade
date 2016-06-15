@@ -1,41 +1,38 @@
-section#blog.container
-  .blog
-    .row
-      .col-md-12
-        .row
-          .col-md-8
-            {image_wrapper}
-            img.img-responsive.img-blog(src="{$image}", width='100%', alt='')
-            {/}
-            .row
-              .col-xs-12.col-sm-3.text-center
-                ul.list-group
-                  li.list-group-item
-                    {$created_at}
-                    span.pull-right
-                      i.fa.fa-calendar
-                  li.list-group-item
-                    {$created_by}
-                    span.pull-right 
-                      i.fa.fa-user
-                  li.list-group-item
-                    a(href='blog-item.html#comments') {$comment_count}
-                    span.pull-right
-                      i.fa.fa-comment
-                    
-              .col-xs-12.col-sm-9
-                h2 {$title}
-                p
-                  {$post_description}
-                {tag_wrapper}
-                .post-tags
-                  strong Tag : 
-                  a(href='#') {$tag}
-                {/}
-                    
-            h2#comments_title {comment_count} 5 {/} Comments
-            {comment_wrapper}
-            {$comment_list}
-            {/}
-            .textform{$leave_comment}
+.blog
+  .row
+    .col-md-12
+      {image_wrapper}
+      img.img-responsive.img-blog(src="{$image}" style = "height:auto; width='80%' max-width:80%", alt='')
+      {/}
+  .row
+    .col-xs-2.col-sm-12.col-md-3.text-center
+      ul.list-group
+        li.list-group-item
+          {$created_at_date}
+          span.pull-right
+            i.fa.fa-calendar
+        li.list-group-item
+          {$created_by}
+          span.pull-right 
+            i.fa.fa-user
+        li.list-group-item
+          a(href='#') {$comment_count}
+          span.pull-right
+            i.fa.fa-comment
+          
+    .col-xs-10.col-sm-12.col-md-9
+      h2 {$title}
+      p
+        {$post_description}
+      {tag_wrapper}
+      .post-tags
+        strong Tag : 
+        a(href='#') {$tag}
+      {/} 
+  {$comments}    
 {$Content}
+
+style(type='text/css', media='screen').
+  .blog textarea {
+    width: 100%;
+  }

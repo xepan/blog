@@ -28,6 +28,8 @@ class Model_Comment extends \xepan\base\Model_Table{
 		$this->addExpression('commented_by')->set(function($m,$q){
 			return $q->expr('(IFNULL([0],"Anonymous Person"))',[$m->refSQL('created_by_id')->fieldQuery('name')]);			
 		});
+
+		$this->_dsql()->order('comment_date','desc');
 	}
 
 	//Approve Post Comment
