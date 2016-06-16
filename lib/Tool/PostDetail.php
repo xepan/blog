@@ -4,17 +4,17 @@ namespace xepan\blog;
 
 class Tool_PostDetail extends \xepan\cms\View_Tool{
 	public $options = [
-						'show_tag'=>true,
-						'show_image'=>true,
-						'show_comment_list'=>true,
-						'allow_anonymous_comment'=>true
-
-						];
+	'show_tag'=>true,
+	'show_image'=>true,
+	'show_comment_list'=>true,
+	'allow_anonymous_comment'=>false,
+	'login_page'=>'login',
+	'comment_form_position'=>'above'
+	];
 	public $post;
+
 	function init(){
 		parent::init();
-
-
 
 		$post_id = $this->api->stickyGET('post_id');
 
@@ -27,54 +27,26 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 		$this->setModel($this->post);
 		$this->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$this->post]);
-
-		$sub_form = $this->add('Form',null,'leave_comment');
-		$sub_form->addField('text','Comment')->validate('required');
-		$sub_form->addSubmit('Submit')->addClass('btn btn-primary btn-lg');
-
-		if($sub_form->isSubmitted()){
-			
-      		if( $this->options['allow_anonymous_comment'] == "false"){
-                $contact = $this->add('xepan\base\Model_Contact');
-      			if($contact->loadLoggedIn()){
-					$this->app->redirect($this->api->url('blog-item'));
-
-      			}else{
-      				$this->api->memorize('next_url',array('page'=>$_GET['page'],'post_id'=>$_GET['post_id']));
-                	$this->app->redirect($this->api->url('login'));
-      			}
-                
-          	}
-			
-			$comment_model = $this->add('xepan\blog\Model_Comment');
-			$comment_model['comment'] = $sub_form['Comment'];
-			$comment_model['blog_post_id'] = $post_id;	
-			
-			$contact = $this->add('xepan\base\Model_Contact');
-      		if($contact->loadLoggedIn()){
-				$comment_model['created_by_id'] = $contact->id;
-			}
-			
-			$comment_model->save();
-      		$sub_form->js(null,$sub_form->js()->reload())->univ()->successMessage('You have successfully commented on this post')->execute();
-      	}
+		
+		if($this->options['show_comment_list']){
+			$comment_m= $this->add('xepan\blog\Model_Comment')
+						 ->addCondition('blog_post_id',$this->post->id)
+						 ->addCondition('status','Approved');
+			$comment_view = $this->add('xepan\blog\View_Comment',['options'=>$this->options],'comments');
+			$comment_view->setModel($comment_m);
+		}
 	}
 
 	function setModel($model){
 		$this->template->trySetHtml('comment_count', $model['comment_count']);
 		$this->template->trySetHtml('post_description', $model['description']);
-    
-		//comments
-		$comnt_mdl = $this->add('xepan\blog\Model_Comment');
-		$cl = $this->add('CompleteLister',null,'comment_list',['view/tool/post/extra-detail/comment-list']);
-		$cl->setModel($comnt_mdl)->addCondition('blog_post_id',$this->post->id)->addCondition('status','Approved');
 		
 		parent::setModel($model);
 	}
+
 	function defaultTemplate(){
 		return ['view/tool/post/detail'];
 	}
-
 	
 	function addToolCondition_row_show_tag($value, $l){
 		

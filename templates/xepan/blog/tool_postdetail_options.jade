@@ -23,7 +23,18 @@
 		.xepan-tool-option-value 
 			select#allow_anonymous_comment(data-attr='allow_anonymous_comment')
 				option true																					
-				option false			
+				option false
+	.xepan-tool-option
+		.xepan-tool-option-title Comment Form Position
+		.xepan-tool-option-value 
+			select#comment_form_position(data-attr='comment_form_position')
+				option(value='below') Below																		
+				option(value='above') Above	
+				
+	.xepan-tool-option
+		.xepan-tool-option-title Login Page
+		.xepan-tool-option-value 
+			input#login_url(data-attr='ogin_page')						
 																																																
 	script.
 		$('\#{$_name} [data-attr]').on('change',function(){

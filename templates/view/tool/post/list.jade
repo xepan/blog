@@ -1,37 +1,38 @@
 div(id='{$_name}' class="{$class} row" style="{$style}")
 	{rows}{row}
 	.blog
-		.row(style='margin-left:45px;')
+		.row
 			.col-md-12
 				{image_wrapper}
 				a(href="{$url}")
-					img(style = "height:auto; max-width='100%;" src="{$image}")
+					img(style = "height:auto; width:80%; max-width:80%;" src="{$image}")
 				{/}
-				.row
-					.col-xs-12.col-sm-3.text-center
-						ul.list-group
-							li.list-group-item
-								{$created_at}
-								span.pull-right
-									i.fa.fa-calendar
-							li.list-group-item
-								{$created_by}																		
-								span.pull-right
-									i.fa.fa-user
-							li.list-group-item
-								a(href='blog-item.html#comments') {$comment_count}
-								span.pull-right
-									i.fa.fa-comment
-					.col-xs-12.col-sm-9
-						{title_wrapper}
-						h2 {$title}
-						{/}
-						{desription_wrapper}
-						div(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ") {$description}
-						{/}
-						a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
-							| Read More 
-							i.fa.fa-angle-right
+		.row
+			.col-xs-2.col-sm-12.col-md-3.text-center
+				ul.list-group
+					li.list-group-item
+						{$created_at_date}
+						span.pull-right
+							i.fa.fa-calendar
+					li.list-group-item
+						{$created_by}																		
+						span.pull-right
+							i.fa.fa-user
+					li.list-group-item
+						a(href='?page=blog-item&post_id={$id}') {$comment_count}
+						span.pull-right
+							i.fa.fa-comment
+			.col-xs-10.col-sm-12.col-md-9
+				{title_wrapper}
+				h2 {$title}
+				{/}
+				{desription_wrapper}
+				div(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ") {$description}
+				{/}
+				a.btn.btn-primary.readmore.blog-post-detail(href="{$url}")
+					| Read More 
+					i.fa.fa-angle-right
+				hr			
 	div(style="padding-bottom:25px;")
 	{/}{/}
 	{not_found}
@@ -42,4 +43,4 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 	{paginator_wrapper}
 	.xshop-item-paginator(style='float:none; clear:both')
 		{$Paginator}
-	{/}
+	{/}	

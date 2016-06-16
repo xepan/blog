@@ -41,7 +41,6 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		else
 			$cl->template->del('not_found');
 
-
 		$cl->setModel($post);
 		
 		if($this->options['show_paginator']=="true"){
@@ -62,7 +61,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	}
 
 	function addToolCondition_row_show_image($value, $l){
-		if(!$value){
+		if(!$value || !$l->model['image_id']){
 			$l->current_row_html['image_wrapper'] = "";
 			return;	
 		}
