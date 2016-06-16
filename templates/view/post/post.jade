@@ -29,7 +29,8 @@
                 tr(class="{$odd_even}" data-id="{$id}")
                     {cols}
                     td
-                        a(href='{url}index.php?page=xepan_blog_comment&blog_id={$id}{/}')
+                        //- a(href='{url}index.php?page=xepan_blog_comment&blog_id={$id}{/}')
+                        a.do-view-blog-post(href='#' data-id="{$id}")
                             p(style="width: 200px;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;"){$title}
                     td
                         {$created_at}    

@@ -17,8 +17,9 @@
       {$subheader}
       <tbody>{rows}{row}
         <tr data-id="{$id}" class="{$odd_even}">{cols}
-          <td><a href="{url}index.php?page=xepan_blog_comment&amp;blog_id={$id}{/}">
-              <p style="width: 200px;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;">{$title}</p></a></td>
+          <td><a href="#" data-id="{$id}" class="do-view-blog-post">
+              <p style="width: 200px;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;">{$title}</p></a>
+          </td>
           <td>{$created_at}    </td>
           <td>
             {$category}

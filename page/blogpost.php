@@ -27,6 +27,10 @@ class page_blogpost extends \xepan\base\Page {
 		});
 
 		$crud->grid->addFormatter('category','postcategory');
+
+		if(!$crud->isEditing()){
+			$crud->grid->js('click')->_selector('.do-view-blog-post')->univ()->frameURL('Blog Post Details',[$this->api->url('xepan_blog_comment'),'blog_id'=>$this->js()->_selectorThis()->closest('[data-id]')->data('id')]);
+		}
 	}
 }
 
