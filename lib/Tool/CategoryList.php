@@ -36,7 +36,6 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 
 		if(!$category->count()->getOne()){
 			$cl->template->set('not_found_message','No Record Found');
-			return;
 		}
 		else
 			$cl->template->del('not_found');
