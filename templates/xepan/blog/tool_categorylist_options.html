@@ -22,6 +22,15 @@
       <input id="redirect_page_url" data-attr="redirect_page_url"/>
     </div>
   </div>
+  <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Show Posts</div>
+    <div class="xepan-tool-option-value"> 
+      <select id="show_post" data-attr="show_post">
+        <option>true																					</option>
+        <option>false				</option>
+      </select>
+    </div>
+  </div>
   <script>
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());

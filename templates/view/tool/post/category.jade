@@ -9,6 +9,17 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
             a(href='{$url}')
               | {$name} 
               span.pull-right.badge {$post_count}
+          {post_wrapper}     
+          {cat_post}
+          {rows}{row}
+          .row
+            .col-sm-12
+              a( href= "{$post_id}" ) {title}asdadas{/}
+          {/rows}{/row}
+          {/cat_post}
+          {/}    
+        
+    
     {/}{/}
     {not_found}
     div.full-width.alert.alert-warning(role="alert")

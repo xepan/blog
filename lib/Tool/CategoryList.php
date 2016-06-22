@@ -6,7 +6,8 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 	public $options = [
 						'category_count'=> 5,
 						'show_post_count'=>true,
-						'redirect_page_url'=>'blog'
+						'redirect_page_url'=>'blog',
+						'show_post'=>true,
 				];
 
 	function init(){
@@ -17,12 +18,39 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		$category->addCondition('status','Active');
 
 		$cl = $this->add('CompleteLister',null,null,['view/tool/post/category']);
-		if(!$category->count()->getOne())
+		
+		if($this->options['show_post']){
+			$assos_j = $category->leftJoin('blog_post_category_association.blog_post_category_id');
+			$blog_j = $assos_j->join('blog_post','blog_post_id');
+			$blog_j->addField('title');
+			$blog_j->addField('post_id','id');
+		}
+
+		if(!$category->count()->getOne()){
 			$cl->template->set('not_found_message','No Record Found');
+			return;
+		}
 		else
 			$cl->template->del('not_found');
 
-		$cl->setModel($category);
+		$categories=[];
+		$posts=[];
+		foreach ($category->getRows() as $cat) {
+			if(!isset($categories[$cat['id']])) $categories[$cat['id']]=$cat['name'];
+			$posts[$cat['id']][] =  ['title'=>$cat['title'],'post_id'=>$cat['post_id']];
+		}
+
+
+
+		if($this->options['show_post']){
+			$cl->addHook('formatRow',function($cl)use($categories,$posts){
+				$pl = $cl->add('CompleteLister',null,'cat_post',['view/tool/post/category','cat_post']);
+				$pl->setSource($posts[$cl->model->id]);
+				$cl->current_row_html['cat_post'] = $pl->getHTMl();
+			});
+		}
+
+		$cl->setSource($categories);
 
 		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$category]);
 	}
@@ -40,5 +68,13 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 
 	function addToolCondition_row_redirect_page_url($value, $l){					
 		$l->current_row['url'] = $this->app->url($this->options['redirect_page_url'],['category_id'=>$l->model->id]);
+	}
+
+	function addToolCondition_row_show_post($value, $l){
+		
+		if(!$value){
+			$l->current_row_html['post_wrapper'] = "";
+			return;
+		}
 	}
 }

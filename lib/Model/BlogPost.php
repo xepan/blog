@@ -19,6 +19,8 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 					'UnPublished'=>['view','edit','delete','publish','category']
 					];
 
+	public $title_field= 'title';
+
 	function init(){
 		parent::init();
 

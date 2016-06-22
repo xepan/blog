@@ -13,7 +13,13 @@
 	.xepan-tool-option
 		.xepan-tool-option-title Category List Url
 		.xepan-tool-option-value 
-			input#redirect_page_url(data-attr='redirect_page_url')			
+			input#redirect_page_url(data-attr='redirect_page_url') 	
+	.xepan-tool-option
+		.xepan-tool-option-title Show Posts
+		.xepan-tool-option-value 
+			select#show_post(data-attr='show_post')
+				option true																					
+				option false				
 																																																
 	script.
 		$('\#{$_name} [data-attr]').on('change',function(){
