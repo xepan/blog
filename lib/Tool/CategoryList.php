@@ -8,6 +8,8 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 						'show_post_count'=>true,
 						'redirect_page_url'=>'blog',
 						'show_post'=>true,
+						'group'=>'',
+						'order'=>false,
 				];
 
 	function init(){
@@ -16,6 +18,12 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		$category = $this->add('xepan\blog\Model_BlogPostCategory');
 		$category->setLimit($this->options['category_count']);
 		$category->addCondition('status','Active');
+		
+		if($this->options['order'])
+			$category->setOrder('order','asc');
+		
+		if($this->options['group'])	
+			$category->addCondition('group',$this->options['group']);
 
 		$cl = $this->add('CompleteLister',null,null,['view/tool/post/category']);
 		
