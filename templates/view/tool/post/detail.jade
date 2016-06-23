@@ -21,8 +21,8 @@
             i.fa.fa-comment
           
     .col-xs-10.col-sm-12.col-md-9
-      h2 {$title}
-      p
+      h2.xepan-component.xepan-editable-text.xepan-blog-title(xepan-component='xepan/cms/Tool_Text') {$title}
+      p.xepan-component.xepan-editable-text.xepan-blog-description(xepan-component='xepan/cms/Tool_Text')
         {$post_description}
       {tag_wrapper}
       .post-tags
