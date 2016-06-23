@@ -1,5 +1,5 @@
 
-<div class="blog">
+<div id="{$_name}" class="blog">
   <div class="row">
     <div class="col-md-12">{image_wrapper}<img src="{$image}" style="height:auto; width='80%' max-width:80%" alt="" class="img-responsive img-blog"/>{/}</div>
   </div>
@@ -12,9 +12,10 @@
       </ul>
     </div>
     <div class="col-xs-10 col-sm-12 col-md-9">
-      <h2>{$title}</h2>
-      <p>{$post_description}</p>{tag_wrapper}
-      <div class="post-tags"><strong>Tag : </strong><a href="#">{$tag}</a></div>{/} 
+      <h2 id="xepan-blog-title" xepan-component="xepan/cms/Tool_Text" class="xepan-component xepan-editable-text xepan-blog-title">{$title}</h2>
+      <p id="xepan-blog-description" xepan-component="xepan/cms/Tool_Text" class="xepan-component xepan-editable-text xepan-blog-description">{$post_description}</p>{tag_wrapper}
+      <div class="post-tags"><strong>Tags : </strong><a href="#">{$tag}</a></div>{/} 
+      {$editing_mode}
     </div>
   </div>{$comments}    
 </div>{$Content}
