@@ -97,7 +97,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	}
 
 	function addToolCondition_row_show_image($value, $l){
-		if(!$value){
+		if(!$value || !$l->model['image_id']){
 			$l->current_row_html['image_wrapper'] = "";
 			return;	
 		}
