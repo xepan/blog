@@ -32,7 +32,7 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 			$blog_j = $assos_j->leftJoin('blog_post','blog_post_id');
 			$blog_j->addField('title');
 			$blog_j->addField('post_id','id');
-			$category->setOrder(['order desc','post_id asc']);
+			$category->setOrder(['order asc','post_id asc']);
 		}
 
 		if(!$category->count()->getOne()){
