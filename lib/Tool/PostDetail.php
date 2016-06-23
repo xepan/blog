@@ -65,6 +65,10 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		}else{
 			$this->template->tryDel('editing_mode');
 		}
+
+		if(!$this->model['image_id']){
+			$this->template->tryDel('image_wrapper');
+		}
 	}
 
 	function setModel($model){
@@ -93,13 +97,6 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		if(!$value){
 			$l->current_row_html['comment_list_wrapper'] = "";
 			return;
-		}
-	}
-
-	function addToolCondition_row_show_image($value, $l){
-		if(!$value || !$l->model['image_id']){
-			$l->current_row_html['image_wrapper'] = "";
-			return;	
 		}
 	}
 }
