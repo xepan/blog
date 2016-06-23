@@ -48,10 +48,6 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 			$posts[$cat['id']][] =  ['title'=>$cat['title'],'post_id'=>$cat['post_id']];
 		}
 
-		foreach ($cat_rows as $cat) {
-			usort($posts[$cat['id']], [$this,'sortById']);	
-		}
-
 		if($this->options['show_post']){
 			$cl->addHook('formatRow',function($cl)use($categories,$posts){
 				$pl = $cl->add('CompleteLister',null,'cat_post',['view/tool/post/category','cat_post']);
@@ -86,9 +82,5 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 			$l->current_row_html['post_wrapper'] = "";
 			return;
 		}
-	}
-
-	function sortById($a,$b){
-		return $a['id'] < $b['id'];
 	}
 }
