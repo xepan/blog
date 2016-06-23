@@ -61,6 +61,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 
 		$this->addExpression('created_at_date')->set('DATE(created_at)');
 
+		$this->setOrder('id','asc');
 		$this->is([
 				'title|to_strip_tags|required',
 				'description|required'
