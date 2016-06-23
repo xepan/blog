@@ -15,6 +15,8 @@
                 th(id="{$name_sortid}")
                     span Name 
                     span(style= "cursor:pointer; cursor: hand; max-width:600px;"){$name_sort}
+                th
+                    span Group 
                 th 
                 {/}{/}
             {/}
@@ -26,6 +28,9 @@
                     {cols}
                     td
                       {name}Name{/}
+                    td
+                      {$group}
+
                     td
                         {$action}
                     td(style="width: 15%;")

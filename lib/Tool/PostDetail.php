@@ -21,7 +21,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		$this->post = $this->add('xepan\blog\Model_BlogPost')->tryLoad($post_id?:-1);
 		
 		if(!$this->post->loaded()){
-			$this->add('View')->set('Err while loading');
+			$this->template->tryDel('tag_wrapper');
 			return;
 		}
 

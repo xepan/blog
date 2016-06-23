@@ -29,14 +29,13 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		
 		if($this->options['show_post']){
 			$assos_j = $category->leftJoin('blog_post_category_association.blog_post_category_id');
-			$blog_j = $assos_j->join('blog_post','blog_post_id');
+			$blog_j = $assos_j->leftJoin('blog_post','blog_post_id');
 			$blog_j->addField('title');
 			$blog_j->addField('post_id','id');
 		}
 
 		if(!$category->count()->getOne()){
 			$cl->template->set('not_found_message','No Record Found');
-			return;
 		}
 		else
 			$cl->template->del('not_found');
