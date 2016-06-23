@@ -25,6 +25,10 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 			return;
 		}
 
+		$this->app->template->trySet('title',$this->post['meta_title']?:$this->post['title']);
+		$this->app->template->trySet('meta_keywords',$this->post['tag'].' '.$this->post['meta_title']);
+		$this->app->template->trySet('meta_description',$this->post['meta_description']);
+
 		$this->setModel($this->post);
 		$this->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$this->post]);
 		
