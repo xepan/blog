@@ -60,6 +60,8 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		});
 
 		$this->addExpression('created_at_date')->set('DATE(created_at)');
+
+		$this->setOrder('id','asc');
 	}
 
 	//publish Blog Post
