@@ -19,6 +19,15 @@
 				option true																					
 				option false
 	.xepan-tool-option
+		.xepan-tool-option-title Set By Order
+		.xepan-tool-option-value
+			select#set_by_order(data-attr='set_by_order')
+				option order_by_id
+				
+				option order_by_recent_post
+
+				option order_by_created_at
+	.xepan-tool-option
 		.xepan-tool-option-title Show Image
 		.xepan-tool-option-value 
 			select#show_image(data-attr='show_image')
@@ -42,4 +51,6 @@
 			$('\#{$_name} [data-attr]').each(function(index,value){
 				$(this).val($(current_selected_component).attr($(this).data('attr')));				
 			});
+
+
 		})

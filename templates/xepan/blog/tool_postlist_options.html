@@ -29,6 +29,16 @@
     </div>
   </div>
   <div class="xepan-tool-option">
+    <div class="xepan-tool-option-title">Set By Order</div>
+    <div class="xepan-tool-option-value">
+      <select id="set_by_order" data-attr="set_by_order">
+        <option>order_by_id</option>
+        <option>order_by_recent_post</option>
+        <option>order_by_created_at</option>
+      </select>
+    </div>
+  </div>
+  <div class="xepan-tool-option">
     <div class="xepan-tool-option-title">Show Image</div>
     <div class="xepan-tool-option-value"> 
       <select id="show_image" data-attr="show_image">
@@ -58,6 +68,8 @@
     	$('#{$_name} [data-attr]').each(function(index,value){
     		$(this).val($(current_selected_component).attr($(this).data('attr')));				
     	});
+    
+    
     })
   </script>
 </div>
