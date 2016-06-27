@@ -1,5 +1,5 @@
 .blog(id="{$_name}")
-  .row(style="margin-left:0px !important; margin-right:0px; !important")
+  .row
     .col-md-12
       {image_wrapper}
       img.img-responsive.img-blog(src="{$image}" style = "height:auto; width='100%' max-width:100%", alt='')
@@ -35,4 +35,9 @@
 style(type='text/css', media='screen').
   .blog textarea {
     width: 100%;
+  }
+
+  .row{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
   }
