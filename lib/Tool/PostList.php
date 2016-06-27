@@ -9,7 +9,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'paginator_set_rows_per_page'=>4,
 					'description_page_url'=>'blog-item',
 					'show_image'=>true,
-					'set_by_order'=>'order_by_id'
+					'set_by_order'=>'order_by_created_at'
 				];
 
 	function init(){
@@ -51,13 +51,14 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$post]);
 		
 		if($this->options['set_by_order']=='order_by_id'){
-			$post->setOrder('order','asc');
-		}elseif($this->options['set_by_order']=='order_by_recent_post'){
-			$post->setOrder('order','')
-		}elseif($this->options['set_by_order']=='order_by_created_at'){
-			
-
+				$post->setOrder('order','asc');
+			}elseif($this->options['set_by_order']=='order_by_recent_post'){
+				$post->setOrder('created_at','Desc');
+			}elseif($this->options['set_by_order']=='order_by_created_at'){
+				$post->setOrder('created_at','asc');
 		}
+		
+		
 	}
 
 	function addToolCondition_row_show_description($value, $l){
