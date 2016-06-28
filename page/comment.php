@@ -13,7 +13,7 @@ class page_comment extends \xepan\base\Page {
 		$comment = $this->add('xepan\blog\Model_Comment');
 		$crud = $this->add('xepan\hr\CRUD',null,'comments',['view\post\comment']);
 		$crud->setModel($comment)->setOrder('comment_date','desc');
-		$crud->grid->addQuickSearch(['name']);
+		$crud->grid->addQuickSearch(['comment']);
 		$crud->grid->addPaginator(50);
 
 		$blog = $this->add('xepan\blog\Model_BlogPost')
