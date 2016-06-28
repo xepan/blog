@@ -1,26 +1,28 @@
 div(id='{$_name}' class="{$class} row" style="{$style}")
   .widget.categories
     h3 Categories
-    {rows}{row}
     .row
       .col-sm-12
         ul.list-group
-          li.list-group-item
-            a(href='{$url}')
-              | {$name} 
-              span.pull-right.badge {$post_count}
-          {post_wrapper}     
-          {cat_post}
           {rows}{row}
-          .row
-            .col-sm-12
-              a( href= "{$post_id}" ) {title}asdadas{/}
-          {/rows}{/row}
-          {/cat_post}
-          {/}    
+          div.seprate-li-content
+            li.list-group-item
+              a(href='{$url}' style="font-size:20px")
+                | {$name} 
+                span.pull-right.badge {$post_count}
+            {post_wrapper}     
+            {cat_post}
+            {rows}{row}
+            .row.blog-post-content
+              .col-sm-12
+                a( href= "{$post_id}" ) 
+                  small{title}asdadas{/}
+            {/rows}{/row}
+            {/cat_post}
+            {/}    
+          {/}{/}
         
     
-    {/}{/}
     {not_found}
     div.full-width.alert.alert-warning(role="alert")
       strong.glyphicon.glyphicon-warning-sign &nbsp;Warning!
@@ -29,4 +31,17 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
     {paginator_wrapper}
     .xshop-item-paginator(style='float:none; clear:both')
       {$Paginator}
-    {/}            
+    {/}
+style.
+  .blog-post-content{
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+  .seprate-li-content{
+    margin-bottom:5px;
+  }
+  .seprate-li-content .list-group-item{
+    border-top-left-radius:8px!important;
+    border-top-right-radius :8px!important; 
+  }                
