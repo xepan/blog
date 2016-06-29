@@ -23,8 +23,13 @@ class View_Comment extends \CompleteLister{
 		}
 
 		$sub_form = $this->add('Form',null,'comment_form_'.$this->options['comment_form_position']);
-		$sub_form->addField('text','Comment')->validate('required');
+		$comment_field = $sub_form->addField('text','Comment')->validate('required');
 		$sub_form->addSubmit('Submit')->addClass('btn btn-primary btn-lg');
+
+		if($this->app->recall('comment')){			
+			$comment_field->set($this->app->recall('comment'));
+			$this->app->forget('comment');			
+		}
 
 		if($sub_form->isSubmitted()){
 			if($this->options['allow_anonymous_comment'] === false || $post['anonymous_comment_config']==='none'){
@@ -46,6 +51,7 @@ class View_Comment extends \CompleteLister{
 
 					$sub_form->js(null,$this->js()->reload())->univ()->successMessage($msg_string)->execute();
 				}else{
+					$this->api->memorize('comment',$sub_form['Comment']);					
 					$this->api->memorize('next_url',array('page'=>$_GET['page'],'post_id'=>$_GET['post_id']));
 					$this->app->redirect($this->options['login_page']);
 				}
