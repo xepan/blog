@@ -14,7 +14,7 @@ class Model_Comment extends \xepan\base\Model_Table{
 	function init(){
 		parent::init();
 
-		$this->hasOne('xepan\commerce\Customer','created_by_id');
+		$this->hasOne('xepan\base\Contact','created_by_id');
 		$this->hasOne('xepan\blog\BlogPost','blog_post_id');
 		
 		$this->addField('comment_date')->defaultValue($this->app->now)->sortable(true)->system(true);
