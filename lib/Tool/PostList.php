@@ -112,10 +112,9 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		
 		$v->addHook('formatRow',function($m){
 			
-			// $m->current_row_html['blog_image']=$this->app->pm->base_url.$m->model['image'];
+			$m->current_row_html['blog_image']=$this->app->pm->base_url.$m->model['image'];
 			$m->current_row_html['url']=$this->app->pm->base_url.$this->app->url(null,['post_id'=>$m->model->id]);
 			$m->current_row_html['blog_description']=strip_tags($m->model['description']);
-			// $m->current_row_html['logo_url']=$this->company_m['company_logo_absolute_url'];
 		});
 		$l->current_row_html['micro_data']=$v->getHtml();
 
