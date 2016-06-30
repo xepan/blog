@@ -4,11 +4,14 @@
     <div class="col-md-12">{image_wrapper}<img src="{$image}" style="height:auto; width='100%' max-width:100%" alt="" class="img-responsive img-blog"/>{/}</div>
   </div>
   <div class="row">
-    <div class="col-xs-2 col-sm-12 col-md-3 text-center">
+    <div class="col-xs-12 col-sm-12 col-md-3 text-center">
       <ul class="list-group">
         <li class="list-group-item">{$created_at_date}<span class="pull-right"><i class="fa fa-calendar"></i></span></li>
         <li class="list-group-item">{$created_by}<span class="pull-right"> <i class="fa fa-user"></i></span></li>
-        <li class="list-group-item"><a href="#">{$comment_count}</a><span class="pull-right"><i class="fa fa-comment"></i></span></li>
+        <li class="list-group-item"><a href="#">{$comment_count}</a><span class="pull-right"><i class="fa fa-comment"></i></span></li>{sharewrapper}
+        <li class="list-group-item">
+          <div id="postshare{$id}"></div>
+        </li>{/}
       </ul>
     </div>
     <div class="col-xs-10 col-sm-12 col-md-9">
