@@ -111,7 +111,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		$v->setModel(clone $l->model);
 		
 		$v->addHook('formatRow',function($m){
-			
+			echo "string".$this->app->pm->base_url.$m->model['image'];		
 			$m->current_row_html['blog_image']=$this->app->pm->base_url.$m->model['image'];
 			$m->current_row_html['url']=$this->app->pm->base_url.$this->app->url(null,['post_id'=>$m->model->id]);
 			$m->current_row_html['blog_description']=strip_tags($m->model['description']);
