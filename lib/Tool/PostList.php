@@ -12,12 +12,35 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'set_by_order'=>'order_by_created_at',
 					'add_socialshare'=>true,
 					'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
-					'socialshare_theme'=>"flat" //classic,minima,plain
+					'socialshare_theme'=>"flat", //classic,minima,plain
+					'show_microdata'=>true
 				];
 
 	function init(){
 		parent::init();
-
+		if($this->options['show_microdata']){
+			$this->company_m = $this->add('xepan\base\Model_ConfigJsonModel',
+						[
+							'fields'=>[
+										'company_name'=>"Line",
+									'company_owner'=>"Line",
+									'mobile_no'=>"Line",
+									'company_email'=>"Line",
+									'company_address'=>"Line",
+									'company_pin_code'=>"Line",
+									'company_description'=>"text",
+									'company_description'=>"text",
+									'company_logo_absolute_url'=>"Line",
+									'company_twitter_url'=>"Line",
+									'company_facebook_url'=>"Line",
+									'company_google_url'=>"Line",
+									'company_linkedin_url'=>"Line",
+										],
+							'config_key'=>'COMPANY_AND_OWNER_INFORMATION',
+							'application'=>'communication'
+						]);
+			$this->company_m->tryLoadAny();
+		}
 
 		$post = $this->add('xepan\blog\Model_BlogPost');
 		$post->setOrder('created_at','desc');
@@ -82,6 +105,17 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		}
 
 		$l->current_row_html['description'] =$l->model['description'];
+	}
+	function addToolCondition_row_show_microdata($value, $l){
+		$v=$this->app->add('View',null,null,['view/schema-micro-data','blog_post_block']);
+		$v->template->trySet($l->model->data);
+		if($l->model['image'])
+			$v->template->trySet('blog_image', $this->app->pm->base_url. $l->model['image']);
+		$v->template->trySet('url',$this->app->pm->base_url.$this->app->url(null,['post_id'=>$l->model->id]));
+		$v->template->trySet('blog_description',strip_tags($l->model['description']));
+		
+		$l->current_row_html['micro_data']=$v->getHtml();
+
 	}
 
 	function addToolCondition_row_show_image($value, $l){
