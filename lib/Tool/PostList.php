@@ -18,7 +18,29 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 	function init(){
 		parent::init();
-
+		if($this->options['show_microdata']){
+			$this->company_m = $this->add('xepan\base\Model_ConfigJsonModel',
+						[
+							'fields'=>[
+										'company_name'=>"Line",
+									'company_owner'=>"Line",
+									'mobile_no'=>"Line",
+									'company_email'=>"Line",
+									'company_address'=>"Line",
+									'company_pin_code'=>"Line",
+									'company_description'=>"text",
+									'company_description'=>"text",
+									'company_logo_absolute_url'=>"Line",
+									'company_twitter_url'=>"Line",
+									'company_facebook_url'=>"Line",
+									'company_google_url'=>"Line",
+									'company_linkedin_url'=>"Line",
+										],
+							'config_key'=>'COMPANY_AND_OWNER_INFORMATION',
+							'application'=>'communication'
+						]);
+			$this->company_m->tryLoadAny();
+		}
 
 		$post = $this->add('xepan\blog\Model_BlogPost');
 		$post->setOrder('created_at','desc');
@@ -92,6 +114,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			$m->current_row_html['blog_image']=$this->app->pm->base_url.$m->model['image'];
 			$m->current_row_html['url']=$this->app->pm->base_url.$this->app->url(null,['post_id'=>$m->model->id]);
 			$m->current_row_html['blog_description']=strip_tags($m->model['description']);
+			$m->current_row_html['logo_url']=$this->company_m['company_logo_absolute_url'];
 		});
 		$l->current_row_html['micro_data']=$v->getHtml();
 
