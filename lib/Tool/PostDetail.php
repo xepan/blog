@@ -77,18 +77,20 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 			$this->template->tryDel('image_wrapper');
 		}
 
-		// add social share 
+		// add social share todo shift into tool condition function
 		if($this->options['add_socialshare']){
 			$this->js(true)->_load('socialshare/jssocials');
 			$this->js(true)->_css('socialshare/jssocials');
 			$this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
 			
+			$sharing_url = $this->app->pm->base_url.$this->app->url(null,['xepan_landing_content_id'=>$this->model->id]);
 			$social_shares = explode(",", $this->options['include_socialshare']?:'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
 			$social_shares = array_values($social_shares);
 			$this->js(true)->_selector('#postshare'.$this->model->id)
 							->jsSocials(
 								[
-									'shares'=>$social_shares
+									'shares'=>$social_shares,
+									"url"=>$sharing_url
 								]);
 		}else
 			$this->template->trySet('sharewrapper',"");
