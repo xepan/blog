@@ -111,7 +111,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		$v->setModel(clone $l->model);
 		
 		$v->addHook('formatRow',function($m){
-			echo "string".$this->app->pm->base_url.$m->model['image'];	
+			echo "string".$this->app->pm->base_url.$m->model['image']."<br/>";	
 			if($m->model['image']){
 				$m->current_row_html['blog_image']=$this->app->pm->base_url.$m->model['image'];
 			}	
