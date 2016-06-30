@@ -9,12 +9,12 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'paginator_set_rows_per_page'=>4,
 					'description_page_url'=>'blog-item',
 					'show_image'=>true,
-					'set_by_order'=>'order_by_created_at'
+					'set_by_order'=>'order_by_created_at',
+					'show_microdata'=>true
 				];
 
 	function init(){
 		parent::init();
-
 
 		$post = $this->add('xepan\blog\Model_BlogPost');
 		$post->setOrder('created_at','desc');
@@ -69,6 +69,17 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		}
 
 		$l->current_row_html['description'] =$l->model['description'];
+	}
+	function addToolCondition_row_show_microdata($value, $l){
+		$v=$this->add('CompleteLister',null,null,['view/schema-micro-data','blog_post_block']);
+		$v->setModel(clone $l->model);
+		
+		$v->addHook('formatRow',function($m){
+			$m->current_row_html['blog_image']=$this->app->pm->base_url.$m->model['image'];
+			$m->current_row_html['url']=$this->app->pm->base_url.$this->app->url(null,['post_id'=>$m->model->id]);
+		});
+		$l->current_row_html['micro_data']=$v->getHtml();
+
 	}
 
 	function addToolCondition_row_show_image($value, $l){
