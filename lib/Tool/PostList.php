@@ -12,7 +12,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'set_by_order'=>'order_by_created_at',
 					'add_socialshare'=>true,
 					'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
-					'socialshare_theme'=>"flat" //classic,minima,plain
+					'socialshare_theme'=>"flat", //classic,minima,plain
 					'show_microdata'=>true
 				];
 
