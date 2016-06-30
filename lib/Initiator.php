@@ -20,7 +20,7 @@ class Initiator extends \Controller_Addon {
 
 	function setup_frontend(){
 		$this->routePages('xepan_blog');
-		$this->addLocation(array('template'=>'templates','js'=>'templates/js'))
+		$this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'templates/css'))
 		->setBaseURL('./vendor/xepan/blog/');
 
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_PostList','Blog');
