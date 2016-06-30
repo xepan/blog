@@ -107,17 +107,13 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		$l->current_row_html['description'] =$l->model['description'];
 	}
 	function addToolCondition_row_show_microdata($value, $l){
-		$v=$this->add('CompleteLister',null,null,['view/schema-micro-data','blog_post_block']);
-		$v->setModel(clone $l->model);
+		$v=$this->app->add('View',null,null,['view/schema-micro-data','blog_post_block']);
+		$v->template->trySet($l->model->data);
+		if($l->model['image'])
+			$v->template->trySet('blog_image', $this->app->pm->base_url. $l->model['image']);
+		$v->template->trySet('url',$this->app->pm->base_url.$this->app->url(null,['post_id'=>$l->model->id]));
+		$v->template->trySet('blog_description',strip_tags($l->model['description']));
 		
-		$v->addHook('formatRow',function($m){
-			echo "string".$this->app->pm->base_url.$m->model['image']."<br/>";	
-			if($m->model['image']){
-				$m->current_row_html['blog_image']=$this->app->pm->base_url.$m->model['image'];
-			}	
-			$m->current_row_html['url']=$this->app->pm->base_url.$this->app->url(null,['post_id'=>$m->model->id]);
-			$m->current_row_html['blog_description']=strip_tags($m->model['description']);
-		});
 		$l->current_row_html['micro_data']=$v->getHtml();
 
 	}
