@@ -167,11 +167,16 @@
         },
 
         _createShareLink: function(share) {
+            // added by rakesh
+            // adding source param so we can get the landing response
+            share.url = share.url + "&source="+share.share;
+
             var shareStrategy = this._getShareStrategy(share);
 
             var $result = shareStrategy.call(share, {
                 shareUrl: this._getShareUrl(share)
             });
+
 
             $result.addClass(this.shareLinkClass)
                 .append(this._createShareLogo(share));

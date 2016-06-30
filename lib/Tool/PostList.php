@@ -130,13 +130,16 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	}
 
 	function addToolCondition_row_add_socialshare($value,$l){
-		// $l->current_row_html['socialshare'] = $l->add('View',null,'socialshare')->set("URL")->getHtml();
+		// $l->current_row_html['socialshare'] = $l->add('View',null,'socialshare')->set("URL")->getHtml();						
+		$sharing_url = $this->app->pm->base_url.$this->app->url($this->options['description_page_url'],['xepan_landing_content_id'=>$l->model->id,'post_id'=>$l->model->id]);
 		$social_shares = explode(",", $this->options['include_socialshare']?:'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
 		$social_shares = array_values($social_shares);
 		$this->js(true)->_selector('#postshare'.$l->model->id)
 						->jsSocials(
 							[
-								'shares'=>$social_shares
+								'shares'=>$social_shares,
+								'url'=> $sharing_url,
+								'text'=>$l->model['meta_title']?$l->model['meta_title']:$l->model['title']
 							]);
 						// 'url'=>
 						// 'text'=>
