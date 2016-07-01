@@ -9,7 +9,7 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 						'redirect_page_url'=>'blog',
 						'show_post'=>true,
 						'group'=>'',
-						'order'=>false,
+						'order'=>false
 				];
 
 	function init(){

@@ -5,7 +5,7 @@
       img.img-responsive.img-blog(src="{$image}" style = "height:auto; width='100%' max-width:100%", alt='')
       {/}
   .row
-    .col-xs-2.col-sm-12.col-md-3.text-center
+    .col-xs-12.col-sm-12.col-md-3.text-center
       ul.list-group
         li.list-group-item
           {$created_at_date}
@@ -19,8 +19,11 @@
           a(href='#') {$comment_count}
           span.pull-right
             i.fa.fa-comment
-          
-    .col-xs-10.col-sm-12.col-md-9
+        {sharewrapper}
+        li.list-group-item
+          div(id="postshare{$id}")
+        {/}
+    .col-xs-12.col-sm-12.col-md-9.col-lg-9
       h2#xepan-blog-title.xepan-component.xepan-editable-text.xepan-blog-title(xepan-component='xepan/cms/Tool_Text') {$title}
       #xepan-blog-description.xepan-component.xepan-editable-text.xepan-blog-description(xepan-component='xepan/cms/Tool_Text'  emptytext="No Content found")
         {$post_description}

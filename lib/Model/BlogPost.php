@@ -30,6 +30,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addField('description')->type('text')->display(array('form'=>'xepan\base\RichText'));
 		$this->addField('tag')->type('text');
 		$this->addField('meta_title');
+		$this->addField('order')->type('number')->defaultValue(0);
 		$this->addField('status')->enum(['Published','UnPublished']);
 		$this->addField('meta_description');
 		$this->addField('created_at')->defaultValue($this->app->now)->sortable(true)->system(true);
