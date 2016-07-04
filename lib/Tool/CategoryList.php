@@ -50,10 +50,10 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		}
 
 		if($this->options['show_post']){
-			$cl->addHook('formatRow',function($cl)use($categories,$posts){
+			$cl->addHook('formatRow',function($cl)use($categories,$posts,$category){
 				$pl = $cl->add('CompleteLister',null,'cat_post',['view/tool/post/category','cat_post']);
-				$pl->addHook('formatRow',function($pl_r)use($cl){
-					$pl_r->current_row['post_detail_page_url'] = $this->app->url($this->options['post_detail_page']);
+				$pl->addHook('formatRow',function($pl_r)use($cl,$posts){
+					$pl_r->current_row['post_detail_page_url'] =$this->app->url($this->options['post_detail_page'],['post_id'=>$pl_r->model['post_id']]);
 				});
 				$pl->setSource($posts[$cl->model->id]);
 				$cl->current_row_html['cat_post'] = $pl->getHTMl();
