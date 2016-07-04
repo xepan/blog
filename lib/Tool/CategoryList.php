@@ -9,7 +9,8 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 						'redirect_page_url'=>'blog',
 						'show_post'=>true,
 						'group'=>'',
-						'order'=>false
+						'order'=>false,
+						'post_detail_page'=>''
 				];
 
 	function init(){
@@ -74,6 +75,10 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 
 	function addToolCondition_row_redirect_page_url($value, $l){					
 		$l->current_row['url'] = $this->app->url($this->options['redirect_page_url'],['category_id'=>$l->model->id]);
+	}
+
+	function addToolCondition_row_redirect_page_url($value, $l){					
+		$l->current_row['detail_page'] = $this->options['post_detail_page'];
 	}
 
 	function addToolCondition_row_show_post($value, $l){
