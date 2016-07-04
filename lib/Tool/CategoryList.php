@@ -77,7 +77,7 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		$l->current_row['url'] = $this->app->url($this->options['redirect_page_url'],['category_id'=>$l->model->id]);
 	}
 
-	function addToolCondition_row_redirect_page_url($value, $l){					
+	function addToolCondition_row_post_detail_page($value, $l){					
 		$l->current_row['detail_page'] = $this->options['post_detail_page'];
 	}
 
