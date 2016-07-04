@@ -52,12 +52,15 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		if($this->options['show_post']){
 			$cl->addHook('formatRow',function($cl)use($categories,$posts){
 				$pl = $cl->add('CompleteLister',null,'cat_post',['view/tool/post/category','cat_post']);
+				$pl->addHook('formatRow',function($pl_r)use($cl){
+					$pl_r->current_row['post_detail_page_url'] = $this->app->url($this->options['post_detail_page']);
+				});
 				$pl->setSource($posts[$cl->model->id]);
 				$cl->current_row_html['cat_post'] = $pl->getHTMl();
 			});
 		}
-
 		$cl->setSource($categories);
+
 
 		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$category]);
 	}
@@ -75,10 +78,6 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 
 	function addToolCondition_row_redirect_page_url($value, $l){					
 		$l->current_row['url'] = $this->app->url($this->options['redirect_page_url'],['category_id'=>$l->model->id]);
-	}
-
-	function addToolCondition_row_post_detail_page($value, $l){					
-		$l->current_row['detail_page'] = $this->options['post_detail_page'];
 	}
 
 	function addToolCondition_row_show_post($value, $l){
