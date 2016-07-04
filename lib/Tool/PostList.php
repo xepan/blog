@@ -9,14 +9,41 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'paginator_set_rows_per_page'=>4,
 					'description_page_url'=>'blog-item',
 					'show_image'=>true,
-					'set_by_order'=>'order_by_created_at'
+					'set_by_order'=>'order_by_created_at',
+					'add_socialshare'=>true,
+					'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
+					'socialshare_theme'=>"flat", //classic,minima,plain
+					'show_microdata'=>true
 				];
 
 	function init(){
 		parent::init();
-
+		if($this->options['show_microdata']){
+			$this->company_m = $this->add('xepan\base\Model_ConfigJsonModel',
+						[
+							'fields'=>[
+										'company_name'=>"Line",
+									'company_owner'=>"Line",
+									'mobile_no'=>"Line",
+									'company_email'=>"Line",
+									'company_address'=>"Line",
+									'company_pin_code'=>"Line",
+									'company_description'=>"text",
+									'company_description'=>"text",
+									'company_logo_absolute_url'=>"Line",
+									'company_twitter_url'=>"Line",
+									'company_facebook_url'=>"Line",
+									'company_google_url'=>"Line",
+									'company_linkedin_url'=>"Line",
+										],
+							'config_key'=>'COMPANY_AND_OWNER_INFORMATION',
+							'application'=>'communication'
+						]);
+			$this->company_m->tryLoadAny();
+		}
 
 		$post = $this->add('xepan\blog\Model_BlogPost');
+		$post->addCondition('status','Published');
 		$post->setOrder('created_at','desc');
 
 		if($category_id = $this->app->stickyGET('category_id')){
@@ -61,6 +88,16 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		
 	}
 
+	function recursiveRender(){
+		parent::recursiveRender();
+		
+		if($this->options['add_socialshare']){
+			$this->js(true)->_load('socialshare/jssocials');
+			$this->js(true)->_css('socialshare/jssocials');
+			$this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
+		}
+	}
+
 	function addToolCondition_row_show_description($value, $l){
 		
 		if(!$value){
@@ -69,6 +106,17 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		}
 
 		$l->current_row_html['description'] =$l->model['description'];
+	}
+	function addToolCondition_row_show_microdata($value, $l){
+		// $v=$this->app->add('View',null,null,['view/schema-micro-data','blog_post_block']);
+		// $v->template->trySet($l->model->data);
+		// if($l->model['image'])
+		// 	$v->template->trySet('blog_image', $this->app->pm->base_url. $l->model['image']);
+		// $v->template->trySet('url',$this->app->pm->base_url.$this->app->url(null,['post_id'=>$l->model->id]));
+		// $v->template->trySet('blog_description',strip_tags($l->model['description']));
+		
+		// $l->current_row_html['micro_data']=$v->getHtml();
+
 	}
 
 	function addToolCondition_row_show_image($value, $l){
@@ -80,6 +128,25 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 	function addToolCondition_row_description_page_url($value, $l){			
 		$l->current_row['url'] = $this->app->url($this->options['description_page_url'],['post_id'=>$l->model->id]);
+	}
+
+	function addToolCondition_row_add_socialshare($value,$l){
+		// $l->current_row_html['socialshare'] = $l->add('View',null,'socialshare')->set("URL")->getHtml();						
+		$sharing_url = $this->app->pm->base_url.$this->app->url($this->options['description_page_url'],['xepan_landing_content_id'=>$l->model->id,'post_id'=>$l->model->id]);
+		$social_shares = explode(",", $this->options['include_socialshare']?:'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
+		$social_shares = array_values($social_shares);
+		$this->js(true)->_selector('#postshare'.$l->model->id)
+						->jsSocials(
+							[
+								'shares'=>$social_shares,
+								'url'=> $sharing_url,
+								'text'=>$l->model['meta_title']?$l->model['meta_title']:$l->model['title']
+							]);
+						// 'url'=>
+						// 'text'=>
+						// 'showLabel'=>,
+						// 'showCount'=>
+						// 'shareIn'=>
 	}
 
 }
