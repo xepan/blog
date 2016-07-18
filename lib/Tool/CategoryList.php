@@ -33,6 +33,12 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 			$blog_j = $assos_j->leftJoin('blog_post','blog_post_id');
 			$blog_j->addField('title');
 			$blog_j->addField('post_id','id');
+			$blog_j->addField('blog_status','status');
+			
+			if(!$this->app->auth->isLoggedIn() || !in_array($this->app->auth->model['scope'],['AdminUser','SuperUser'])){
+				$category->addCondition('blog_status','Published');
+			}
+
 			$category->setOrder(['order asc','post_id asc']);
 		}
 
@@ -59,6 +65,7 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 				$cl->current_row_html['cat_post'] = $pl->getHTMl();
 			});
 		}
+
 		$cl->setSource($categories);
 
 

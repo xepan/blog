@@ -72,6 +72,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	//publish Blog Post
 	function publish(){
 		$this['status']='Published';
+		$this['created_at'] = $this->app->now;
 		$this->app->employee
             ->addActivity("Blog Post '".$this['title']."' can be view on web", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
             ->notifyWhoCan('unPublish','Published',$this);
