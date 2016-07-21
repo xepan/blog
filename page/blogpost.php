@@ -12,6 +12,8 @@ class page_blogpost extends \xepan\base\Page {
 		$blog_model->add('xepan\blog\Controller_SideBarStatusFilter');
 
 		$crud = $this->add('xepan\hr\CRUD',null,null,['view/post/post']);
+		
+		
 		if($crud->isEditing()){			
 			$cat = $crud->form->addField('DropDown','category');
 			$cat->setAttr(['multiple'=>'multiple']);
@@ -22,6 +24,8 @@ class page_blogpost extends \xepan\base\Page {
 					$cat_array = [];
 					$cat_array = explode(',', $f['category']);
 					
+					$cat = $this->add('xepan\blog\Model_Association_PostCategory')->addCondition('blog_post_id',$m->id);
+					$cat->deleteAll();				
 					foreach ($cat_array as $value) {
 						$assoc = $this->add('xepan\blog\Model_Association_PostCategory');	
 						$assoc['blog_post_category_id'] = $value;
@@ -31,6 +35,7 @@ class page_blogpost extends \xepan\base\Page {
 				});
 			});
 		}
+
 
 		$crud->setModel($blog_model)->setOrder('created_at','desc');
 		$crud->grid->addQuickSearch(['title']);
@@ -54,9 +59,7 @@ class page_blogpost extends \xepan\base\Page {
 			foreach ($blog_cat as $value) {	
 				array_push($temp, $value['blog_post_category_id']);
 			}
-
-			$categories = implode(', ',$temp);
-			$crud->form->getElement('category')->set($categories)->js(true)->trigger('changed');
+			$crud->form->getElement('category')->set($temp)->js(true)->trigger('changed');
 		}
 
 		if(!$crud->isEditing()){																	
