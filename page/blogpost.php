@@ -46,7 +46,18 @@ class page_blogpost extends \xepan\base\Page {
 		});
 
 		$crud->grid->addFormatter('category','postcategory');
+		
+		if($crud->isEditing()){
+			$blog_cat = $this->add('xepan\blog\Model_Association_PostCategory')->addCondition('blog_post_id',$crud->model->id);
+			
+			$temp = [];
+			foreach ($blog_cat as $value) {	
+				array_push($temp, $value['blog_post_category_id']);
+			}
 
+			// $categories = implode(', ',$temp);									
+			$crud->form->getElement('category')->js(true)->select2($temp);
+		}
 
 		if(!$crud->isEditing()){																	
 			$crud->grid->js('click')->_selector('.do-view-blog-post')->univ()->frameURL('Blog Post Details',[$this->api->url('xepan_blog_comment'),'blog_id'=>$this->js()->_selectorThis()->closest('[data-id]')->data('id')]);
