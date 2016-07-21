@@ -15,8 +15,8 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	public $table='blog_post';
 	public $status = ['Published','UnPublished'];
 	public $actions = [
-					'Published'=>['view','edit','delete','unpublish','category' ],
-					'UnPublished'=>['view','edit','delete','publish','category']
+					'Published'=>['view','edit','delete','unpublish'],
+					'UnPublished'=>['view','edit','delete','publish']
 					];
 
 	public $title_field= 'title';
@@ -88,32 +88,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		return $this->save();
 	}
 
-	function page_category($page){
-
-		$form = $page->add('Form');
-		$cat_ass_field = $form->addField('hidden','ass_cat')->set(json_encode($this->getAssociatedCategories()));
-		$form->addButton('Update');
-
-		$category_assoc_grid = $page->add('xepan/base/Grid',null,null,['view\post\association']);
-		$model_assoc_category = $page->add('xepan/blog/Model_BlogPostCategory');
-
-		$category_assoc_grid->setModel($model_assoc_category);
-		$category_assoc_grid->addSelectable($cat_ass_field);
-
-
-		if($form->isSubmitted()){
-			$this->removeAssociateCategory();
-
-			$selected_categories = array();
-			$selected_categories = json_decode($form['ass_cat'],true);
-			
-			foreach ($selected_categories as $cat) {
-				$this->associateCategory($cat);
-			}
-
-		 	return $page->js()->univ()->successMessage('Category Association Updated');
-		}
-	}
+	
 
 	function getAssociatedCategories(){
 		$associated_categories = $this->ref('PostCategoryAssociation')
