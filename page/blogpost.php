@@ -55,8 +55,8 @@ class page_blogpost extends \xepan\base\Page {
 				array_push($temp, $value['blog_post_category_id']);
 			}
 
-			// $categories = implode(', ',$temp);									
-			$crud->form->getElement('category')->js(true)->select2($temp);
+			$categories = implode(', ',$temp);
+			$crud->form->getElement('category')->set($categories)->js(true)->trigger('changed');
 		}
 
 		if(!$crud->isEditing()){																	
