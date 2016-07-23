@@ -74,7 +74,9 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 
 	function page_post_schedule($p){
 		$schedule = $p->add('xepan\blog\Model_PublishSchedule');
-		$crud = $p->add('xepan\hr\CRUD');
+		$schedule->addCondition('blog_post_id',$this->id);
+		$schedule->addCondition('is_posted',0);
+		$crud = $p->add('xepan\hr\CRUD',['entity_name'=>'Schedule'],null,['view\post\postschedule']);	
 		$crud->setModel($schedule);
 	}
 
@@ -86,9 +88,6 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$campaign_field = $form->addField('Dropdown','campaign');
 		$campaign_field->validate('required');
 		$campaign_field->setEmptyText('Please select a campaign')->setModel('xepan\marketing\Model_Campaign');
-		$post_field = $form->addField('Dropdown','post');
-		$post_field->validate('required');
-		$post_field->setEmptyText('Please select a post')->setModel('xepan\blog\Model_BlogPost');
 		$form->addField('Dropdown','marketing_category')->setModel('xepan\marketing\Model_MarketingCategory');
 		$form->addField('url')->validate('required');
 		$form->addField('DatePicker','date')->validate('required');
@@ -98,10 +97,11 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 
 		$url = "?post_id=".$this->id;
 		$model_content = $this->add('xepan\marketing\Model_Content');
+		$content_schedule_j = $model_content->join('schedule.document_id','id');
+		$content_schedule_j->addField('date');
 		$model_content->addCondition('url','like', '%'.$url.'%');
 
-		$content_schedule_j = $model_content->join('schedule.document_id');
-		$grid = $p->add('xepan\hr\Grid')->setModel($model_content);
+		$grid = $p->add('xepan\hr\Grid')->setModel($model_content,['title','date']);
 		
 
 		if($form->isSubmitted()){			
@@ -109,10 +109,10 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 				$form->error('date','Date field is mandatory');
 				
 
-			$blog_post_model = $this->add('xepan\blog\Model_BlogPost')->load($form['post']);
+			$blog_post_model = $this->add('xepan\blog\Model_BlogPost')->load($this->id);
 			$model_socialpost = $this->add('xepan\marketing\Model_SocialPost');
 
-			$model_socialpost['title'] = $blog_post_model['title'];
+			$model_socialpost['title'] = $blog_post_model['title'].' - Author: '.$blog_post_model['created_by'];
 			$model_socialpost['url'] = $form['url'];
 			$model_socialpost['marketing_category_id'] = $form['marketing_category'];
 			$model_socialpost->save();
@@ -145,13 +145,17 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 			$old_schedule[] = $temp;
 			$campaign['schedule'] = json_encode($old_schedule);
 			$campaign->save();
+			
+			$blog_post_model['status'] = 'Published';
+			$blog_post_model->save();
+
 			return $form->js(null,$form->js()->closest('.dialog')->dialog('close'))->univ()->successMessage('Blog Post Scheduled')->execute();
 		}
 	}
 
 	function schedule(){		
 		$schedule = $this->add('xepan\blog\Model_PublishSchedule');
-		$schedule->addCondition('is_posted',false);
+		$schedule->addCondition('is_posted',0);
 		$schedule->addCondition('date','<=',$this->app->now);
 
 		foreach ($schedule as $publish_schedule) {			

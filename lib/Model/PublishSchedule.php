@@ -11,6 +11,6 @@ class Model_PublishSchedule extends \xepan\base\Model_Table{
 
 		$this->hasOne('xepan\blog\BlogPost');
 		$this->addField('date')->display(['form'=>'DateTimePicker'])->type('datetime');
-		$this->addField('is_posted')->defaultValue(false);
+		$this->addField('is_posted')->defaultValue(0);
 	}
 }
