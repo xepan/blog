@@ -115,6 +115,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 			$model_socialpost['title'] = $blog_post_model['title'].' - Author: '.$blog_post_model['created_by'];
 			$model_socialpost['url'] = $form['url'];
 			$model_socialpost['marketing_category_id'] = $form['marketing_category'];
+			$model_socialpost['status'] = 'Approved';
 			$model_socialpost->save();
 
 			$url_config = $this->app->epan->config;
@@ -148,7 +149,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 			
 			$blog_post_model['status'] = 'Published';
 			$blog_post_model->save();
-
+			
 			return $form->js(null,$form->js()->closest('.dialog')->dialog('close'))->univ()->successMessage('Blog Post Scheduled')->execute();
 		}
 	}
