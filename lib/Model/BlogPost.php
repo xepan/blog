@@ -15,8 +15,8 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	public $table='blog_post';
 	public $status = ['Published','UnPublished'];
 	public $actions = [
-					'Published'=>['view','edit','delete','unpublish'],
-					'UnPublished'=>['view','edit','delete','publish']
+					'Published'=>['view','edit','delete','unpublish','social_schedule'],
+					'UnPublished'=>['view','edit','delete','publish','post_schedule','social_schedule']
 					];
 
 	public $title_field= 'title';
@@ -31,6 +31,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addField('tag')->type('text');
 		$this->addField('meta_title');
 		$this->addField('order')->type('number')->defaultValue(0);
+		$this->addField('updated_at');
 		$this->addField('status')->enum(['Published','UnPublished']);
 		$this->addField('meta_description');
 		$this->addField('created_at')->defaultValue($this->app->now)->sortable(true)->system(true);
@@ -67,6 +68,100 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 				'title|to_strip_tags|required',
 				'description|required'
 			]);
+		
+		$this->addHook('beforeSave',[$this,'updated_at']);
+	}
+
+	function page_post_schedule($p){
+		$schedule = $p->add('xepan\blog\Model_PublishSchedule');
+		$crud = $p->add('xepan\hr\CRUD');
+		$crud->setModel($schedule);
+	}
+
+	function page_social_schedule($p){	
+		// if(!$this->installedApplication == true)
+		// 	return;
+
+		$form = $p->add('Form');		
+		$campaign_field = $form->addField('Dropdown','campaign');
+		$campaign_field->validate('required');
+		$campaign_field->setEmptyText('Please select a campaign')->setModel('xepan\marketing\Model_Campaign');
+		$post_field = $form->addField('Dropdown','post');
+		$post_field->validate('required');
+		$post_field->setEmptyText('Please select a post')->setModel('xepan\blog\Model_BlogPost');
+		$form->addField('Dropdown','marketing_category')->setModel('xepan\marketing\Model_MarketingCategory');
+		$form->addField('url')->validate('required');
+		$form->addField('DatePicker','date')->validate('required');
+		$form->addField('TimePicker','time')->validate('required');
+
+		$form->addSubmit('Schedule')->addClass('btn btn-primary btn-block');
+
+		$url = "?post_id=".$this->id;
+		$model_content = $this->add('xepan\marketing\Model_Content');
+		$model_content->addCondition('url','like', '%'.$url.'%');
+
+		$content_schedule_j = $model_content->join('schedule.document_id');
+		$grid = $p->add('xepan\hr\Grid')->setModel($model_content);
+		
+
+		if($form->isSubmitted()){			
+			if(!$form['date'])				
+				$form->error('date','Date field is mandatory');
+				
+
+			$blog_post_model = $this->add('xepan\blog\Model_BlogPost')->load($form['post']);
+			$model_socialpost = $this->add('xepan\marketing\Model_SocialPost');
+
+			$model_socialpost['title'] = $blog_post_model['title'];
+			$model_socialpost['url'] = $form['url'];
+			$model_socialpost['marketing_category_id'] = $form['marketing_category'];
+			$model_socialpost->save();
+
+			$url_config = $this->app->epan->config;
+			$url_config->setConfig('URL OF BLOG POST',$form['url'],'blog');
+
+			$schedule_time = date("H:i:s", strtotime($form['time']));
+			$schedule_date = $form['date'].' '.$schedule_time;
+			
+			$campaign = $this->add('xepan\marketing\Model_Campaign');
+			$schedule = $this->add('xepan\marketing\Model_Schedule');
+
+			$schedule['campaign_id'] = $form['campaign'];
+			$schedule['document_id'] = $model_socialpost->id;
+			$schedule['date'] = $schedule_date; 
+			$schedule['client_event_id'] = '_fc'.uniqid(); 
+			$schedule->save();
+			
+			$campaign->tryLoadBy('id',$form['campaign']);
+			
+			$old_schedule = json_decode($campaign['schedule'],true);
+			$temp = Array ( 
+				'title' => $model_socialpost['title'], 
+				'start' => $schedule_date, 
+				'document_id' => $model_socialpost->id, 
+				'client_event_id' => $schedule['client_event_id'] 
+			);
+			
+			$old_schedule[] = $temp;
+			$campaign['schedule'] = json_encode($old_schedule);
+			$campaign->save();
+			return $form->js(null,$form->js()->closest('.dialog')->dialog('close'))->univ()->successMessage('Blog Post Scheduled')->execute();
+		}
+	}
+
+	function schedule(){		
+		$schedule = $this->add('xepan\blog\Model_PublishSchedule');
+		$schedule->addCondition('is_posted',false);
+		$schedule->addCondition('date','<=',$this->app->now);
+
+		foreach ($schedule as $publish_schedule) {			
+			$post = $this->add('xepan\blog\Model_BlogPost')->load($publish_schedule['blog_post_id']);			
+			$post['status'] = 'Published';			
+			$post->saveAs('xepan\blog\Model_BlogPost');
+
+			$publish_schedule['is_posted'] = true;
+			$publish_schedule->saveAs('xepan\blog\Model_PublishSchedule');  
+		}
 	}
 
 	//publish Blog Post
@@ -109,5 +204,9 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		     			->addCondition('blog_post_category_id',$category)
 			 			->tryLoadAny()	
 			 			->save();
+	}
+
+	function updated_at(){
+		$this['updated_at'] = $this->app->now;
 	}
 }
