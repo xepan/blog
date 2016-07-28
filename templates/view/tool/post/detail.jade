@@ -1,5 +1,8 @@
 .blog(id="{$_name}")
   .row
+    .col-xs-12.col-sm-12.col-md-12.col-lg-12
+      h2#xepan-blog-title.xepan-component.xepan-editable-text.xepan-blog-title(xepan-component='xepan/cms/Tool_Text') {$title}
+      hr
     .col-md-12
       {image_wrapper}
       img.img-responsive.img-blog(src="{$image}" style = "height:auto; width='100%' max-width:100%", alt='')
@@ -24,7 +27,7 @@
           div(id="postshare{$id}")
         {/}
     .col-xs-12.col-sm-12.col-md-12.col-lg-12
-      h2#xepan-blog-title.xepan-component.xepan-editable-text.xepan-blog-title(xepan-component='xepan/cms/Tool_Text') {$title}
+      //- h2#xepan-blog-title.xepan-component.xepan-editable-text.xepan-blog-title(xepan-component='xepan/cms/Tool_Text') {$title}
       #xepan-blog-description.xepan-component.xepan-editable-text.xepan-blog-description(xepan-component='xepan/cms/Tool_Text'  emptytext="No Content found")
         {$post_description}
       {tag_wrapper}
