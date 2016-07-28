@@ -1,25 +1,26 @@
 
 <div id="{$_name}" class="blog">
   <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h2 id="xepan-blog-title" xepan-component="xepan/cms/Tool_Text" class="xepan-component xepan-editable-text xepan-blog-title">{$title}</h2>
+      <hr/>
+    </div>
     <div class="col-md-12">{image_wrapper}<img src="{$image}" style="height:auto; width='100%' max-width:100%" alt="" class="img-responsive img-blog"/>{/}</div>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-3 text-center">
-      <ul class="list-group">
-        <li class="list-group-item">{$created_at_date}<span class="pull-right"><i class="fa fa-calendar"></i></span></li>
-        <li class="list-group-item">{$created_by}<span class="pull-right"> <i class="fa fa-user"></i></span></li>
-        <li class="list-group-item"><a href="#">{$comment_count}</a><span class="pull-right"><i class="fa fa-comment"></i></span></li>{sharewrapper}
-        <li class="list-group-item">
-          <div id="postshare{$id}"></div>
-        </li>{/}
-      </ul>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-      <h2 id="xepan-blog-title" xepan-component="xepan/cms/Tool_Text" class="xepan-component xepan-editable-text xepan-blog-title">{$title}</h2>
-      <div id="xepan-blog-description" xepan-component="xepan/cms/Tool_Text" emptytext="No Content found" class="xepan-component xepan-editable-text xepan-blog-description">{$post_description}</div>{tag_wrapper}
-      <div class="post-tags"><strong>Tags : </strong><a href="#">{$tag}</a></div>{/} 
-      {$editing_mode}
-    </div>
+    <ul class="list-group">
+      <li style="width:33%;" class="list-group-item pull-left">{$created_at_date}<span class="pull-right"><i class="fa fa-calendar"></i></span></li>
+      <li style="width:33%;" class="list-group-item pull-left">{$created_by}<span class="pull-right"> <i class="fa fa-user"></i></span></li>
+      <li style="width:33%;" class="list-group-item pull-left"><a href="#">{$comment_count}</a><span class="pull-right"><i class="fa fa-comment"></i></span></li>{sharewrapper}
+      <li style="width:99%;" class="list-group-item pull-left">
+        <div id="postshare{$id}"></div>
+      </li>{/}
+    </ul>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div id="xepan-blog-description" xepan-component="xepan/cms/Tool_Text" emptytext="No Content found" class="xepan-component xepan-editable-text xepan-blog-description">{$post_description}</div>{tag_wrapper}
+    <div class="post-tags"><strong>Tags : </strong><a href="#">{$tag}</a></div>{/} 
+    {$editing_mode}
   </div>{$comments}    
 </div>{$Content}
 <style type="text/css" media="screen">
@@ -36,5 +37,8 @@
   width:100% !important;
   max-width:100% !important;
   height:314px !important;
+  }
+  .list-group-item{
+    background-color:transparent;
   } 
 </style>
