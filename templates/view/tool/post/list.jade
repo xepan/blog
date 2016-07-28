@@ -2,6 +2,11 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 	{rows}{row}
 	.blog
 		.row(style="margin-left:0px !important; margin-right:0px; !important")
+			.col-xs-12.col-sm-12.col-md-12.col-lg-12
+				{title_wrapper}
+				h2 {$title}
+				{/}
+				hr
 			.col-md-12
 				{image_wrapper}
 				a(href="{$url}")
@@ -23,9 +28,9 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
 						span.pull-right
 							i.fa.fa-comment
 			.col-xs-12.col-sm-12.col-md-12.col-lg-12
-				{title_wrapper}
-				h2 {$title}
-				{/}
+				//- {title_wrapper}
+				//- h2 {$title}
+				//- {/}
 				{desription_wrapper}
 				div(style = "height:50px; overflow: hidden; text-overflow: ellipsis; ") {$description}
 				{/}
