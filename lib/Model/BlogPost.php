@@ -89,7 +89,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$campaign_field->validate('required');
 		$campaign_field->setEmptyText('Please select a campaign')->setModel('xepan\marketing\Model_Campaign');
 		$form->addField('Dropdown','marketing_category')->setModel('xepan\marketing\Model_MarketingCategory');
-		$form->addField('url')->validate('required');
+		$form->addField('page')->validate('required');
 		$form->addField('DatePicker','date')->validate('required');
 		$form->addField('TimePicker','time')->validate('required');
 
@@ -104,16 +104,16 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$grid = $p->add('xepan\hr\Grid')->setModel($model_content,['title','date']);
 		
 
-		if($form->isSubmitted()){			
+		if($form->isSubmitted()){
 			if(!$form['date'])				
 				$form->error('date','Date field is mandatory');
 				
-
+			$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'? 'https://': 'http://';			
 			$blog_post_model = $this->add('xepan\blog\Model_BlogPost')->load($this->id);
 			$model_socialpost = $this->add('xepan\marketing\Model_SocialPost');
 
 			$model_socialpost['title'] = $blog_post_model['title'].' - Author: '.$blog_post_model['created_by'];
-			$model_socialpost['url'] = $form['url'];
+			$model_socialpost['url'] = $protocol.$_SERVER['SERVER_NAME'].'?page='.$form['page'].'&post_id='.$this->id;
 			$model_socialpost['marketing_category_id'] = $form['marketing_category'];
 			$model_socialpost['status'] = 'Approved';
 			$model_socialpost->save();
