@@ -18,7 +18,7 @@
         "reference": "origin/master"
     },
     "require": {
-        "xepan/cms": ">=0.2"
+        "xepan/cms": "^0.2"
     },
     "autoload": {
         "psr-0": { "autocomplete": "lib" }
