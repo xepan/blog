@@ -182,7 +182,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->save();
 	}
 
-	//unPublish Blog Post
+	//UnPublish Blog Post
 	function unpublish(){
 		$this['status']='UnPublished';
 		$this->app->employee
