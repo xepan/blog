@@ -177,16 +177,16 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this['status']='Published';
 		$this['created_at'] = $this->app->now;
 		$this->app->employee
-            ->addActivity("Blog Post '".$this['title']."' has been published, now it can be view on web", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Post '".$this['title']."' has been published, now it can be view on web", $this->id/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,"xepan_blog_comment&blog_id=".$this->id."")
             ->notifyWhoCan('unPublish','Published',$this);
 		$this->save();
 	}
 
-	//unPublish Blog Post
+	//UnPublish Blog Post
 	function unpublish(){
 		$this['status']='UnPublished';
 		$this->app->employee
-            ->addActivity("Blog Post '". $this['title'] ."' has been unpublished, now it not available for show on web", null /*Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Post '". $this['title'] ."' has been unpublished, now it not available for show on web", $this->id /*Related Document ID*/, $this->id /*Related Contact ID*/,null,null,"xepan_blog_comment&blog_id=".$this->id."")
             ->notifyWhoCan('publish','UnPublished',$this);
 		return $this->save();
 	}
