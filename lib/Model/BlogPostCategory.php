@@ -6,7 +6,7 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 	public $table = 'blog_post_category';
 	public $status = ['Active','InActive'];
 	public $actions = [
-					'Active'=>['view','edit','delete','deactivate','abc'],
+					'Active'=>['view','edit','delete','deactivate'],
 					'InActive'=>['view','edit','delete','activate']
 					];
 
