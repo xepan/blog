@@ -63,6 +63,11 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 					
 					if($pl_r->model['status'] == 'UnPublished')
 						$pl_r->current_row['color'] = 'text-muted';					
+
+					if($pl_r->model['post_id'] == $_GET['post_id']?:0) 
+						$pl_r->current_row['active_class']='active';
+					else
+						$pl_r->current_row['active_class']='';
 				});
 				
 				$pl->setSource($posts[$cl->model->id]);
@@ -71,7 +76,6 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		}
 
 		$cl->setSource($categories);
-
 
 		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$category]);
 	}
