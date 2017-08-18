@@ -15,8 +15,8 @@ div(id='{$_name}' class="{$class} row" style="{$style}")
             {rows}{row}
             .row.blog-post-content
               .col-sm-12
-                a( href= "{$post_id}" ) 
-                  small{title}asdadas{/}
+                a( href= "{$post_detail_page_url}" class=" {$active_class}") 
+                  small(class="{$color}"){title}asdadas{/}
             {/rows}{/row}
             {/cat_post}
             {/}    
@@ -44,4 +44,7 @@ style.
   .seprate-li-content .list-group-item{
     border-top-left-radius:8px!important;
     border-top-right-radius :8px!important; 
-  }                
+  }
+  .widget.categories a.active {
+    font-weight: bold;
+  }

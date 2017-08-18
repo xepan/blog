@@ -6,7 +6,7 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 	public $table = 'blog_post_category';
 	public $status = ['Active','InActive'];
 	public $actions = [
-					'Active'=>['view','edit','delete','deactivate','abc'],
+					'Active'=>['view','edit','delete','deactivate'],
 					'InActive'=>['view','edit','delete','activate']
 					];
 
@@ -31,7 +31,7 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 	function activate(){
 		$this['status']='Active';
 		$this->app->employee
-            ->addActivity("Category '".$this['name']."' of blog post is now active", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Post Category : '".$this['name']."' now active", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
             ->notifyWhoCan('deactivate','Active',$this);
 		$this->save();
 	}
@@ -40,7 +40,7 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 	function deactivate(){
 		$this['status']='InActive';
 		$this->app->employee
-            ->addActivity("Category '". $this['name'] ."' of blog post has been deactivated", null /*Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Post Category '". $this['name'] ."' has been deactivated", null /*Related Document ID*/, $this->id /*Related Contact ID*/)
             ->notifyWhoCan('activate','InActive',$this);
 		$this->save();
 	}

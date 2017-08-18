@@ -43,6 +43,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		}
 
 		$post = $this->add('xepan\blog\Model_BlogPost');
+		$post->addCondition('status','Published');
 		$post->setOrder('created_at','desc');
 
 		if($category_id = $this->app->stickyGET('category_id')){

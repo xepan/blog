@@ -9,7 +9,8 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 						'redirect_page_url'=>'blog',
 						'show_post'=>true,
 						'group'=>'',
-						'order'=>false
+						'order'=>false,
+						'post_detail_page'=>''
 				];
 
 	function init(){
@@ -32,6 +33,12 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 			$blog_j = $assos_j->leftJoin('blog_post','blog_post_id');
 			$blog_j->addField('title');
 			$blog_j->addField('post_id','id');
+			$blog_j->addField('blog_status','status');
+			
+			if(!$this->app->auth->isLoggedIn() || !in_array($this->app->auth->model['scope'],['AdminUser','SuperUser'])){
+				$category->addCondition('blog_status','Published');
+			}
+
 			$category->setOrder(['order asc','post_id asc']);
 		}
 
@@ -43,16 +50,28 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 
 		$categories=[];
 		$posts=[];
-		foreach ($cat_rows = $category->getRows() as $cat) {
+		foreach ($cat_rows = $category->getRows() as $cat) {			
 			if(!isset($categories[$cat['id']])) $categories[$cat['id']]=$cat['name'];
-			$posts[$cat['id']][] =  ['title'=>$cat['title'],'post_id'=>$cat['post_id']];
+			$posts[$cat['id']][] =  ['title'=>$cat['title'],'post_id'=>$cat['post_id'], 'status'=>$cat['blog_status']];
 		}
 
 		if($this->options['show_post']){
-			$cl->addHook('formatRow',function($cl)use($categories,$posts){
+			$cl->addHook('formatRow',function($cl)use($categories,$posts,$category){			
 				$pl = $cl->add('CompleteLister',null,'cat_post',['view/tool/post/category','cat_post']);
+				$pl->addHook('formatRow',function($pl_r)use($cl,$posts){
+					$pl_r->current_row['post_detail_page_url'] =$this->app->url($this->options['post_detail_page'],['post_id'=>$pl_r->model['post_id']]);					
+					
+					if($pl_r->model['status'] == 'UnPublished')
+						$pl_r->current_row['color'] = 'text-muted';					
+
+					if($pl_r->model['post_id'] == $_GET['post_id']?:0) 
+						$pl_r->current_row['active_class']='active';
+					else
+						$pl_r->current_row['active_class']='';
+				});
+				
 				$pl->setSource($posts[$cl->model->id]);
-				$cl->current_row_html['cat_post'] = $pl->getHTMl();
+				$cl->current_row_html['cat_post'] = $pl->getHTMl();				
 			});
 		}
 

@@ -36,7 +36,7 @@ class Model_Comment extends \xepan\base\Model_Table{
 	function approve(){
 		$this['status']='Approved';
 		$this->app->employee
-            ->addActivity("This '".$this['comment']."' comment approved to show on web", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Comment : '".$this['comment']."' has been approved to show on web", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
             ->notifyWhoCan('reject','Approved',$this);
 		$this->save();
 	}
@@ -44,7 +44,7 @@ class Model_Comment extends \xepan\base\Model_Table{
 	function reject(){
 		$this['status']='Rejected';
 		$this->app->employee
-            ->addActivity("This '".$this['comment']."' comment rejected to show on web", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Comment : '".$this['comment']."' has been rejected", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
             ->notifyWhoCan('approve','Rejected',$this);
 		$this->save();
 	}
@@ -52,7 +52,7 @@ class Model_Comment extends \xepan\base\Model_Table{
 	function pending(){
 		$this['status']='Pending';
 		$this->app->employee
-            ->addActivity("This '".$this['comment']."' comment pending to show on web", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Comment : '".$this['comment']."' is pending for approval", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
             ->notifyWhoCan('approve','Pending',$this);
 		$this->save();
 	}

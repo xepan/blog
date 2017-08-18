@@ -10,7 +10,7 @@
             {cat_post}
             {rows}{row}
             <div class="row blog-post-content">
-              <div class="col-sm-12"><a href="{$post_id}"> <small>{title}asdadas{/}</small></a></div>
+              <div class="col-sm-12"><a href="{$post_detail_page_url}" class=" {$active_class}"> <small class="{$color}">{title}asdadas{/}</small></a></div>
             </div>{/rows}{/row}
             {/cat_post}
             {/}    
@@ -35,5 +35,8 @@
   .seprate-li-content .list-group-item{
     border-top-left-radius:8px!important;
     border-top-right-radius :8px!important; 
-  }                
+  }
+  .widget.categories a.active {
+    font-weight: bold;
+  }
 </style>

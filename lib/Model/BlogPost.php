@@ -15,8 +15,8 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	public $table='blog_post';
 	public $status = ['Published','UnPublished'];
 	public $actions = [
-					'Published'=>['view','edit','delete','unpublish','category' ],
-					'UnPublished'=>['view','edit','delete','publish','category']
+					'Published'=>['view','edit','delete','unpublish','social_schedule'],
+					'UnPublished'=>['view','edit','delete','publish','post_schedule','social_schedule']
 					];
 
 	public $title_field= 'title';
@@ -31,6 +31,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->addField('tag')->type('text');
 		$this->addField('meta_title');
 		$this->addField('order')->type('number')->defaultValue(0);
+		$this->addField('updated_at');
 		$this->addField('status')->enum(['Published','UnPublished']);
 		$this->addField('meta_description');
 		$this->addField('created_at')->defaultValue($this->app->now)->sortable(true)->system(true);
@@ -67,52 +68,130 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 				'title|to_strip_tags|required',
 				'description|required'
 			]);
+		
+		$this->addHook('beforeSave',[$this,'updated_at']);
+	}
+
+	function page_post_schedule($p){
+		$schedule = $p->add('xepan\blog\Model_PublishSchedule');
+		$schedule->addCondition('blog_post_id',$this->id);
+		$schedule->addCondition('is_posted',0);
+		$crud = $p->add('xepan\hr\CRUD',['entity_name'=>'Schedule'],null,['view\post\postschedule']);	
+		$crud->setModel($schedule);
+	}
+
+	function page_social_schedule($p){	
+		// if(!$this->installedApplication == true)
+		// 	return;
+		$page = $this->app->epan->config->getConfig('BLOG_PAGE');
+
+		$form = $p->add('Form');		
+		$campaign_field = $form->addField('Dropdown','campaign');
+		$campaign_field->validate('required');
+		$campaign_field->setEmptyText('Please select a campaign')->setModel('xepan\marketing\Model_Campaign');
+		$form->addField('Dropdown','marketing_category')->setModel('xepan\marketing\Model_MarketingCategory');
+		$form->addField('page')->set($page)->validate('required');
+		$form->addField('DatePicker','date')->validate('required');
+		$form->addField('TimePicker','time')->validate('required');
+
+		$form->addSubmit('Schedule')->addClass('btn btn-primary btn-block');
+
+		$url = "?post_id=".$this->id;
+		$model_content = $this->add('xepan\marketing\Model_Content');
+		$content_schedule_j = $model_content->join('schedule.document_id','id');
+		$content_schedule_j->addField('date');
+		$model_content->addCondition('url','like', '%'.$url.'%');
+
+		$grid = $p->add('xepan\hr\Grid')->setModel($model_content,['title','date']);
+		
+
+		if($form->isSubmitted()){
+			if(!$form['date'])				
+				$form->error('date','Date field is mandatory');
+				
+			$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'? 'https://': 'http://';			
+			$blog_post_model = $this->add('xepan\blog\Model_BlogPost')->load($this->id);
+			$model_socialpost = $this->add('xepan\marketing\Model_SocialPost');
+
+			$this->app->epan->config->setConfig('BLOG_PAGE',$form['page'],'blog');
+
+			$model_socialpost['title'] = $blog_post_model['title'].' - Author: '.$blog_post_model['created_by'];
+			$model_socialpost['url'] = $protocol.$_SERVER['SERVER_NAME'].'?page='.$form['page'].'&post_id='.$this->id;
+			$model_socialpost['marketing_category_id'] = $form['marketing_category'];
+			$model_socialpost['status'] = 'Approved';
+			$model_socialpost->save();
+
+			$url_config = $this->app->epan->config;
+			$url_config->setConfig('URL OF BLOG POST',$form['url'],'blog');
+
+			$schedule_time = date("H:i:s", strtotime($form['time']));
+			$schedule_date = $form['date'].' '.$schedule_time;
+			
+			$campaign = $this->add('xepan\marketing\Model_Campaign');
+			$schedule = $this->add('xepan\marketing\Model_Schedule');
+
+			$schedule['campaign_id'] = $form['campaign'];
+			$schedule['document_id'] = $model_socialpost->id;
+			$schedule['date'] = $schedule_date; 
+			$schedule['client_event_id'] = '_fc'.uniqid(); 
+			$schedule->save();
+			
+			$campaign->tryLoadBy('id',$form['campaign']);
+			
+			$old_schedule = json_decode($campaign['schedule'],true);
+			$temp = Array ( 
+				'title' => $model_socialpost['title'], 
+				'start' => $schedule_date, 
+				'document_id' => $model_socialpost->id, 
+				'client_event_id' => $schedule['client_event_id'] 
+			);
+			
+			$old_schedule[] = $temp;
+			$campaign['schedule'] = json_encode($old_schedule);
+			$campaign->save();
+			
+			$blog_post_model['status'] = 'Published';
+			$blog_post_model->save();
+			
+			return $form->js(null,$form->js()->closest('.dialog')->dialog('close'))->univ()->successMessage('Blog Post Scheduled')->execute();
+		}
+	}
+
+	function schedule(){		
+		$schedule = $this->add('xepan\blog\Model_PublishSchedule');
+		$schedule->addCondition('is_posted',0);
+		$schedule->addCondition('date','<=',$this->app->now);
+
+		foreach ($schedule as $publish_schedule) {			
+			$post = $this->add('xepan\blog\Model_BlogPost')->load($publish_schedule['blog_post_id']);			
+			$post['status'] = 'Published';			
+			$post->saveAs('xepan\blog\Model_BlogPost');
+
+			$publish_schedule['is_posted'] = true;
+			$publish_schedule->saveAs('xepan\blog\Model_PublishSchedule');  
+		}
 	}
 
 	//publish Blog Post
 	function publish(){
 		$this['status']='Published';
+		$this['created_at'] = $this->app->now;
 		$this->app->employee
-            ->addActivity("Blog Post '".$this['title']."' can be view on web", null/* Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Post '".$this['title']."' has been published, now it can be view on web", $this->id/* Related Document ID*/, $this->id /*Related Contact ID*/,null,null,"xepan_blog_comment&blog_id=".$this->id."")
             ->notifyWhoCan('unPublish','Published',$this);
 		$this->save();
 	}
 
-	//unPublish Blog Post
+	//UnPublish Blog Post
 	function unpublish(){
 		$this['status']='UnPublished';
 		$this->app->employee
-            ->addActivity("Blog Post '". $this['title'] ."' not available for show on web", null /*Related Document ID*/, $this->id /*Related Contact ID*/)
+            ->addActivity("Blog Post '". $this['title'] ."' has been unpublished, now it not available for show on web", $this->id /*Related Document ID*/, $this->id /*Related Contact ID*/,null,null,"xepan_blog_comment&blog_id=".$this->id."")
             ->notifyWhoCan('publish','UnPublished',$this);
 		return $this->save();
 	}
 
-	function page_category($page){
-
-		$form = $page->add('Form');
-		$cat_ass_field = $form->addField('hidden','ass_cat')->set(json_encode($this->getAssociatedCategories()));
-		$form->addButton('Update');
-
-		$category_assoc_grid = $page->add('xepan/base/Grid',null,null,['view\post\association']);
-		$model_assoc_category = $page->add('xepan/blog/Model_BlogPostCategory');
-
-		$category_assoc_grid->setModel($model_assoc_category);
-		$category_assoc_grid->addSelectable($cat_ass_field);
-
-
-		if($form->isSubmitted()){
-			$this->removeAssociateCategory();
-
-			$selected_categories = array();
-			$selected_categories = json_decode($form['ass_cat'],true);
-			
-			foreach ($selected_categories as $cat) {
-				$this->associateCategory($cat);
-			}
-
-		 	return $page->js()->univ()->successMessage('Category Association Updated');
-		}
-	}
+	
 
 	function getAssociatedCategories(){
 		$associated_categories = $this->ref('PostCategoryAssociation')
@@ -133,5 +212,9 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		     			->addCondition('blog_post_category_id',$category)
 			 			->tryLoadAny()	
 			 			->save();
+	}
+
+	function updated_at(){
+		$this['updated_at'] = $this->app->now;
 	}
 }
