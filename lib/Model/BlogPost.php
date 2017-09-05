@@ -24,7 +24,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	function init(){
 		parent::init();
 
-		$this->hasOne('xepan\hr\Employee','created_by_id')->defaultValue($this->app->employee->id);
+		$this->hasOne('xepan\hr\Employee','created_by_id')->defaultValue(@$this->app->employee->id);
 
 		$this->addField('title');
 		$this->addField('description')->type('text')->display(array('form'=>'xepan\base\RichText'));
