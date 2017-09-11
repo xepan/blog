@@ -13,7 +13,8 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'add_socialshare'=>true,
 					'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
 					'socialshare_theme'=>"flat", //classic,minima,plain
-					'show_microdata'=>true
+					'show_microdata'=>true,
+					'show_post_of_category'=>0
 				];
 
 	function init(){
@@ -46,10 +47,19 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		$post->addCondition('status','Published');
 		$post->setOrder('created_at','desc');
 
-		if($category_id = $this->app->stickyGET('category_id')){
+		// if show_post of category is defiend then only show this category post
+		$selected_category = [];
+		if($this->options['show_post_of_category']){
+			$selected_category = explode(",", $this->options["show_post_of_category"]);
+
+		}elseif($category_id = $this->app->stickyGET('category_id')){
+			$selected_category[]  = $category_id;
+		}
+
+		if(count($selected_category)){
 			$assoc_j = $post->join('blog_post_category_association.blog_post_id');
 			$assoc_j->addField('blog_post_category_id');
-			$post->addCondition('blog_post_category_id',$category_id);
+			$post->addCondition('blog_post_category_id',$selected_category);
 			$post->_dsql()->group('blog_post_id');
 		}
 
