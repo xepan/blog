@@ -150,14 +150,34 @@
             </tr>
           </table>
         </div>
+        <div data-toggle="collapse" data-target="#post-list-option-category" aria-expanded="false" class="panel panel-heading panel-primary collapsed"><span>Category</span></div>
+        <div id="post-list-option-category" class="xepan-cms-tools-bar-panel row-fluid collapse">
+          <table class="table table-condensed table-hover">
+            <tr>
+              <div class="xepan-tool-option">
+                <td colspan="2" class="xepan-tool-option-value">
+                  <select id="{$_name}_post_cat_multiselect" style="width:250px;" multiple="" data-attr="show_post_of_category" multiselect="multiselect" class="chosen-select post-list-option-category-multiselect"></select>
+                </td>
+              </div>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
-  </div><link rel="stylesheet" type="text/css" href="vendor/xepan/commerce/templates/css/chosen.css"/>
-  <script src="vendor/xepan/commerce/templates/js/chosen.jquery.js"></script>
+  </div><link rel="stylesheet" type="text/css" href="vendor/xepan/blog/templates/css/chosen.css"/>
+  <script src="vendor/xepan/blog/templates/js/chosen.jquery.js"></script>
   <script>
-    
-    $('#{$_name}_multiselect').chosen();
-    $('#{$_name}_multiselect').chosen({allow_single_deselect: true });
+    $.ajax({
+    	url: 'index.php?page=xepan_blog_getcategory',
+    	type: 'GET',
+    	data: { },
+    	success: function ( data ){
+    		$('#{$_name}_post_cat_multiselect').html(data);
+    		
+    		$('#{$_name}_post_cat_multiselect').chosen();
+    		$('#{$_name}_post_cat_multiselect').chosen({allow_single_deselect: true });
+    	}
+    });
     
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());
@@ -181,12 +201,12 @@
     	});
     
     	//- chosen multiselect options
-    	if(typeof $(current_selected_component).attr('include_socialshare') === 'undefined' ){
-    		$("#{$_name}_multiselect").val("\{\}").trigger("chosen:updated");
+    	if(typeof $(current_selected_component).attr('show_post_of_category') === 'undefined' ){
+    		$("#{$_name}_post_cat_multiselect").val("\{\}").trigger("chosen:updated");
     	}else{
-    		var str = $(current_selected_component).attr('include_socialshare');
-    		$("#{$_name}_multiselect").val(str.split(',')).trigger("chosen:updated");
-    	}	
+    		var str = $(current_selected_component).attr('show_post_of_category');
+    		$("#{$_name}_post_cat_multiselect").val(str.split(',')).trigger("chosen:updated");
+    	}
     
     });
   </script>
