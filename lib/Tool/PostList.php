@@ -18,6 +18,9 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 	function init(){
 		parent::init();
+
+		if($this->owner instanceof \AbstractController) return;
+
 		if($this->options['show_microdata']){
 			$this->company_m = $this->add('xepan\base\Model_ConfigJsonModel',
 						[
@@ -63,6 +66,10 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			$post->addCondition('month',$month);
 		}
 
+		$post->addExpression('short_description')->set(function($m,$q){
+			return $q->expr("LEFT(REGEXP_REPLACE([0], '<.+?>',' '),100)",[$m->getElement('description')]);
+		});
+
 		$cl = $this->add('CompleteLister',null,null,['view/tool/post/list']);
 		if(!$post->count()->getOne())
 			$cl->template->set('not_found_message','No Record Found');
@@ -91,7 +98,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	function recursiveRender(){
 		parent::recursiveRender();
 		
-		if($this->options['add_socialshare']){
+		if($this->options['add_socialshare'] && ($this->options['add_socialshare'] =="true" || $this->options['add_socialshare']==1)){
 			$this->js(true)->_load('socialshare/jssocials');
 			$this->js(true)->_css('socialshare/jssocials');
 			$this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
