@@ -31,6 +31,9 @@ class Initiator extends \Controller_Addon {
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_CategoryList','Blog');
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_Search','Blog');
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_Archieve','Blog');
+
+		 $this->app->app_router->addRule("blog\/(.*)\/(.*)", "blog-item", array("post_category","blog_post_code"));
+		 $this->app->app_router->addRule("blog\/(.*)\/(.*)\/(\d*)", "blog-item", array("post_category","blog_post_code","post_id"));
 		
 		return $this;
 	}
