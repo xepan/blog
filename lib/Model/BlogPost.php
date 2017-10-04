@@ -27,6 +27,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\hr\Employee','created_by_id')->defaultValue(@$this->app->employee->id);
 
 		$this->addField('title');
+		$this->addField('slug_url');
 		$this->addField('description')->type('text')->display(array('form'=>'xepan\base\RichText'));
 		$this->addField('tag')->type('text');
 		$this->addField('meta_title');
@@ -216,5 +217,11 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 
 	function updated_at(){
 		$this['updated_at'] = $this->app->now;
+				
+		if(!trim($this['slug_url'])){
+			$this['slug_url'] = $this->app->normalizeName($this['title']);
+		}else{
+			$this['slug_url'] = $this->app->normalizeName($this['slug_url']);
+		}
 	}
 }
