@@ -19,10 +19,21 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
+		$post_category = $this->api->stickyGET('post_category');
+		$post_name = $this->api->stickyGET('blog_post_code');
 		$post_id = $this->api->stickyGET('post_id');
-
-		$this->post = $this->add('xepan\blog\Model_BlogPost')->tryLoad($post_id?:-1);
 		
+		$this->post = $this->add('xepan\blog\Model_BlogPost');
+		$this->post->addCondition('status','Published');
+		if($post_name){
+			$this->post->addCondition('slug_url',$post_name);
+			$this->post->tryLoadAny();
+		}elseif ($post_id) {
+			$this->post->load($post_id);
+		}else{
+			$this->post->load(-1);
+		}
+
 		if(!$this->post->loaded()){
 			$this->template->tryDel('tag_wrapper');
 			return;
