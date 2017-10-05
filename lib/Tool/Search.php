@@ -10,6 +10,8 @@ class Tool_Search extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
+		if($this->owner instanceof \AbstractController) return;
+		
 		$search_result_page = $this->options['search_reasult_url'];
 		if(!$search_result_page){
 			$this->add('View_Warning')->set('Please add a search result page in options');

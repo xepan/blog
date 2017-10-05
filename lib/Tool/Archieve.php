@@ -12,7 +12,8 @@ class Tool_Archieve extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
-
+		if($this->owner instanceof \AbstractController) return;
+		
 		$post = $this->add('xepan\blog\Model_BlogPost');
 		$post->_dsql()->group($post->_dsql()->expr("[0]",[$post->getElement('year')]));		
 

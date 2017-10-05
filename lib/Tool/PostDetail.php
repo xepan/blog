@@ -19,6 +19,8 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	function init(){
 		parent::init();
 
+		if($this->owner instanceof \AbstractController) return;
+		
 		$post_category = $this->api->stickyGET('post_category');
 		$post_name = $this->api->stickyGET('blog_post_code');
 		$post_id = $this->api->stickyGET('post_id');
