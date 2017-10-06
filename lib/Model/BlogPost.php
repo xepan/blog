@@ -220,8 +220,6 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 				
 		if(!trim($this['slug_url'])){
 			$this['slug_url'] = $this->app->normalizeName($this['title']);
-		}else{
-			$this['slug_url'] = $this->app->normalizeName($this['slug_url']);
 		}
 	}
 }
