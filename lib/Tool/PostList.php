@@ -22,6 +22,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 		if($this->owner instanceof \AbstractController) return;
 
+		
 		if($this->options['show_microdata']){
 			$this->company_m = $this->add('xepan\base\Model_ConfigJsonModel',
 						[

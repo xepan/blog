@@ -1,10 +1,9 @@
 .xepan-tool-options(id='{$_name}' style="display:none" for-xepan-component='xepan/blog/Tool_Search')
-	h3 Search Options
-	.xepan-tool-option
-		.xepan-tool-option-title Search Result URL
-		.xepan-tool-option-value 
-			input#search_reasult_url(data-attr='search_reasult_url')			
-																																																
+	table.table.table-condensed.table-hover.xepan-cms-tool-table
+		tr.xepan-tool-option
+			td.xepan-tool-option-title Search Result URL
+			td.xepan-tool-option-value 
+				input#search_reasult_url(data-attr='search_reasult_url')
 	script.
 		$('\#{$_name} [data-attr]').on('change',function(){
 			$(current_selected_component).attr($(this).data('attr'),$(this).val());
