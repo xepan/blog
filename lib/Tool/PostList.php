@@ -58,6 +58,8 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 		}elseif($category_id = $this->app->stickyGET('category_id')){
 			$selected_category[]  = $category_id;
+		}elseif($this->app->enable_sef && $slug_url = $this->app->stickyGET('blog_category_slug_url')){
+			$selected_category[] = $this->add('xepan\blog\Model_BlogPostCategory')->loadBy('slug_url',$slug_url)->get('id');
 		}
 
 		if(count($selected_category)){

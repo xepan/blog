@@ -23,6 +23,10 @@ class Initiator extends \Controller_Addon {
 
 	}
 
+	function setup_pre_frontend(){
+		$this->app->addHook('sef-router',[$this,'addSEFRouter']);
+	}
+
 	function setup_frontend(){
 		$this->routePages('xepan_blog');
 		$this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'templates/css'))
@@ -46,16 +50,23 @@ class Initiator extends \Controller_Addon {
     }
 
     function sefConfigForm($app,$form, $values){
-		$form->addField('blog_category_list_page')->setFieldHint('Blog Category List Page in front website')
-			->set($values['blog_category_list_page']);
+		$form->addField('blog_list_page')->setFieldHint('Blog Category List Page in front website')
+			->set($values['blog_list_page']);
 		$form->addField('blog_detail_page')->setFieldHint('Blog Detail Page in front website')
 			->set($values['blog_detail_page']);
 
 	}
 
 	function sefConfigFormLayout($app,&$layout){
-		$layout ['blog_category_list_page']='Blog~c1~6'; 
+		$layout ['blog_list_page']='Blog~c1~6'; 
 		$layout ['blog_detail_page']='c2~6'; 
+	}
+
+	function addSEFRouter($app, $value){
+
+		$this->app->app_router->addRule($value['blog_list_page'], $value['blog_list_page']);
+		$this->app->app_router->addRule($value['blog_list_page']."\/(.*)", $value['blog_list_page'], ['blog_category_slug_url']);
+		$this->app->app_router->addRule($value['blog_detail_page']."\/(.*)", $value['blog_detail_page'], ['blog_post_slug_url']);
 	}
 
 	

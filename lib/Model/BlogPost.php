@@ -217,9 +217,11 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 
 	function updated_at(){
 		$this['updated_at'] = $this->app->now;
-				
-		if(!trim($this['slug_url'])){
-			$this['slug_url'] = $this->app->normalizeName($this['title']);
+		
+		$slug = $this['slug_url'];
+		if(!trim($slug)){
+			$slug = $this['title'];
 		}
+		$this['slug_url'] = $this->app->normalizeSlugUrl($slug);
 	}
 }

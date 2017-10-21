@@ -21,10 +21,28 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 		$this->addField('status')->enum(['Active','InActive']);
 		$this->addCondition('type','PostCategory');
 
+		$this->addField('slug_url')->system(true);
+
 		$this->getElement('status')->defaultValue('Active');
 
 		$this->hasMany('xepan\blog\Associaton_PostCategory','blog_post_category_id');
-		
+		$this->addHook('beforeSave',$this);
+
+		$this->is(['name|to_trim|required']);
+	}
+
+	function beforeSave(){
+		if(!$this['slug_url'])
+			$this['slug_url'] = $this->app->normalizeSlugUrl($this['name']);
+
+		$cat = $this->add('xepan\blog\Model_BlogPostCategory');
+		$cat->addCondition('slug_url',$this['slug_url']);
+		$cat->addCondition('id','<>',$this->id);
+		$cat->tryLoadAny();
+		if($cat->loaded())
+			throw $this->Exception('name Already Exist','ValidityCheck')->setField('name');
+
+
 	}
 
 	//activate BlogPostCategory
