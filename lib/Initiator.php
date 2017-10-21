@@ -17,6 +17,8 @@ class Initiator extends \Controller_Addon {
 			$this->app->cms_menu->addItem(['Blog Post','icon'=>' fa fa-file-text-o'],'xepan_blog_blogpost');//->setAttr(['title'=>'Blogs']);
 		}
 		$this->app->addHook('entity_collection',[$this,'exportEntities']);
+		$this->app->addHook('sef-config-form-layout',[$this,'sefConfigFormLayout']);
+		$this->app->addHook('sef-config-form',[$this,'sefConfigForm']);
 		return $this;
 
 	}
@@ -42,6 +44,19 @@ class Initiator extends \Controller_Addon {
         $array['PostCategory'] = ['caption'=>'PostCategory','type'=>'DropDown','model'=>'xepan\blog\Model_BlogPostCategory'];
         $array['BlogPost'] = ['caption'=>'BlogPost','type'=>'DropDown','model'=>'xepan\blog\Model_BlogPost'];
     }
+
+    function sefConfigForm($app,$form, $values){
+		$form->addField('blog_category_list_page')->setFieldHint('Blog Category List Page in front website')
+			->set($values['blog_category_list_page']);
+		$form->addField('blog_detail_page')->setFieldHint('Blog Detail Page in front website')
+			->set($values['blog_detail_page']);
+
+	}
+
+	function sefConfigFormLayout($app,&$layout){
+		$layout ['blog_category_list_page']='Blog~c1~6'; 
+		$layout ['blog_detail_page']='c2~6'; 
+	}
 
 	
 	function resetDB(){
