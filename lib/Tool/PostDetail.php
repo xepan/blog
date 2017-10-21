@@ -22,7 +22,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		if($this->owner instanceof \AbstractController) return;
 		
 		$post_category = $this->api->stickyGET('post_category');
-		$post_name = $this->api->stickyGET('blog_post_code');
+		$post_name = $this->api->stickyGET('blog_post_slug_url');
 		$post_id = $this->api->stickyGET('post_id');
 		
 		$this->post = $this->add('xepan\blog\Model_BlogPost');
@@ -96,8 +96,15 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 			$this->js(true)->_css('socialshare/jssocials');
 			$this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
 			
-			$sharing_url = $this->app->pm->base_url.$this->app->url(null,['xepan_landing_content_id'=>$this->model->id]);
-			$social_shares = explode(",", $this->options['include_socialshare']?:'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
+			if($this->app->enable_sef){
+				$url = $this->app->url($this->app->page."/".$this->model['slug_url']);
+				$url->arguments = ['xepan_landing_content_id'=>$this->model->id];
+				$url->absolute();
+				$sharing_url = $url;
+			}else
+				$sharing_url = $this->app->pm->base_url.$this->app->url(null,['xepan_landing_content_id'=>$this->model->id]);
+
+			$social_shares = explode(",", $this->options['include_socialshare']?:'twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
 			$social_shares = array_values($social_shares);
 			$this->js(true)->_selector('#postshare'.$this->model->id)
 							->jsSocials(

@@ -36,6 +36,7 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 			$blog_j->addField('title');
 			$blog_j->addField('post_id','id');
 			$blog_j->addField('blog_status','status');
+			$blog_j->addField('blog_slug_url','slug_url');
 			
 			if(!$this->app->auth->isLoggedIn() || !in_array($this->app->auth->model['scope'],['AdminUser','SuperUser'])){
 				$category->addCondition('blog_status','Published');
@@ -52,23 +53,34 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 
 		$categories=[];
 		$posts=[];
-		foreach ($cat_rows = $category->getRows() as $cat) {			
-			if(!isset($categories[$cat['id']])) $categories[$cat['id']]=$cat['name'];
-			$posts[$cat['id']][] =  ['title'=>$cat['title'],'post_id'=>$cat['post_id'], 'status'=>$cat['blog_status']];
+		foreach ($cat_rows = $category->getRows() as $cat) {
+			if(!isset($categories[$cat['id']])) $categories[$cat['id']]=['name'=>$cat['name'],'slug_url'=>$cat['slug_url']];
+
+			$posts[$cat['id']][] =  ['title'=>$cat['title'],'post_id'=>$cat['post_id'], 'status'=>$cat['blog_status'],'slug_url'=>$cat['blog_slug_url']];
 		}
 
 		if($this->options['show_post']){
 			$cl->addHook('formatRow',function($cl)use($categories,$posts,$category){			
 				$pl = $cl->add('CompleteLister',null,'cat_post',['view/tool/post/category','cat_post']);
+				
 				$pl->addHook('formatRow',function($pl_r)use($cl,$posts){
-					$pl_r->current_row['post_detail_page_url'] =$this->app->url($this->options['post_detail_page'],['post_id'=>$pl_r->model['post_id']]);
+
+					if($this->app->enable_sef){
+						$url = $this->app->url($this->options['post_detail_page']."/".$pl_r->model['slug_url']);
+						$url->arguments = [];
+						$pl_r->current_row['post_detail_page_url'] = $url;
+					}else
+						$pl_r->current_row['post_detail_page_url'] =$this->app->url($this->options['post_detail_page'],['post_id'=>$pl_r->model['post_id']]);
 					
 					if($pl_r->model['status'] == 'UnPublished')
 						$pl_r->current_row['color'] = 'text-muted';
 
-					if($pl_r->model['post_id'] == $_GET['post_id']?:0)
+					if($pl_r->model['post_id'] == $_GET['post_id']?:0){
 						$pl_r->current_row['active_class']='active';
-					else
+
+					}elseif($pl_r->model['slug_url'] == $_GET['blog_post_code']){
+						$pl_r->current_row['active_class'] = 'active';
+					}else
 						$pl_r->current_row['active_class']='';
 				});
 				
@@ -77,6 +89,7 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 			});
 		}
 
+		// $cl->setModel($category);
 		$cl->setSource($categories);
 
 		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$category]);
@@ -89,12 +102,22 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 			return;
 		}
 
-		$count = $l->add('xepan\blog\Model_Association_PostCategory')->addCondition('blog_post_category_id',$l->model->id)->count();
-		$l->current_row_html['post_count'] =$count;
+		$count = $l->add('xepan\blog\Model_Association_PostCategory')
+					->addCondition('post_status','Published')
+					->addCondition('blog_post_category_id',$l->model->id)
+					->_dsql()->group('blog_post_category_id')
+					->del('fields')->field('count(*)');
+		$l->current_row_html['post_count'] = $count;
 	}
 
-	function addToolCondition_row_redirect_page_url($value, $l){					
-		$l->current_row['url'] = $this->app->url($this->options['redirect_page_url'],['category_id'=>$l->model->id]);
+	function addToolCondition_row_redirect_page_url($value, $l){
+		if($this->app->enable_sef){
+			$url = $this->app->url($this->options['redirect_page_url']."/".$l->model['slug_url']);
+			$url->arguments = [];			
+			$l->current_row['url'] = $url;
+		}else
+			$l->current_row['url'] = $this->app->url($this->options['redirect_page_url'],['category_id'=>$l->model->id]);
+
 	}
 
 	function addToolCondition_row_show_post($value, $l){

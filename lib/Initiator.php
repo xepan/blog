@@ -23,6 +23,10 @@ class Initiator extends \Controller_Addon {
 
 	}
 
+	function setup_pre_frontend(){
+		$this->app->addHook('sef-router',[$this,'addSEFRouter']);
+	}
+
 	function setup_frontend(){
 		$this->routePages('xepan_blog');
 		$this->addLocation(array('template'=>'templates','js'=>'templates/js','css'=>'templates/css'))
@@ -33,8 +37,6 @@ class Initiator extends \Controller_Addon {
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_CategoryList','Blog');
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_Search','Blog');
 		 $this->app->exportFrontEndTool('xepan\blog\Tool_Archieve','Blog');
-
-		 $this->app->addHook('sef-router',[$this,'addSEFRouter']);
 
 		 // $this->app->app_router->addRule("blog\/(.*)\/(.*)", "blog-item", array("post_category","blog_post_code"));
 		 // $this->app->app_router->addRule("blog\/(.*)\/(.*)\/(\d*)", "blog-item", array("post_category","blog_post_code","post_id"));
@@ -48,8 +50,8 @@ class Initiator extends \Controller_Addon {
     }
 
     function sefConfigForm($app,$form, $values){
-		$form->addField('blog_category_list_page')->setFieldHint('Blog Category List Page in front website')
-			->set($values['blog_category_list_page']);
+		$form->addField('blog_list_page')->setFieldHint('Blog Category List Page in front website')
+			->set($values['blog_list_page']);
 		$form->addField('blog_detail_page')->setFieldHint('Blog Detail Page in front website')
 			->set($values['blog_detail_page']);
 
@@ -60,9 +62,11 @@ class Initiator extends \Controller_Addon {
 		$layout ['blog_detail_page']='c2~6'; 
 	}
 
-	function addSEFRouter($app, $values){
-		$this->app->app_router->addRule($value['blog_list_page']."\/(.*)", $value['blog_list_page'], ['xsnb_category_sef_url']);
-		$this->app->app_router->addRule($value['blog_detail_page']."\/(.*)", $value['blog_detail_page'], ['blog_post_code']);
+	function addSEFRouter($app, $value){
+
+		$this->app->app_router->addRule($value['blog_list_page'], $value['blog_list_page']);
+		$this->app->app_router->addRule($value['blog_list_page']."\/(.*)", $value['blog_list_page'], ['blog_category_slug_url']);
+		$this->app->app_router->addRule($value['blog_detail_page']."\/(.*)", $value['blog_detail_page'], ['blog_post_slug_url']);
 	}
 
 	

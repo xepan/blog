@@ -22,10 +22,9 @@ class Tool_Search extends \xepan\cms\View_Tool{
 		$form_field = $form->addField('line','search');
 
 		if($form->isSubmitted()){
-			$form->api->redirect(
-						$this->api->url(
-									null,
-									array('page'=>$search_result_page,'search'=>$form['search'])));
+			$url = $this->api->url($search_result_page);
+			$url->arguments = ['search'=>$form['search']];
+			$form->api->redirect($url);
 		}
 	}
 }
