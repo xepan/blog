@@ -72,7 +72,7 @@ class Initiator extends \Controller_Addon {
 			$this->app->app_router->addRule('\/'.$value['blog_list_page']."\/(.*)", $value['blog_list_page'], ['blog_category_slug_url']);
 
 		if($value['blog_detail_page'])
-			$this->app->app_router->addRule('\/'.$value['blog_detail_page']."\/(.*)", $value['blog_detail_page'], ['blog_post_slug_url']);
+			$this->app->app_router->addRule('\/'.$value['blog_detail_page']."\/([a-z0-9\-]*)[\/]?", $value['blog_detail_page'], ['blog_post_slug_url']);
 	}
 
 	function addSiteMapEntries($app,&$urls,$sef_config_page_lists){
