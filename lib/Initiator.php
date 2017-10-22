@@ -25,6 +25,7 @@ class Initiator extends \Controller_Addon {
 
 	function setup_pre_frontend(){
 		$this->app->addHook('sef-router',[$this,'addSEFRouter']);
+		$this->app->addHook('sitemap_generation',[$this,'addSiteMapEntries']);
 	}
 
 	function setup_frontend(){
@@ -64,12 +65,35 @@ class Initiator extends \Controller_Addon {
 
 	function addSEFRouter($app, $value){
 
-		$this->app->app_router->addRule($value['blog_list_page'], $value['blog_list_page']);
-		$this->app->app_router->addRule($value['blog_list_page']."\/(.*)", $value['blog_list_page'], ['blog_category_slug_url']);
-		$this->app->app_router->addRule($value['blog_detail_page']."\/(.*)", $value['blog_detail_page'], ['blog_post_slug_url']);
+		if($value['blog_list_page'])
+			$this->app->app_router->addRule($value['blog_list_page'], $value['blog_list_page']);
+		
+		if($value['blog_list_page'])
+			$this->app->app_router->addRule($value['blog_list_page']."\/(.*)", $value['blog_list_page'], ['blog_category_slug_url']);
+
+		if($value['blog_detail_page'])
+			$this->app->app_router->addRule($value['blog_detail_page']."\/(.*)", $value['blog_detail_page'], ['blog_post_slug_url']);
 	}
 
-	
+	function addSiteMapEntries($app,&$urls,$sef_config_page_lists){
+
+		if($page = $sef_config_page_lists['blog_detail_page']){
+			$post = $this->add('xepan\blog\Model_BlogPost')
+				->addCondition('status','Published');
+
+			foreach ($post as $p) {
+				if($this->app->enable_sef){
+					$url = $this->app->url($page.'/'.$p['slug_url']);
+				}else{
+					$url = $this->app->url($page,['post_id'=>$p->id]);
+				}
+				
+				$urls[] = (string)$url;
+			}
+
+		}
+	}
+
 	function resetDB(){
 		// Clear DB
 		// if(!isset($this->app->old_epan)) $this->app->old_epan = $this->app->epan;
