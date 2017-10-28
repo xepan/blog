@@ -19,6 +19,9 @@ class Initiator extends \Controller_Addon {
 		$this->app->addHook('entity_collection',[$this,'exportEntities']);
 		$this->app->addHook('sef-config-form-layout',[$this,'sefConfigFormLayout']);
 		$this->app->addHook('sef-config-form',[$this,'sefConfigForm']);
+
+		$this->app->status_icon["xepan\blog\Model_BlogPost"] = ['All'=>' fa fa-globe','Published'=>"fa fa-file-text-o text-success",'UnPublished'=>'fa fa-file-o text-success'];
+
 		return $this;
 
 	}
