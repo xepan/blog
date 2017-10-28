@@ -83,7 +83,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			return $q->expr("LEFT(REGEXP_REPLACE([0], '<.+?>',' '),100)",[$m->getElement('description')]);
 		});
 
-		$cl = $this->add('CompleteLister',null,null,['view/tool/post/list']);
+		$this->complete_lister =  $cl = $this->add('CompleteLister',null,null,['view/tool/post/list']);
 		if(!$post->count()->getOne())
 			$cl->template->set('not_found_message','No Record Found');
 		else
@@ -182,5 +182,14 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 						// 'showCount'=>
 						// 'shareIn'=>
 	}
+
+	function getTemplate(){
+		return $this->complete_lister->template;
+	}
+
+	// function getTemplateFile(){
+	// uses $this->getTemplate() in ViewTool that is overrided already above
+	// 	return $this->complete_lister->template->origin_filename;
+	// }
 
 }
