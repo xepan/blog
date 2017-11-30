@@ -95,6 +95,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			$paginator = $cl->add('Paginator',['ipp'=>$this->options['paginator_set_rows_per_page']]);
 			$paginator->setRowsPerPage($this->options['paginator_set_rows_per_page']);
 		}
+		
 		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$post]);
 		
 		if($this->options['set_by_order']=='order_by_id'){
@@ -147,17 +148,17 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	}
 
 	function addToolCondition_row_description_page_url($value, $l){
-		$config = $this->add('xepan\base\Model_ConfigJsonModel',
-            [
-                'fields'=>[
-                            'enable_sef'=>'checkbox'
-                        ],
-                    'config_key'=>'SEF_Enable',
-                    'application'=>'cms'
-        ]);
-        $config->tryLoadAny();
+		// $config = $this->add('xepan\base\Model_ConfigJsonModel',
+  //           [
+  //               'fields'=>[
+  //                           'enable_sef'=>'checkbox'
+  //                       ],
+  //                   'config_key'=>'SEF_Enable',
+  //                   'application'=>'cms'
+  //       ]);
+  //       $config->tryLoadAny();
 
-		if($config['enable_sef']){
+		if($this->app->enable_sef){
 			$l->current_row['url'] = $this->app->url($this->options['description_page_url'].'/'.$l->model['slug_url']);
 		}else{
 			$l->current_row['url'] = $this->app->url($this->options['description_page_url'],['post_id'=>$l->model->id]);
