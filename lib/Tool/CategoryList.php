@@ -4,7 +4,7 @@ namespace xepan\blog;
 
 class Tool_CategoryList extends \xepan\cms\View_Tool{
 	public $options = [
-						'category_count'=> 5,
+						'category_count'=> 0,
 						'show_post_count'=>true,
 						'redirect_page_url'=>'blog',
 						'show_post'=>true,
@@ -19,7 +19,9 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		if($this->owner instanceof \AbstractController) return;
 		
 		$category = $this->add('xepan\blog\Model_BlogPostCategory');
-		$category->setLimit($this->options['category_count']);
+		if($this->options['category_count'])
+			$category->setLimit($this->options['category_count']);
+		
 		$category->addCondition('status','Active');
 		
 		if($this->options['order'])
