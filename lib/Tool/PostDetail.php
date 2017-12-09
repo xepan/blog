@@ -127,7 +127,13 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	}
 
 	function handleMicroData(){
-		$v=$this->app->add('View',null,null,['view/schema-micro-data','blog_post_block']);
+		$v=$this->add('AbstractController')->add('View',null,null,['view/schema-micro-data','blog_post_block']);
+
+		if(!$this->model->data['meta_description']){
+			preg_match_all("/<h\d*>(\w[^<]*)/i", $this->model['description'], $matches);			
+			$this->model['meta_description'] = json_encode($this->model['title'] . ' '. implode(", ", $matches[1]));
+		}
+
 		$v->template->trySet($this->model->data);
 		if($this->model['image'])
 			$v->template->trySet('blog_image', $this->app->pm->base_url. $this->model['image']);
