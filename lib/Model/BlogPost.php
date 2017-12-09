@@ -70,6 +70,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 				'description|required'
 			]);
 		
+		$this->addHook('beforeSave',[$this,'updated_meta_description']);
 		$this->addHook('beforeSave',[$this,'updated_at']);
 	}
 
@@ -213,6 +214,14 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 		     			->addCondition('blog_post_category_id',$category)
 			 			->tryLoadAny()	
 			 			->save();
+	}
+
+	function updated_meta_description(){
+		if(!$this['meta_description']){
+			preg_match_all("/<h\d*>(\w[^<]*)/i", $this['description'], $matches);
+			
+			$this['meta_description'] = $this['title'] . ' '. implode(", ", $matches[1]);
+		}
 	}
 
 	function updated_at(){
