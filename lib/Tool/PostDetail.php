@@ -61,6 +61,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 			$this->post->getElement('title')->display(['form'=>'hidden']);
 			$this->post->getElement('description')->display(['form'=>'hidden']);
+			$this->post->getElement('meta_description')->display(['form'=>'text']);
 			$this->post->getElement('show_comments')->display(['form'=>'xepan\base\DropDownNormal']);
 			$this->post->getElement('anonymous_comment_config')->display(['form'=>'xepan\base\DropDownNormal']);
 			$this->post->getElement('registered_comment_config')->display(['form'=>'xepan\base\DropDownNormal']);
@@ -85,6 +86,8 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		}else{
 			$this->template->tryDel('editing_mode');
 		}
+
+		$this->handleMicroData();
 
 		if(!$this->model['image_id']){
 			$this->template->tryDel('image_wrapper');
@@ -121,6 +124,21 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		$this->template->trySetHtml('post_description', $model['description']);
 		
 		parent::setModel($model);
+	}
+
+	function handleMicroData(){
+		$v=$this->app->add('View',null,null,['view/schema-micro-data','blog_post_block']);
+		$v->template->trySet($this->model->data);
+		if($this->model['image'])
+			$v->template->trySet('blog_image', $this->app->pm->base_url. $this->model['image']);
+		$v->template->trySet('keywords',json_encode(strip_tags($this->model['tag'])));
+		$v->template->trySetHTML('url',$this->app->url(null,['post_id'=>$this->model->id])->absolute());
+		$v->template->trySet('blog_description',json_encode(strip_tags(str_replace('<', ' <', $this->model['description']))));
+		$v->template->trySet('word_count',str_word_count(strip_tags($this->model['description'])));
+		
+		$v->template->trySet('categories',$this->model->ref('PostCategoryAssociation')->fieldQuery('blog_post_category'));
+		
+		$this->template->trySetHtml('micro_data', $v->getHtml());
 	}
 
 	function recursiveRender(){
