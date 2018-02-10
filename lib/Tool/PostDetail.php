@@ -129,7 +129,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	function handleMicroData(){
 		$v=$this->add('AbstractController')->add('View',null,null,['view/schema-micro-data','blog_post_block']);
 
-		$this->model->data['title'] = substr($this->model->data['title'], 0,110);
+		$this->model->data['blog_title'] = substr($this->model->data['title'], 0,110);
 
 		if(!$this->model->data['meta_description']){
 			preg_match_all("/<h\d*>(\w[^<]*)/i", $this->model['description'], $matches);			
