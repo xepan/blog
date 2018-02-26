@@ -14,7 +14,9 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
 					'socialshare_theme'=>"flat", //classic,minima,plain
 					'show_microdata'=>true,
-					'show_post_of_category'=>0
+					'show_post_of_category'=>0,
+					'custom_template'=>''
+
 				];
 
 	function init(){
@@ -83,7 +85,17 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 			return $q->expr("LEFT(REGEXP_REPLACE([0], '<.+?>',' '),100)",[$m->getElement('description')]);
 		});
 
-		$this->complete_lister =  $cl = $this->add('CompleteLister',null,null,['view/tool/post/list']);
+		$custom_template = $this->options['custom_template'];
+		if($this->options['custom_template']){
+			$path = getcwd()."/websites/".$this->app->current_website_name."/www/view/tool/post/".$this->options['custom_template'].".html";
+			if(!file_exists($path)){
+				$this->add('View_Warning')->set('Please create template at www/view/tool/post/'.$this->options['custom_template']);
+				return;	
+			}
+		}else{
+			$custom_template = "list";
+		}
+		$this->complete_lister =  $cl = $this->add('CompleteLister',null,null,['view/tool/post/'.$custom_template]);
 		if(!$post->count()->getOne())
 			$cl->template->set('not_found_message','No Record Found');
 		else
