@@ -14,6 +14,7 @@ class Initiator extends \Controller_Addon {
 
 		if(isset($this->app->cms_menu)){
 			$this->app->cms_menu->addItem(['Blog Category','icon'=>' fa fa-sitemap'],'xepan_blog_blogpostcategory');//->setAttr(['title'=>'Blogs']);
+			$this->app->cms_menu->addItem(['Blog Category Group','icon'=>' fa fa-file-text-o'],'xepan_blog_blogcategorygroup');//->setAttr(['title'=>'Blogs']);
 			$this->app->cms_menu->addItem(['Blog Post','icon'=>' fa fa-file-text-o'],'xepan_blog_blogpost');//->setAttr(['title'=>'Blogs']);
 		}
 		$this->app->addHook('entity_collection',[$this,'exportEntities']);
