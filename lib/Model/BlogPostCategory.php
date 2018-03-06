@@ -16,7 +16,7 @@ class Model_BlogPostCategory extends \xepan\base\Model_Table{
 		$this->hasOne('xepan\hr\Employee','created_by_id')->defaultValue(@$this->app->employee->id);
 		$this->addField('name');
 		$this->addField('order');
-		$this->addField('group');
+		$this->addField('group')->system(true);
 		$this->addField('type');
 		$this->addField('status')->enum(['Active','InActive']);
 		$this->addCondition('type','PostCategory');

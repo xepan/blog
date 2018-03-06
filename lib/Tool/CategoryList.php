@@ -28,8 +28,8 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 		if($this->options['order'])
 			$category->setOrder('order','asc');
 		
-		if($this->options['group'])	
-			$category->addCondition('group',$this->options['group']);
+		// if($this->options['group'])	
+		// 	$category->addCondition('group',$this->options['group']);
 
 		$cl = $this->add('CompleteLister',null,null,['view/tool/post/category']);
 		
