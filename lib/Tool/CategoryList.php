@@ -10,7 +10,8 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 						'show_post'=>true,
 						'group'=>'',
 						'order'=>false,
-						'post_detail_page'=>''
+						'post_detail_page'=>'',
+						'category_group'=>null
 				];
 
 	function init(){
@@ -55,7 +56,22 @@ class Tool_CategoryList extends \xepan\cms\View_Tool{
 
 		$categories=[];
 		$posts=[];
-		foreach ($cat_rows = $category->getRows() as $cat) {
+		$group_category = [];
+		if($gid = $this->options['category_group']){
+			$cg = $this->add('xepan\blog\Model_CategoryGroup');
+			$cg->load($gid);
+			
+			foreach ($cg['categories'] as $name => $value) {
+				if(!$value) continue;
+				$group_category[$name] = $name;
+			}
+		}
+		
+		foreach ($cat_rows = $category->getRows() as $cat) {			
+			if($this->options['category_group']){
+				if(!isset($group_category[$this->app->normalizeName($cat['name'])])) continue;
+			}
+			
 			if(!isset($categories[$cat['id']])) $categories[$cat['id']]=['name'=>$cat['name'],'slug_url'=>$cat['slug_url']];
 
 			$posts[$cat['id']][] =  ['title'=>$cat['title'],'post_id'=>$cat['post_id'], 'status'=>$cat['blog_status'],'slug_url'=>$cat['blog_slug_url']];
