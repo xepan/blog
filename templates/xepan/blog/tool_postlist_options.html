@@ -28,15 +28,6 @@
               </td>
             </tr>
             <tr class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Paginator</td>
-              <td class="xepan-tool-option-value"> 
-                <select id="show_paginator" data-attr="show_paginator">
-                  <option value="true">Yes</option>
-                  <option value="false">No</option>
-                </select>
-              </td>
-            </tr>
-            <tr class="xepan-tool-option">
               <td class="xepan-tool-option-title">Set By Order</td>
               <td class="xepan-tool-option-value">
                 <select id="set_by_order" data-attr="set_by_order" data-defaultvalue="order_by_id">
@@ -64,14 +55,8 @@
                 </select>
               </td>
             </tr>
-            <tr class="xepan-commerce-itemlist-option-toggle xepan-tool-option">
-              <td class="xepan-tool-option-title">Item in Row</td>
-              <td class="xepan-tool-option-value">
-                <input id="paginator_set_rows_per_page" data-attr="paginator_set_rows_per_page"/>
-              </td>
-            </tr>
             <tr class="xepan-tool-option">
-              <td class="xepan-tool-option-title">Paginator Rows Per Page</td>
+              <td class="xepan-tool-option-title">Record Limit Per Page</td>
               <td class="xepan-tool-option-value"> 
                 <input id="paginator_set_rows_per_page" data-attr="paginator_set_rows_per_page"/>
               </td>
@@ -87,7 +72,7 @@
             </tr>
             <tr class="xepan-blog-postlist-socialshare-option-toggle xepan-tool-option">
               <td colspan="2" class="xepan-tool-option-value">
-                <select id="{$_name}_multiselect" style="width:100%;" multiple="" data-attr="include_socialshare" multiselect="multiselect" class="chosen-select post-list-option-social-multiselect">
+                <select id="{$_name}_multiselect_share" style="width:100%;" multiple="" data-attr="include_socialshare" multiselect="multiselect" class="chosen-select post-list-option-social-multiselect">
                   <option value="email">Email</option>
                   <option value="facebook">Facebook</option>
                   <option value="googleplus">Googleplus</option>
@@ -157,7 +142,8 @@
     		$('#{$_name}_post_cat_multiselect').chosen({allow_single_deselect: true });
     	}
     });
-    
+    $('#{$_name}_multiselect_share').chosen({allow_single_deselect: true });
+
     $('#{$_name} [data-attr]').on('change',function(){
     	$(current_selected_component).attr($(this).data('attr'),$(this).val());
     	// show or hide the toggle class
@@ -168,6 +154,7 @@
     		}else
     			$($(this).data('toggleclass')).hide();
     	}
+
     });
     
     $('#{$_name}').on('show',function(event){
@@ -178,15 +165,23 @@
     		
     		$(this).val(default_value);
     	});
-    
+      
+
     	//- chosen multiselect options
-    	if(typeof $(current_selected_component).attr('show_post_of_category') === 'undefined' ){
+    	if(typeof $(current_selected_component).attr('show_post_of_category') === 'undefined'){
     		$("#{$_name}_post_cat_multiselect").val("\{\}").trigger("chosen:updated");
     	}else{
     		var str = $(current_selected_component).attr('show_post_of_category');
     		$("#{$_name}_post_cat_multiselect").val(str.split(',')).trigger("chosen:updated");
     	}
-    
+      
+      // social share multiple updated
+      if(typeof $(current_selected_component).attr('include_socialshare') === 'undefined'){
+        $("#{$_name}_multiselect_share").val("\{\}").trigger("chosen:updated");
+      }else{
+        var str = $(current_selected_component).attr('include_socialshare');
+        $("#{$_name}_multiselect_share").val(str.split(',')).trigger("chosen:updated");
+      }
     });
   </script>
 </div>
