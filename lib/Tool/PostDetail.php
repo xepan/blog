@@ -4,15 +4,18 @@ namespace xepan\blog;
 
 class Tool_PostDetail extends \xepan\cms\View_Tool{
 	public $options = [
-	'show_tag'=>true,
-	'show_image'=>true,
-	'show_comment_list'=>true,
-	'allow_anonymous_comment'=>false,
-	'login_page'=>'login',
-	'comment_form_position'=>'above',
-	'add_socialshare'=>false,
-	'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
-	'socialshare_theme'=>"flat" //classic,minima,plain
+		'show_tag'=>true,
+		'show_image'=>true,
+		'show_created_date'=>true,
+		'show_author_name'=>true,
+		'show_comment_count'=>true,
+		'show_comment_list'=>true,
+		'allow_anonymous_comment'=>false,
+		'login_page'=>'login',
+		'comment_form_position'=>'above',
+		'add_socialshare'=>false,
+		'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
+		'socialshare_theme'=>"flat" //classic,minima,plain
 	];
 	public $post;
 
@@ -120,7 +123,21 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 	}
 
 	function setModel($model){
-		$this->template->trySetHtml('comment_count', $model['comment_count']);
+
+		if($this->options['show_comment_count']){
+			$this->template->trySetHtml('comment_count', $model['comment_count']);
+		}else{
+			$this->template->tryDel('comment_count_wrapper');
+		}
+
+		if(!$this->options['show_created_date']){
+			$this->template->tryDel('created_at_wrapper');
+		}
+
+		if(!$this->options['show_author_name']){
+			$this->template->tryDel('created_by_wrapper');
+		}
+
 		$this->template->trySetHtml('post_description', $model['description']);
 		
 		parent::setModel($model);
@@ -139,6 +156,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		$v->template->trySet($this->model->data);
 		if($this->model['image'])
 			$v->template->trySet('blog_image', $this->app->pm->base_url. $this->model['image']);
+
 		$v->template->trySet('keywords',json_encode(strip_tags($this->model['tag'])));
 		$v->template->trySetHTML('url',$this->app->url(null,['post_id'=>$this->model->id])->absolute());
 		$v->template->trySet('blog_description',json_encode(strip_tags(str_replace('<', ' <', $this->model['description']))));
