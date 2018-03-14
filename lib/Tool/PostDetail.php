@@ -13,7 +13,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		'allow_anonymous_comment'=>false,
 		'login_page'=>'login',
 		'comment_form_position'=>'above',
-		'add_socialshare'=>false,
+		'add_socialshare'=>true,
 		'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
 		'socialshare_theme'=>"flat" //classic,minima,plain
 	];
@@ -98,9 +98,10 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 		// add social share todo shift into tool condition function
 		if($this->options['add_socialshare']){
-			$this->js(true)->_load('socialshare/jssocials');
-			$this->js(true)->_css('socialshare/jssocials');
-			$this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
+			
+			// $this->js(true)->_load('socialshare/jssocials');
+			// $this->js(true)->_css('socialshare/jssocials');
+			// $this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
 			
 			if($this->app->enable_sef){
 				$url = $this->app->url($this->app->page."/".$this->model['slug_url']);
@@ -112,11 +113,13 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 			$social_shares = explode(",", $this->options['include_socialshare']?:'twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
 			$social_shares = array_values($social_shares);
+
 			$this->js(true)->_selector('#postshare'.$this->model->id)
 							->jsSocials(
 								[
 									'shares'=>$social_shares,
-									"url"=>$sharing_url
+									'url'=>$sharing_url,
+									'text'=>$this->model['meta_title']?$this->model['meta_title']:$this->model['title']
 								]);
 		}else
 			$this->template->trySet('sharewrapper',"");
@@ -169,6 +172,13 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 	function recursiveRender(){
 		parent::recursiveRender();
+		
+		if($this->options['add_socialshare'] =="true" || $this->options['add_socialshare']==1){
+			
+			$this->js(true)->_load('socialshare/jssocials');
+			$this->js(true)->_css('socialshare/jssocials');
+			$this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
+		}
 	}
 
 	function defaultTemplate(){
