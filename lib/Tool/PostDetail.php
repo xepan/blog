@@ -4,15 +4,18 @@ namespace xepan\blog;
 
 class Tool_PostDetail extends \xepan\cms\View_Tool{
 	public $options = [
-	'show_tag'=>true,
-	'show_image'=>true,
-	'show_comment_list'=>true,
-	'allow_anonymous_comment'=>false,
-	'login_page'=>'login',
-	'comment_form_position'=>'above',
-	'add_socialshare'=>false,
-	'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
-	'socialshare_theme'=>"flat" //classic,minima,plain
+		'show_tag'=>true,
+		'show_image'=>true,
+		'show_created_date'=>true,
+		'show_author_name'=>true,
+		'show_comment_count'=>true,
+		'show_comment_list'=>true,
+		'allow_anonymous_comment'=>false,
+		'login_page'=>'login',
+		'comment_form_position'=>'above',
+		'add_socialshare'=>true,
+		'include_socialshare'=>'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp',
+		'socialshare_theme'=>"flat" //classic,minima,plain
 	];
 	public $post;
 
@@ -95,9 +98,10 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 		// add social share todo shift into tool condition function
 		if($this->options['add_socialshare']){
-			$this->js(true)->_load('socialshare/jssocials');
-			$this->js(true)->_css('socialshare/jssocials');
-			$this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
+			
+			// $this->js(true)->_load('socialshare/jssocials');
+			// $this->js(true)->_css('socialshare/jssocials');
+			// $this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
 			
 			if($this->app->enable_sef){
 				$url = $this->app->url($this->app->page."/".$this->model['slug_url']);
@@ -109,18 +113,34 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 			$social_shares = explode(",", $this->options['include_socialshare']?:'twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
 			$social_shares = array_values($social_shares);
+
 			$this->js(true)->_selector('#postshare'.$this->model->id)
 							->jsSocials(
 								[
 									'shares'=>$social_shares,
-									"url"=>$sharing_url
+									'url'=>$sharing_url,
+									'text'=>$this->model['meta_title']?$this->model['meta_title']:$this->model['title']
 								]);
 		}else
 			$this->template->trySet('sharewrapper',"");
 	}
 
 	function setModel($model){
-		$this->template->trySetHtml('comment_count', $model['comment_count']);
+
+		if($this->options['show_comment_count']){
+			$this->template->trySetHtml('comment_count', $model['comment_count']);
+		}else{
+			$this->template->tryDel('comment_count_wrapper');
+		}
+
+		if(!$this->options['show_created_date']){
+			$this->template->tryDel('created_at_wrapper');
+		}
+
+		if(!$this->options['show_author_name']){
+			$this->template->tryDel('created_by_wrapper');
+		}
+
 		$this->template->trySetHtml('post_description', $model['description']);
 		
 		parent::setModel($model);
@@ -139,6 +159,7 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		$v->template->trySet($this->model->data);
 		if($this->model['image'])
 			$v->template->trySet('blog_image', $this->app->pm->base_url. $this->model['image']);
+
 		$v->template->trySet('keywords',json_encode(strip_tags($this->model['tag'])));
 		$v->template->trySetHTML('url',$this->app->url(null,['post_id'=>$this->model->id])->absolute());
 		$v->template->trySet('blog_description',json_encode(strip_tags(str_replace('<', ' <', $this->model['description']))));
@@ -151,6 +172,13 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 
 	function recursiveRender(){
 		parent::recursiveRender();
+		
+		if($this->options['add_socialshare'] =="true" || $this->options['add_socialshare']==1){
+			
+			$this->js(true)->_load('socialshare/jssocials');
+			$this->js(true)->_css('socialshare/jssocials');
+			$this->js(true)->_css('socialshare/jssocials-theme-'.$this->options['socialshare_theme']);
+		}
 	}
 
 	function defaultTemplate(){

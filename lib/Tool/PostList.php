@@ -101,13 +101,15 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		else
 			$cl->template->del('not_found');
 
-		$cl->setModel($post);
 		
-		if($this->options['show_paginator']=="true"){
+		if($this->options['show_paginator'] && $this->options['paginator_set_rows_per_page']){
 			$paginator = $cl->add('Paginator',['ipp'=>$this->options['paginator_set_rows_per_page']]);
 			$paginator->setRowsPerPage($this->options['paginator_set_rows_per_page']);
+		}elseif(!$this->options['show_paginator'] && $this->options['paginator_set_rows_per_page']){
+			$post->setLimit($this->options['paginator_set_rows_per_page']);
 		}
 		
+		$cl->setModel($post);
 		$cl->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$post]);
 		
 		if($this->options['set_by_order']=='order_by_id'){
