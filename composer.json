@@ -13,7 +13,7 @@
         }
     ],
     "source": {
-        "url": "git@github.com:xepan/blog.git",
+        "url": "https://github.com/xepan/blog.git",
         "type": "git",
         "reference": "origin/master"
     },
