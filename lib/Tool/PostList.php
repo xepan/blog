@@ -15,7 +15,8 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'socialshare_theme'=>"flat", //classic,minima,plain
 					'show_microdata'=>true,
 					'show_post_of_category'=>0,
-					'custom_template'=>''
+					'custom_template'=>'',
+					'show_read_more_btn'=>true
 
 				];
 
@@ -142,6 +143,14 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 		$l->current_row_html['description'] =$l->model['description'];
 	}
+
+	function addToolCondition_row_show_read_more_btn($value,$l){
+		if(!$value){
+			$l->current_row_html['read_more_wrapper'] = "";
+			return;
+		}		
+	}
+
 	function addToolCondition_row_show_microdata($value, $l){
 		// $v=$this->app->add('View',null,null,['view/schema-micro-data','blog_post_block']);
 		// $v->template->trySet($l->model->data);
@@ -180,6 +189,11 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	}
 
 	function addToolCondition_row_add_socialshare($value,$l){
+		if(!$value){
+			$l->current_row_html['socialshare'] = "";
+			$l->current_row_html['socialshare_wrapper'] = "";
+		} 
+
 		// $l->current_row_html['socialshare'] = $l->add('View',null,'socialshare')->set("URL")->getHtml();						
 		$sharing_url = $this->app->pm->base_url.$this->app->url($this->options['description_page_url'],['xepan_landing_content_id'=>$l->model->id,'post_id'=>$l->model->id]);
 		$social_shares = explode(",", $this->options['include_socialshare']?:'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
