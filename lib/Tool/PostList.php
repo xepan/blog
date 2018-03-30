@@ -15,7 +15,8 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 					'socialshare_theme'=>"flat", //classic,minima,plain
 					'show_microdata'=>true,
 					'show_post_of_category'=>0,
-					'custom_template'=>''
+					'custom_template'=>'',
+					'show_read_more_btn'=>true
 
 				];
 
@@ -26,26 +27,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 		
 		if($this->options['show_microdata']){
-			$this->company_m = $this->add('xepan\base\Model_ConfigJsonModel',
-						[
-							'fields'=>[
-										'company_name'=>"Line",
-									'company_owner'=>"Line",
-									'mobile_no'=>"Line",
-									'company_email'=>"Line",
-									'company_address'=>"Line",
-									'company_pin_code'=>"Line",
-									'company_description'=>"text",
-									'company_description'=>"text",
-									'company_logo_absolute_url'=>"Line",
-									'company_twitter_url'=>"Line",
-									'company_facebook_url'=>"Line",
-									'company_google_url'=>"Line",
-									'company_linkedin_url'=>"Line",
-										],
-							'config_key'=>'COMPANY_AND_OWNER_INFORMATION',
-							'application'=>'communication'
-						]);
+			$this->company_m = $this->add('xepan\base\Model_Config_CompanyInfo');
 			$this->company_m->tryLoadAny();
 		}
 
@@ -142,6 +124,14 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 
 		$l->current_row_html['description'] =$l->model['description'];
 	}
+
+	function addToolCondition_row_show_read_more_btn($value,$l){
+		if(!$value){
+			$l->current_row_html['read_more_wrapper'] = "";
+			return;
+		}		
+	}
+
 	function addToolCondition_row_show_microdata($value, $l){
 		// $v=$this->app->add('View',null,null,['view/schema-micro-data','blog_post_block']);
 		// $v->template->trySet($l->model->data);
@@ -180,6 +170,11 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 	}
 
 	function addToolCondition_row_add_socialshare($value,$l){
+		if(!$value){
+			$l->current_row_html['socialshare'] = "";
+			$l->current_row_html['socialshare_wrapper'] = "";
+		} 
+
 		// $l->current_row_html['socialshare'] = $l->add('View',null,'socialshare')->set("URL")->getHtml();						
 		$sharing_url = $this->app->pm->base_url.$this->app->url($this->options['description_page_url'],['xepan_landing_content_id'=>$l->model->id,'post_id'=>$l->model->id]);
 		$social_shares = explode(",", $this->options['include_socialshare']?:'email,twitter,facebook,googleplus,linkedin,pinterest,stumbleupon,whatsapp');
