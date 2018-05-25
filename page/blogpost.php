@@ -12,7 +12,31 @@ class page_blogpost extends \xepan\base\Page {
 		$blog_model->add('xepan\blog\Controller_SideBarStatusFilter');
 
 		$crud = $this->add('xepan\hr\CRUD',null,null,['view/post/post']);
-		
+		if($crud->form){
+			$form = $crud->form;
+			$form->add('xepan\base\Controller_FLC')
+				->showLables(true)
+				->addContentSpot()
+				->layout([
+						'title'=>'Blog Post Details~c1~8',
+						'slug_url'=>'c2~4',
+						'image_id~Image'=>'c1a~4',
+						'created_by_id~Created By'=>'c1b~4',
+						'order'=>'c1c~4',
+						'description'=>'c2a~12',
+						'tag'=>'Other Details~c1~12',
+						'meta_title'=>'c11~6',
+						'updated_at'=>'c12~6',
+						'meta_description'=>'c13~6',
+						'status'=>'c14~6',
+						'anonymous_comment_config'=>'c15~6',
+						'registered_comment_config'=>'c16~6',
+						'show_comments'=>'c17~6',
+						'category'=>'Blog Post Category~c1~12',
+						
+						
+					]);
+		}
 		
 		if($crud->isEditing()){			
 			$cat = $crud->form->addField('DropDown','category');
