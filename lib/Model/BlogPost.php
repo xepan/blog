@@ -71,7 +71,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 				'description|required'
 			]);
 
-		$this->addHook('afterLoad',function(4m){
+		$this->addHook('afterLoad',function($m){
 			if(!$m['short_description'] || $m['short_description']=='') $m['short_description']= $m['description'];
 		});
 		
