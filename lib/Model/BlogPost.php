@@ -71,9 +71,9 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 				'description|required'
 			]);
 
-		$this->addHook('afterLoad',function($m){
-			if(!$m['short_description'] || $m['short_description']=='') $m['short_description']= $m['description'];
-		});
+		// $this->addHook('afterLoad',function($m){
+		// 	if(!$m['short_description'] || $m['short_description']=='') $m['short_description']= $m['description'];
+		// });
 		
 		$this->addHook('beforeSave',[$this,'updated_meta_description']);
 		$this->addHook('beforeSave',[$this,'updated_at']);
