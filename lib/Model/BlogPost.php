@@ -28,6 +28,7 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 
 		$this->addField('title');
 		$this->addField('slug_url');
+		$this->addField('short_description')->type('text')->display(array('form'=>'xepan\base\RichText'));
 		$this->addField('description')->type('text')->display(array('form'=>'xepan\base\RichText'));
 		$this->addField('tag')->type('text');
 		$this->addField('meta_title');
@@ -69,6 +70,10 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 				'title|to_strip_tags|required',
 				'description|required'
 			]);
+
+		$this->addHook('afterLoad',function(4m){
+			if(!$m['short_description'] || $m['short_description']=='') $m['short_description']= $m['description'];
+		});
 		
 		$this->addHook('beforeSave',[$this,'updated_meta_description']);
 		$this->addHook('beforeSave',[$this,'updated_at']);
