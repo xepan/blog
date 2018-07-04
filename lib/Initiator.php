@@ -79,8 +79,7 @@ class Initiator extends \Controller_Addon {
 					]
 			];
 	}
-
-
+	
 
 	function sefConfigFormLayout($app,&$layout){
 		$layout ['blog_list_page']='Blog~c1~6'; 
