@@ -62,11 +62,8 @@ class Initiator extends \Controller_Addon {
 	}
 
 	function getTopApplicationMenu(){
-		return ['Accounts'=>[
-						[	'name'=>'Accounts Chart',
-							'icon'=>'fa fa-bar-chart-o',
-							'url'=>'xepan_accounts_chartofaccount'
-						],
+		return [
+				'CMS'=>[
 						[	'name'=>'Blog Category',
 							'icon'=>' fa fa-sitemap',
 							'url'=>'xepan_blog_blogpostcategory'
@@ -80,7 +77,7 @@ class Initiator extends \Controller_Addon {
 							'url'=>'xepan_blog_blogpost'
 						]
 					]
-				];
+			];
 	}
 
 
