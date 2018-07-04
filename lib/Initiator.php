@@ -12,11 +12,11 @@ class Initiator extends \Controller_Addon {
 		$this->addLocation(array('template'=>'templates','js'=>'templates/js'))
 		->setBaseURL('../vendor/xepan/blog/');
 
-		if(isset($this->app->cms_menu)){
-			$this->app->cms_menu->addItem(['Blog Category','icon'=>' fa fa-sitemap'],'xepan_blog_blogpostcategory');//->setAttr(['title'=>'Blogs']);
-			$this->app->cms_menu->addItem(['Blog Category Group','icon'=>' fa fa-file-text-o'],'xepan_blog_blogcategorygroup');//->setAttr(['title'=>'Blogs']);
-			$this->app->cms_menu->addItem(['Blog Post','icon'=>' fa fa-file-text-o'],'xepan_blog_blogpost');//->setAttr(['title'=>'Blogs']);
-		}
+		// if(isset($this->app->cms_menu)){
+			// $this->app->cms_menu->addItem(['Blog Category','icon'=>' fa fa-sitemap'],'xepan_blog_blogpostcategory');//->setAttr(['title'=>'Blogs']);
+			// $this->app->cms_menu->addItem(['Blog Category Group','icon'=>' fa fa-file-text-o'],'xepan_blog_blogcategorygroup');//->setAttr(['title'=>'Blogs']);
+			// $this->app->cms_menu->addItem(['Blog Post','icon'=>' fa fa-file-text-o'],'xepan_blog_blogpost');//->setAttr(['title'=>'Blogs']);
+		// }
 		$this->app->addHook('entity_collection',[$this,'exportEntities']);
 		$this->app->addHook('sef-config-form-layout',[$this,'sefConfigFormLayout']);
 		$this->app->addHook('sef-config-form',[$this,'sefConfigForm']);
@@ -59,8 +59,31 @@ class Initiator extends \Controller_Addon {
 			->set($values['blog_list_page']);
 		$form->addField('blog_detail_page')->setFieldHint('Blog Detail Page in front website')
 			->set($values['blog_detail_page']);
-
 	}
+
+	function getTopApplicationMenu(){
+		return ['Accounts'=>[
+						[	'name'=>'Accounts Chart',
+							'icon'=>'fa fa-bar-chart-o',
+							'url'=>'xepan_accounts_chartofaccount'
+						],
+						[	'name'=>'Blog Category',
+							'icon'=>' fa fa-sitemap',
+							'url'=>'xepan_blog_blogpostcategory'
+						],
+						[	'name'=>'Blog Category Group',
+							'icon'=>' fa fa-file-text-o',
+							'url'=>'xepan_blog_blogcategorygroup'
+						],
+						[	'name'=>'Blog Post',
+							'icon'=>' fa fa-file-text-o',
+							'url'=>'xepan_blog_blogpost'
+						]
+					]
+				];
+	}
+
+
 
 	function sefConfigFormLayout($app,&$layout){
 		$layout ['blog_list_page']='Blog~c1~6'; 
