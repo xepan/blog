@@ -90,14 +90,25 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 	function page_social_schedule($p){	
 		// if(!$this->installedApplication == true)
 		// 	return;
-		$page = $this->app->epan->config->getConfig('BLOG_PAGE');
+		$page_name = $this->app->epan->config->getConfig('BLOG_PAGE');
 
-		$form = $p->add('Form');		
+		$form = $p->add('Form');
+		$form->add('xepan\base\Controller_FLC')
+				->showLables(true)
+				->addContentSpot()
+				->layout([
+						'campaign'=>'Social Schedule~c1~12',
+						'marketing_category'=>'c2~6',
+						'page_name'=>'c3~6',
+						'date'=>'c2~6',
+						'time'=>'c3~6'
+					
+					]);		
 		$campaign_field = $form->addField('Dropdown','campaign');
 		$campaign_field->validate('required');
 		$campaign_field->setEmptyText('Please select a campaign')->setModel('xepan\marketing\Model_Campaign');
 		$form->addField('Dropdown','marketing_category')->setModel('xepan\marketing\Model_MarketingCategory');
-		$form->addField('page')->set($page)->validate('required');
+		$form->addField('page_name')->set($page_name)->validate('required');
 		$form->addField('DatePicker','date')->validate('required');
 		$form->addField('TimePicker','time')->validate('required');
 
@@ -120,10 +131,10 @@ class Model_BlogPost extends \xepan\base\Model_Table{
 			$blog_post_model = $this->add('xepan\blog\Model_BlogPost')->load($this->id);
 			$model_socialpost = $this->add('xepan\marketing\Model_SocialPost');
 
-			$this->app->epan->config->setConfig('BLOG_PAGE',$form['page'],'blog');
+			$this->app->epan->config->setConfig('BLOG_PAGE',$form['page_name'],'blog');
 
 			$model_socialpost['title'] = $blog_post_model['title'].' - Author: '.$blog_post_model['created_by'];
-			$model_socialpost['url'] = $protocol.$_SERVER['SERVER_NAME'].'?page='.$form['page'].'&post_id='.$this->id;
+			$model_socialpost['url'] = $protocol.$_SERVER['SERVER_NAME'].'?page='.$form['page_name'].'&post_id='.$this->id;
 			$model_socialpost['marketing_category_id'] = $form['marketing_category'];
 			$model_socialpost['status'] = 'Approved';
 			$model_socialpost->save();
