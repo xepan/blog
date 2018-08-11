@@ -52,6 +52,7 @@ class Initiator extends \Controller_Addon {
 	function exportEntities($app,&$array){
         $array['PostCategory'] = ['caption'=>'PostCategory','type'=>'DropDown','model'=>'xepan\blog\Model_BlogPostCategory'];
         $array['BlogPost'] = ['caption'=>'BlogPost','type'=>'DropDown','model'=>'xepan\blog\Model_BlogPost'];
+        $array['xepan\blog\CategoryGroup'] = ['caption'=>'Blog Category Group','type'=>'DropDown','model'=>'xepan\blog\Model_CategoryGroup'];
     }
 
     function sefConfigForm($app,$form, $values){
