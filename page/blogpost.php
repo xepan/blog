@@ -39,7 +39,7 @@ class page_blogpost extends \xepan\base\Page {
 		}
 		
 		if($crud->isEditing()){			
-			$cat = $crud->form->addField('DropDown','category');
+			$cat = $crud->form->addField('xepan\base\DropDown','category');
 			$cat->setAttr(['multiple'=>'multiple']);
 			$cat->setModel('xepan\blog\BlogPostCategory');
 
