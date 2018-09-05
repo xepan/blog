@@ -63,6 +63,7 @@ class Initiator extends \Controller_Addon {
 	}
 
 	function getTopApplicationMenu(){
+		if($this->app->getConfig('hidden_xepan_blog',false)){return [];}
 		return [
 				'CMS'=>[
 						[	'name'=>'Blog Category',
