@@ -123,6 +123,7 @@ class Tool_PostList extends \xepan\cms\View_Tool{
 		}
 
 		$l->current_row_html['description'] =$l->model['description'];
+		$l->current_row_html['short_description'] =$l->model['short_description'];
 	}
 
 	function addToolCondition_row_show_read_more_btn($value,$l){
