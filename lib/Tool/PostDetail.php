@@ -48,6 +48,11 @@ class Tool_PostDetail extends \xepan\cms\View_Tool{
 		$this->app->template->trySet('meta_keywords',$this->post['tag'].' '.$this->post['meta_title']);
 		$this->app->template->trySet('meta_description',$this->post['meta_description']);
 
+		if($this->post['image_id']){
+			$this->app->template->appendHTML('js_include',
+                '<meta property="og:image" content="'.$this->post['image'].'">'."\n");
+		}
+
 		$this->setModel($this->post);
 		$this->add('xepan\cms\Controller_Tool_Optionhelper',['options'=>$this->options,'model'=>$this->post]);
 		
